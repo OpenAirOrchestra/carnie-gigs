@@ -64,7 +64,7 @@ class carnieGigsCalendar {
 			   require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 			   dbDelta($sql);
 
-			   $this->migrate_legacy_data();
+			   self->migrate_legacy_data();
 
 			   add_option("carniegigs_db_version", $this->db_version);
 		   }
@@ -74,10 +74,10 @@ class carnieGigsCalendar {
 		   global $wpdb;
 		   $table_name = $wpdb->prefix . "carniegigs";
 
-		   $query = "SELECT * INTO " . $table_name .
-			   " FROM gigs IN gigdb";
+		   $select_into = "SELECT * INTO " . $table_name .
+			   "FROM gigs IN gigdb";
 
-		   $results = $wpdb->query( $query );
+		   $results = $wpdb->query( $select_into );
 	}
 }
 
