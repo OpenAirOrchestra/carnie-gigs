@@ -24,6 +24,9 @@ License: GPL2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USAi
 */
 
+/*
+ * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
+ */
 class carnieGigsCalendar {
 
 	protected $db_version = "0.1";
