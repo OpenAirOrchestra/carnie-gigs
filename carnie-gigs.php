@@ -24,17 +24,18 @@ License: GPL2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USAi
 */
 
+$include_folder = dirname(__FILE__);
+require_once $include_folder . '/version.php';
+
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
  */
 class carnieGigsCalendar {
 
-	protected $db_version = "0.1";
-
 	/*
 	 * Activate the plugin.  
 	 * Creates initial database table.
-	 * TODO: migrate any data from legacy table
+	 * Migrate any data from legacy table
 	 */
 	function activate () {
 		   global $wpdb;
@@ -69,10 +70,13 @@ class carnieGigsCalendar {
 
 			   $this->migrate_legacy_data();
 
-			   add_option("carniegigs_db_version", $this->db_version);
+			   add_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);
 		   }
 	}
 
+	/*
+	 * Migrates legacy data from gigdb.gigs
+	 */
 	function migrate_legacy_data () {
 		   global $wpdb;
 		   $table_name = $wpdb->prefix . "carniegigs";
