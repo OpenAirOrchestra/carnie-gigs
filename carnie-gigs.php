@@ -74,10 +74,10 @@ class carnieGigsCalendar {
 		   global $wpdb;
 		   $table_name = $wpdb->prefix . "carniegigs";
 
-		   $select_into = "SELECT * INTO " . $table_name .
-			   " FROM gigs IN gigdb";
+		   $insert = "INSERT INTO " . $table_name .
+			   " SELECT * FROM gigdb.gigs";
 
-		   $results = $wpdb->query( $select_into );
+		   $results = $wpdb->query( $insert );
 	}
 }
 
