@@ -2,9 +2,10 @@
 /*
 Plugin Name: Carnie Gigs
 Plugin URI: http://members.thecarnivalband.com
-Description: A gig calendar plugin for The Carnival Band
+Description: A gig calendar plugin for The Carnival Band (in development, not functional yet)
 Version: 0.1
 Author: Open Air Orchestra Webmonkey
+Author URI: mailto://oaowebmonkey@gmail.com
 License: GPL2
 */
 
