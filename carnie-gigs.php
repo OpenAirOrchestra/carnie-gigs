@@ -112,7 +112,7 @@ class carnieGigsCalendar {
 		   $select = "SELECT * FROM " . $table_name .
 			   " ORDER BY `date`";
 
-		   $results = $wpdb->get_results( $select );
+		   $results = $wpdb->get_results( $select, ARRAY_A );
 
 		   $this->gigsView->shortGigs($results);
 	}
