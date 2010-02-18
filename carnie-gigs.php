@@ -109,10 +109,10 @@ class carnieGigsCalendar {
 		   global $wpdb;
 		   $table_name = $wpdb->prefix . "carniegigs";
 
-		   $query = "SELECT * FROM " . $table_name .
+		   $select = "SELECT * FROM " . $table_name .
 			   "ORDER BY `date`";
 
-		   $results = $wpdb->query( $query );
+		   $results = $wpdb->get_results( $select );
 
 		   $this->gigsView->shortGigs($results);
 	}

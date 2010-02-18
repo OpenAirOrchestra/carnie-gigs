@@ -9,14 +9,12 @@ class carnieGigViews {
 	 * in an HTML table.
 	 */
 	function shortGigs($gigs) {
-		if (mysql_num_rows($gigs) > 0) {
 
-			print "<table>";
-			while ($gig = mysql_fetch_assoc($result)) {
-				$this->shortGig($gig);
-			}
-			print "</table>";
+		print "<table>";
+		foreach ($gigs as $gig) {
+			$this->shortGig($gig);
 		}
+		print "</table>";
 	}
 
 	/*
