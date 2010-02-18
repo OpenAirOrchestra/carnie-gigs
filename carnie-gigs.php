@@ -86,11 +86,29 @@ class carnieGigsCalendar {
 
 		   $results = $wpdb->query( $insert );
 	}
+
+	/*
+	 * Handles carniegigs shortcode
+	 * examples:
+	 * [carniegigs] 
+         * [carniegigs time="past"] 
+         * [carniegigs time="future"] 
+	 */
+	function carniegigs_shortcode_handler($atts, $content="null", $code="") {
+		echo "<p>CARNIEGIGS</p>";
+	}
+
+
+
 }
 
 
 $CARNIEGIGSCAL = new carnieGigsCalendar;
 
+// activation hook
 register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
+
+// shortcodes
+add_shortcode('carniegigs', array($CARNIEGIGSCAL, 'carniegigs_shortcode_handler'));
 
 ?>
