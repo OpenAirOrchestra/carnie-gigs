@@ -27,12 +27,22 @@ License: GPL2
 
 $include_folder = dirname(__FILE__);
 require_once $include_folder . '/version.php';
+require_once $include_folder . '/views/gig.php';
 
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
  */
 class carnieGigsCalendar {
 
+	private $gigsView;
+	
+	/*
+	 * Constructor
+	 */
+	function __construct() {
+		$this->gigsView = new carnieGigViews;
+	}
+	   
 	/*
 	 * Activate the plugin.  
 	 * Creates initial database table.
@@ -96,7 +106,15 @@ class carnieGigsCalendar {
          * [carniegigs time="future"] 
 	 */
 	function carniegigs_shortcode_handler($atts, $content="null", $code="") {
-		echo "<p>CARNIEGIGS</p>";
+		   global $wpdb;
+		   $table_name = $wpdb->prefix . "carniegigs";
+
+		   $query = "SELECT * FROM " . $table_name .
+			   "ORDER BY `date`";
+
+		   $results = $wpdb->query( $query );
+
+		   $this->gigsView->shortGigs($results);
 	}
 
 
