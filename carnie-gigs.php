@@ -110,7 +110,7 @@ class carnieGigsCalendar {
 		   $table_name = $wpdb->prefix . "carniegigs";
 
 		   $select = "SELECT * FROM " . $table_name .
-			   "ORDER BY `date`";
+			   " ORDER BY `date`";
 
 		   $results = $wpdb->get_results( $select );
 
