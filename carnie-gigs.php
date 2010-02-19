@@ -124,9 +124,6 @@ class carnieGigsCalendar {
 				   ' WHERE `date` >= CURDATE() ORDER BY `date`';
 		   }
 
-		   print "DEBUG select: " . $select;
-		   print "DEBUG time: " . $time;
-
 		   $results = $wpdb->get_results( $select, ARRAY_A );
 
 		   $this->gigsView->shortGigs($results);
