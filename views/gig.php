@@ -25,7 +25,12 @@ class carnieGigViews {
 	 * in an HTML table row
 	 */
 	function shortGig($gig, $even = false) {
-		print '<tr class="gig y' . date('Y', strtotime($gig['date'])) . $even ? ' even' : '' . '">';
+		if ($even) {
+			print '<tr class="even gig y' . date('Y', strtotime($gig['date'])) . '">';
+		} else {
+			print '<tr class="gig y' . date('Y', strtotime($gig['date'])) . '">';
+		}
+
 		echo '\t<td class="date">' . date('d M Y', strtotime($gig['date'])) . "</td>\n";
 		echo '\t<td class="title">' . stripslashes($gig['title']) . "</td>\n";
 		print '\t<td class="status">';
