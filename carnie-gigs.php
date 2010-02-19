@@ -106,11 +106,24 @@ class carnieGigsCalendar {
          * [carniegigs time="future"] 
 	 */
 	function carniegigs_shortcode_handler($atts, $content="null", $code="") {
+		   extract( shortcode_atts( array(
+			         'time' => 'all',
+			         'display' => 'short'
+				  ), $atts ) );
 		   global $wpdb;
 		   $table_name = $wpdb->prefix . "carniegigs";
 
 		   $select = "SELECT * FROM " . $table_name .
 			   " ORDER BY `date`";
+
+		   if ($time == 'past') {
+			   $select = "SELECT * FROM " . $table_name .
+				   " WHERE `date` < CURDATE() ORDER BY `date` DESC";
+		   } else if ($time == 'past') {
+			   $select = "SELECT * FROM " . $table_name .
+				   " WHERE `date` >= CURDATE() ORDER BY `date`";
+		   }
+
 
 		   $results = $wpdb->get_results( $select, ARRAY_A );
 
