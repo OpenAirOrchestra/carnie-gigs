@@ -114,7 +114,7 @@ class carnieGigsCalendar {
 		   $table_name = $wpdb->prefix . "carniegigs";
 
 		   $select = "SELECT * FROM " . $table_name .
-			   " ORDER BY `date`";
+			   " ORDER BY `date` DESC";
 
 		   if ($time == 'past') {
 			   $select = "SELECT * FROM " . $table_name .
