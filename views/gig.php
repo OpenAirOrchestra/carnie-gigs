@@ -1,7 +1,5 @@
 <?php
 
-require_once('../utility.php');
-
 /*
  * This class handles simple rendering of individual gigs.
  */

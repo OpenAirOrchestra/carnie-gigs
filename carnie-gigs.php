@@ -28,6 +28,7 @@ License: GPL2
 $include_folder = dirname(__FILE__);
 require_once $include_folder . '/version.php';
 require_once $include_folder . '/views/gig.php';
+require_once $include_folder . '/utility.php';
 
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
