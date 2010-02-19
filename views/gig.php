@@ -1,4 +1,7 @@
 <?php
+
+require_once('../utility.php');
+
 /*
  * This class handles simple rendering of individual gigs.
  */
@@ -33,6 +36,10 @@ class carnieGigViews {
 			echo "(tentative)";
 		
 		}       
+		print "\t</td>";
+		print "\t<td>";
+		print "\t\t<a href=\"" . carnieUtil::get_url() . "/ical.php?id=" . $gig[id] . 
+			"\" img src=\"" .  carnieUtil::get_url() . "/images/calendar.jpg\"></a>"
 		print "\t</td>";
 		print "</tr>";
 	}
