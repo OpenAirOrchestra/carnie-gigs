@@ -119,7 +119,7 @@ class carnieGigsCalendar {
 		   if ($time == 'past') {
 			   $select = "SELECT * FROM " . $table_name .
 				   ' WHERE `date` < CURDATE() ORDER BY `date` DESC';
-		   } else if ($time == 'past') {
+		   } else if ($time == 'future') {
 			   $select = "SELECT * FROM " . $table_name .
 				   ' WHERE `date` >= CURDATE() ORDER BY `date`';
 		   }
