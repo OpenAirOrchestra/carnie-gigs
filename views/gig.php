@@ -11,6 +11,8 @@ class carnieGigViews {
 	 */
 	function shortGigs($gigs) {
 
+		carnieUtil::add_stylesheet();
+
 		print '<table class="gigs">';
 		$even = false;
 		foreach ($gigs as $gig) {
@@ -42,7 +44,7 @@ class carnieGigViews {
 		
 		}       
 		print "</td>";
-		print '<td class="ical">';
+		print '<td class="icon">';
 		print "<a href=\"" . carnieUtil::get_url() . "ical.php?id=" . $gig[id] . 
 			"\"> <img src=\"" .  carnieUtil::get_url() . "images/calendar.jpg\"></a>";
 		print "</td>";

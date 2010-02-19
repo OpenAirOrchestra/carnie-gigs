@@ -1,0 +1,42 @@
+table.gigs {
+	width: 100%;
+	text-align: left;
+	font-size: .9em;
+	border-collapse: collapse;
+	border: 1px dotted #666;
+}
+
+table.gigs td.icon {
+	width: 18px;
+	text-align: center;
+}
+
+table.gigs td.icon img {
+	width: 18px;
+}
+
+table.gigs td.date {
+	text-align: right;
+	background-color:red;
+}
+
+table.gigs a {
+	font-weight: bold;
+}
+
+table.gigs a img {
+	border: 0px;
+}
+
+
+table.gigs tr.gig {
+	border-top: 1px dotted #666;
+}
+
+table.gigs td.title {
+	padding-left: 4px;
+}
+
+.bold {
+	font-weight: bold;
+}
