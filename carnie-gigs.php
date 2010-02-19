@@ -121,7 +121,7 @@ class carnieGigsCalendar {
 				   ' WHERE `date` < CURDATE() ORDER BY `date` DESC';
 		   } else if ($time == 'past') {
 			   $select = "SELECT * FROM " . $table_name .
-				   ' WHERE `date` >= CURDATE() ORDER BY `date`";
+				   ' WHERE `date` >= CURDATE() ORDER BY `date`';
 		   }
 
 
