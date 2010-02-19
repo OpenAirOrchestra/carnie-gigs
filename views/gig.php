@@ -36,8 +36,8 @@ class carnieGigViews {
 		}       
 		print "\t</td>";
 		print "\t<td>";
-		print "\t\t<a href=\"" . carnieUtil::get_url() . "/ical.php?id=" . $gig[id] . 
-			"\" img src=\"" .  carnieUtil::get_url() . "/images/calendar.jpg\"></a>";
+		print "\t\t<a href=\"" . carnieUtil::get_url() . "ical.php?id=" . $gig[id] . 
+			"\"> <img src=\"" .  carnieUtil::get_url() . "images/calendar.jpg\"></a>";
 		print "\t</td>";
 		print "</tr>";
 	}
