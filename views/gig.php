@@ -11,9 +11,11 @@ class carnieGigViews {
 	 */
 	function shortGigs($gigs) {
 
-		print "<table>";
+		print '<table class="gigs">';
+		$even = false;
 		foreach ($gigs as $gig) {
-			$this->shortGig($gig);
+			$this->shortGig($gig, $even);
+			$even = ! $even;
 		}
 		print "</table>";
 	}
@@ -22,11 +24,11 @@ class carnieGigViews {
 	 * Render a single short gig table row
 	 * in an HTML table row
 	 */
-	function shortGig($gig) {
-		print "<tr>";
-		echo "\t<td>" . date('d-M-Y', strtotime($gig['date'])) . "</td>\n";
-		echo "\t<td>" . stripslashes($gig['title']) . "</td>\n";
-		print "\t<td>";
+	function shortGig($gig, $even = false) {
+		print '<tr class="gig y' . date('Y', strtotime($gig['date'])) . $even ? ' even' : '' . '">';
+		echo '\t<td class="date">' . date('d M Y', strtotime($gig['date'])) . "</td>\n";
+		echo '\t<td class="title">' . stripslashes($gig['title']) . "</td>\n";
+		print '\t<td class="status">';
 		if ($gig['cancelled']) {
 			echo "(cancelled)";
 		}
@@ -35,7 +37,7 @@ class carnieGigViews {
 		
 		}       
 		print "\t</td>";
-		print "\t<td>";
+		print '\t<td class="ical">';
 		print "\t\t<a href=\"" . carnieUtil::get_url() . "ical.php?id=" . $gig[id] . 
 			"\"> <img src=\"" .  carnieUtil::get_url() . "images/calendar.jpg\"></a>";
 		print "\t</td>";
