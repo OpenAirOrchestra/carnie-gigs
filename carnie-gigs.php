@@ -131,6 +131,14 @@ class carnieGigsCalendar {
 	}
 
 
+	/*
+	 * Enqueue style-file, if it exists.
+	 */
+	function add_stylesheet() {
+		$myStyleUrl = carnieUtil::get_url() . 'css/style.css';
+		wp_register_style('carnieStyleSheets', $myStyleUrl);
+		wp_enqueue_style( 'carnieStyleSheets');
+	}
 
 
 }
@@ -145,6 +153,6 @@ register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
 add_shortcode('carniegigs', array($CARNIEGIGSCAL, 'carniegigs_shortcode_handler'));
 
 // actions
-add_action('wp_print_styles', 'carnieUtil::add_stylesheet');
+add_action('wp_print_styles', array($CARNIEGIGSCAL, 'add_stylesheet'));
 
 ?>
