@@ -10,9 +10,6 @@ class carnieGigViews {
 	 * in an HTML table.
 	 */
 	function shortGigs($gigs) {
-
-		carnieUtil::add_stylesheet();
-
 		print '<table class="gigs">';
 		$even = false;
 		foreach ($gigs as $gig) {

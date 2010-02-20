@@ -144,4 +144,7 @@ register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
 // shortcodes
 add_shortcode('carniegigs', array($CARNIEGIGSCAL, 'carniegigs_shortcode_handler'));
 
+// actions
+add_action('wp_print_styles', 'carnieUtil::add_stylesheet');
+
 ?>
