@@ -126,7 +126,6 @@ class carnieGigsCalendar {
 		   }
 
 		   $results = $wpdb->get_results( $select, ARRAY_A );
-
 		   $this->gigsView->shortGigs($results);
 	}
 
@@ -138,6 +137,29 @@ class carnieGigsCalendar {
 		$myStyleUrl = carnieUtil::get_url() . 'css/style.css';
 		wp_register_style('carnieStyleSheets', $myStyleUrl);
 		wp_enqueue_style( 'carnieStyleSheets');
+	}
+
+	/*
+	 * Options page
+	 */
+	function options_page() {
+		echo "<h2>Carnie Gigs Plugin Options (TODO)</h2>";
+	}
+
+	/*
+	 * administer gigs page
+	 */
+	function administer_gigs_page() {
+		echo "<h2>Administer Carnie Gigs (TODO)</h2>";
+		
+		global $wpdb;
+		$table_name = $wpdb->prefix . "carniegigs";
+		
+		$select = "SELECT * FROM " . $table_name .
+			" ORDER BY `date` DESC";
+
+		$results = $wpdb->get_results( $select, ARRAY_A );
+		$this->gigsView->shortGigs($results);
 	}
 
 
@@ -155,4 +177,7 @@ add_shortcode('carniegigs', array($CARNIEGIGSCAL, 'carniegigs_shortcode_handler'
 // actions
 add_action('wp_print_styles', array($CARNIEGIGSCAL, 'add_stylesheet'));
 
+// admin pages
+add_options_page('Carnie Gigs Options', 'Carnie Gigs Options', 'administrator', 'carnie-gig-options', array($CARNIEGIGSCAL, 'options_page'));
+add_options_page('Carnie Gigs', 'Carnie Gigs', 'editor', 'carnie-gigs-admin', array($CARNIEGIGSCAL, 'administer_gigs_page'));
 ?>
