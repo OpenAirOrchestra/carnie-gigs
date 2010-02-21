@@ -140,13 +140,6 @@ class carnieGigsCalendar {
 	}
 
 	/*
-	 * Options page
-	 */
-	function options_page() {
-		echo "<h2>Carnie Gigs Plugin Options (TODO)</h2>";
-	}
-
-	/*
 	 * administer gigs page
 	 */
 	function administer_gigs_page() {
@@ -178,6 +171,5 @@ add_shortcode('carniegigs', array($CARNIEGIGSCAL, 'carniegigs_shortcode_handler'
 add_action('wp_print_styles', array($CARNIEGIGSCAL, 'add_stylesheet'));
 
 // admin pages
-add_options_page('Carnie Gigs Options', 'Carnie Gigs Options', 'administrator', 'carnie-gig-options', array($CARNIEGIGSCAL, 'options_page'));
-add_options_page('Carnie Gigs', 'Carnie Gigs', 'editor', 'carnie-gigs-admin', array($CARNIEGIGSCAL, 'administer_gigs_page'));
+add_management_page('Carnie Gigs', 'Carnie Gigs', 'editor', 'carnie-gigs-admin', array($CARNIEGIGSCAL, 'administer_gigs_page'));
 ?>
