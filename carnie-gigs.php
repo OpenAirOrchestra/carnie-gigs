@@ -140,6 +140,14 @@ class carnieGigsCalendar {
 	}
 
 	/*
+	 * admin menu
+	 */
+	function admin_menu() {
+		// admin 
+		add_management_page('Carnie Gigs', 'Carnie Gigs', 'editor', 'carnie-gigs-admin', array($this, 'administer_gigs_page'));
+	}
+
+	/*
 	 * administer gigs page
 	 */
 	function administer_gigs_page() {
@@ -169,7 +177,7 @@ add_shortcode('carniegigs', array($CARNIEGIGSCAL, 'carniegigs_shortcode_handler'
 
 // actions
 add_action('wp_print_styles', array($CARNIEGIGSCAL, 'add_stylesheet'));
+add_action('admin_menu', array($CARNIEGIGSCAL, 'admin_menu'));
 
-// admin pages
-add_management_page('Carnie Gigs', 'Carnie Gigs', 'editor', 'carnie-gigs-admin', array($CARNIEGIGSCAL, 'administer_gigs_page'));
+
 ?>
