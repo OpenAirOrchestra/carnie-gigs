@@ -144,14 +144,14 @@ class carnieGigsCalendar {
 	 */
 	function admin_menu() {
 		// admin 
-		add_object_page('Carnie Gigs', 'Carnie Gigs', 'administrator', 'carnie-gigs-admin', array($this, 'administer_gigs_page'));
+		add_object_page('Carnie Gigs', 'Carnie Gigs', 'editor', 'carnie-gigs-admin', array($this, 'administer_gigs_page'));
 	}
 
 	/*
 	 * administer gigs page
 	 */
 	function administer_gigs_page() {
-		echo "<h2>Administer Carnie Gigs (TODO)</h2>";
+		echo "<h2>Carnie Gigs (TODO)</h2>";
 		
 		global $wpdb;
 		$table_name = $wpdb->prefix . "carniegigs";
