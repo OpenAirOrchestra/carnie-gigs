@@ -18,14 +18,16 @@ class carnieCsvExportView {
 		echo 'action="' . $action . '">';
 		echo '<input type="hidden" name="carnie-gigs-csv-verify-key" id="carnie-gigs-csv-verify-key"
 						value="' . wp_create_nonce('carnie-gigs') . '" />';
-		print "\n";
+		print "<table><tr><td>\n";
+		print "<input type='submit' class='button' value='Export' />";
+		print "</td><td>\n";
 		foreach ($gig as $fieldname=>$field)
 		{
 			echo '<input type="checkbox" name="' . $fieldname .
 				'" value="yes" checked="checked" /> ' . $fieldname . '<br/>';
 			print "\n";
 		}
-		print "<input type='submit' class='button' value='Export' />";
+		print "</td></tr></table>\n";
 		print "</form>\n";
 	}
 }

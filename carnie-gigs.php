@@ -153,7 +153,7 @@ class carnieGigsCalendar {
 	 * administer gigs page
 	 */
 	function administer_gigs_page() {
-		echo "<h2>Carnie Gigs (TODO)</h2>";
+		echo "<h2>Carnie Gigs <h2>";
 		
 		global $wpdb;
 		$table_name = $wpdb->prefix . "carniegigs";
@@ -164,8 +164,10 @@ class carnieGigsCalendar {
 		$results = $wpdb->get_results( $select, ARRAY_A );
 
 		if ($results) {
+			echo "<h3>Spreadsheet Export<h3>";
 			$this->exportCsvFormView->exportForm($results[0]);
 		}
+		echo "<h3>Manage Gigs<h3>";
 		$this->gigsView->shortGigs($results);
 	}
 }
