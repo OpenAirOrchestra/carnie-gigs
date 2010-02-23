@@ -146,7 +146,7 @@ class carnieGigsCalendar {
 	 */
 	function admin_menu() {
 		// admin 
-		add_object_page('Carnie Gigs', 'Carnie Gigs', 'editor', 'carnie-gigs-admin', array($this, 'administer_gigs_page'));
+		add_object_page('Carnie Gigs', 'Carnie Gigs', 'publish_pages', 'carnie-gigs-admin', array($this, 'administer_gigs_page'));
 	}
 
 	/*
