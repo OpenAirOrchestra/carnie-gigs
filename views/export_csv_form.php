@@ -15,11 +15,13 @@ class carnieCsvExportView {
 		<form name="export_csv_form"
 			method="POST"
 <?php
-		echo 'action="' . $action . '">\n';
+		echo 'action="' . $action . '">';
+		print "\n";
 		foreach ($gig as $fieldname=>$field)
 		{
 			echo '<input type="checkbox" name="' . $fieldname .
-				'" value="yes" checked="checked" /> ' . $fieldname . '<br/>\n';
+				'" value="yes" checked="checked" /> ' . $fieldname . '<br/>';
+			print "\n";
 		}
 		print "</form>\n";
 	}
