@@ -5,8 +5,23 @@
  */
 class carnieCsvExportView {
 
+	/*
+	 * Given a record, render a form for exporting the
+	 * table in csv form
+	 */
 	function exportForm ($gig) {
-		print "<p>TODO: export form</p>";
+		$action = carnieUtil::get_url() . "csv.php"
+?>
+		<form name="export_csv_form"
+			method="POST"
+<?php
+		echo 'action="' . $action . '">\n';
+		foreach ($gig as $fieldname=>$field)
+		{
+			echo '<input type="checkbox" name="' . $fieldname .
+				'" value="yes" checked="checked" /> ' . $fieldname . '<br/>\n';
+		}
+		print "</form>\n";
 	}
 }
 ?>
