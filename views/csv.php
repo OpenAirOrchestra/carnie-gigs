@@ -10,6 +10,7 @@ function carnieGigsCsv($gigs) {
 			$separator = ",";
 		}
 	}
+	echo "\n";
 	
 	// Data
 	foreach ($gigs as $gig) {
