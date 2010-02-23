@@ -28,6 +28,7 @@ License: GPL2
 $include_folder = dirname(__FILE__);
 require_once $include_folder . '/version.php';
 require_once $include_folder . '/views/gig.php';
+require_once $include_folder . '/views/export_csv_form.php';
 require_once $include_folder . '/utility.php';
 
 /*
@@ -35,13 +36,14 @@ require_once $include_folder . '/utility.php';
  */
 class carnieGigsCalendar {
 
-	private $gigsView;
+	private $gigsView, $exportCsvFormView;
 	
 	/*
 	 * Constructor
 	 */
 	function __construct() {
 		$this->gigsView = new carnieGigViews;
+		$this->exportCsvFormView = new carnieCsvExportView;
 	}
 	   
 	/*
@@ -160,10 +162,12 @@ class carnieGigsCalendar {
 			" ORDER BY `date` DESC";
 
 		$results = $wpdb->get_results( $select, ARRAY_A );
+
+		if ($results) {
+			$this->exportCsvFormView->exportForm($results[0]);
+		}
 		$this->gigsView->shortGigs($results);
 	}
-
-
 }
 
 
