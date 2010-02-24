@@ -167,7 +167,7 @@ class carnieGigsCalendar {
 		$results = $wpdb->get_results( $select, ARRAY_A );
 
 		$this->gigsView->shortGigs($results);
-		print "</div">;
+		print "</div>";
 	}
 
 	/*
@@ -185,7 +185,7 @@ class carnieGigsCalendar {
 		$results = $wpdb->get_results( $select, ARRAY_A );
 
 		$this->exportCsvFormView->exportForm($results[0]);
-		print "</div">;
+		print "</div>";
 	}
 }
 
