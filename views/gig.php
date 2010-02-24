@@ -10,7 +10,11 @@ class carnieGigViews {
 	 * in an HTML table.
 	 */
 	function shortGigs($gigs) {
-		print '<table class="gigs">';
+		echo '<table class="gigs';
+		if (is_admin()) {
+			echo " widefat fixed";
+		}
+		print '">';
 		$even = false;
 		foreach ($gigs as $gig) {
 			$this->shortGig($gig, $even);
@@ -25,9 +29,9 @@ class carnieGigViews {
 	 */
 	function shortGig($gig, $even = false) {
 		if ($even) {
-			print '<tr class="even gig y' . date('Y', strtotime($gig['date'])) . '">';
-		} else {
 			print '<tr class="gig y' . date('Y', strtotime($gig['date'])) . '">';
+		} else {
+			print '<tr class="alternate gig y' . date('Y', strtotime($gig['date'])) . '">';
 		}
 
 		echo '<td class="date">' . date('d M Y', strtotime($gig['date'])) . "</td>";
