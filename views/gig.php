@@ -45,10 +45,12 @@ class carnieGigViews {
 		
 		}       
 		print "</td>";
-		print '<td class="icon">';
-		print "<a title=\"Download iCal entry\" href=\"" . carnieUtil::get_url() . "ical.php?id=" . $gig[id] . 
-			"\"> <img src=\"" .  carnieUtil::get_url() . "images/calendar.jpg\"></a>";
-		print "</td>";
+		if (! is_admin()) {
+			print '<td class="icon">';
+			print "<a title=\"Download iCal entry\" href=\"" . carnieUtil::get_url() . "ical.php?id=" . $gig[id] . 
+				"\"> <img src=\"" .  carnieUtil::get_url() . "images/calendar.jpg\"></a>";
+			print "</td>";
+		}
 		print "</tr>\n";
 	}
 }
