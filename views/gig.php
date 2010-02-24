@@ -28,14 +28,19 @@ class carnieGigViews {
 	 * in an HTML table row
 	 */
 	function shortGig($gig, $even = false) {
-		if ($even) {
-			print '<tr class="gig y' . date('Y', strtotime($gig['date'])) . '">';
-		} else {
-			print '<tr class="alternate gig y' . date('Y', strtotime($gig['date'])) . '">';
+		$idstr = "gig-" . $gig['id'];
+		$classstr = "gig y" . date('Y', strtotime($gig['date']));
+		if ($even {
+			$classstr = $classstr . " alternate";
+		}
+		if (is_admin()) {
+			$classstr = $classstr . " iedit";
 		}
 
-		echo '<td class="date">' . date('d M Y', strtotime($gig['date'])) . "</td>";
+		print '<tr id="'. $idstr . '" class="' . $classstr . '">';
+
 		echo '<td class="title">' . stripslashes($gig['title']) . "</td>";
+		echo '<td class="date">' . date('d M Y', strtotime($gig['date'])) . "</td>";
 		print '<td class="status">';
 		if ($gig['cancelled']) {
 			echo "(cancelled)";
