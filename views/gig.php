@@ -30,7 +30,7 @@ class carnieGigViews {
 	function shortGig($gig, $even = false) {
 		$idstr = "gig-" . $gig['id'];
 		$classstr = "gig y" . date('Y', strtotime($gig['date']));
-		if ($even {
+		if ($even) {
 			$classstr = $classstr . " alternate";
 		}
 		if (is_admin()) {
