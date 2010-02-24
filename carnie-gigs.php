@@ -155,6 +155,7 @@ class carnieGigsCalendar {
 	 * edit gigs page
 	 */
 	function edit_gigs_page() {
+		print '<div class="wrap">';
 		echo "<h2>Edit Carnie Gigs<h2>";
 		
 		global $wpdb;
@@ -166,12 +167,14 @@ class carnieGigsCalendar {
 		$results = $wpdb->get_results( $select, ARRAY_A );
 
 		$this->gigsView->shortGigs($results);
+		print "</div">;
 	}
 
 	/*
 	 * export gigs page
 	 */
 	function export_gigs_page() {
+		print '<div class="wrap">';
 		echo "<h2>Export Carnie Gigs<h2>";
 
 		global $wpdb;
@@ -182,6 +185,7 @@ class carnieGigsCalendar {
 		$results = $wpdb->get_results( $select, ARRAY_A );
 
 		$this->exportCsvFormView->exportForm($results[0]);
+		print "</div">;
 	}
 }
 
