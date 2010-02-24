@@ -146,14 +146,16 @@ class carnieGigsCalendar {
 	 */
 	function admin_menu() {
 		// admin 
-		add_object_page('Carnie Gigs', 'Carnie Gigs', 'publish_pages', 'carnie-gigs-admin', array($this, 'administer_gigs_page'));
+		add_object_page('Carnie Gigs', 'Carnie Gigs', 'publish_pages', 'edit-carnie-gigs', array($this, 'edit_gigs_page'));
+		add_submenu_page('edit-carnie-gigs', 'Edit Carnie Gigs', 'Edit', 'publish_pages', 'edit-carnie-gigs', array($this, 'edit_gigs_page'));
+		add_submenu_page('export-carnie-gigs', 'Export Carnie Gigs', 'Export', 'publish_pages', 'export-carnie-gigs', array($this, 'export_gigs_page'));
 	}
 
 	/*
-	 * administer gigs page
+	 * edit gigs page
 	 */
-	function administer_gigs_page() {
-		echo "<h2>Carnie Gigs <h2>";
+	function edit_gigs_page() {
+		echo "<h2>Edit Carnie Gigs<h2>";
 		
 		global $wpdb;
 		$table_name = $wpdb->prefix . "carniegigs";
@@ -163,12 +165,23 @@ class carnieGigsCalendar {
 
 		$results = $wpdb->get_results( $select, ARRAY_A );
 
-		if ($results) {
-			echo "<h3>Spreadsheet Export<h3>";
-			$this->exportCsvFormView->exportForm($results[0]);
-		}
-		echo "<h3>Manage Gigs<h3>";
 		$this->gigsView->shortGigs($results);
+	}
+
+	/*
+	 * export gigs page
+	 */
+	function export_gigs_page() {
+		echo "<h2>Export Carnie Gigs<h2>";
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . "carniegigs";
+		
+		$select = "SELECT * FROM " . $table_name .
+			" LIMIT 1";
+		$results = $wpdb->get_results( $select, ARRAY_A );
+
+		$this->exportCsvFormView->exportForm($results[0]);
 	}
 }
 
