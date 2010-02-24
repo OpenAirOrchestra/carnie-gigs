@@ -39,7 +39,22 @@ class carnieGigViews {
 
 		print '<tr id="'. $idstr . '" class="' . $classstr . '">';
 
-		echo '<td class="title">' . stripslashes($gig['title']) . "</td>";
+		echo '<td class="column-title">';
+		echo '<strong><a class="row-title" href="">' . stripslashes($gig['title']) . "</a></strong>";
+		if (is_admin()) {
+			print '<div class="row-actions">';
+			print '<span class="edit">';
+			print '<a href="" title="Edit this gig">Edit</a>|';
+			print '</span>';
+			print '<span class="trash">';
+			print '<a class="submitdelete" href="" title="Delete this gig">Delete</a>|';
+			print '</span>';
+			print '<span class="view">';
+			print '<a href="" title="View this gig">View</a>';
+			print '</span>';
+			print '</div>';
+		}
+		echo "</td>";
 		echo '<td class="date">' . date('d M Y', strtotime($gig['date'])) . "</td>";
 		print '<td class="status">';
 		if ($gig['cancelled']) {
