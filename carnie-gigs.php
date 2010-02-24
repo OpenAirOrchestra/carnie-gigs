@@ -158,7 +158,7 @@ class carnieGigsCalendar {
 		print '<div class="wrap">';
 		echo "<h2>Edit Carnie Gigs";
 		echo '<a href="carnie-gig-new.php" class="button add-new-h2">Add New</a>';
-		echo "<h2>";
+		echo "</h2>";
 		
 		global $wpdb;
 		$table_name = $wpdb->prefix . "carniegigs";
