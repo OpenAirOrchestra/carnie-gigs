@@ -50,21 +50,27 @@ class carnieGigViews {
 ?>
 			<div class="row-actions">
 			<span class="edit">
-			<a href="" title="Edit this gig">Edit</a> | 
+			<form name="editform" method="post" action="">
+				<input type="hidden" name="method" value="edit">
+				<input type="hidden" name="gigid" value="<?php echo $gig['id']; ?>">
+				<input type="hidden" name="carnie-gigs-csv-verify-key"
+				value="<?php echo $this->nonce; ?>"/>
+				<input class="button" type="submit" name="Edit" value="Edit" />
+
+			</form>
 			</span>
 			<span class="trash">
 			<form name="deleteform" method="post" action="">
-				<input type="hidden" name="CRUD" value="delete">
+				<input type="hidden" name="method" value="delete">
 				<input type="hidden" name="gigid" value="<?php echo $gig['id']; ?>">
 				<input type="hidden" name="carnie-gigs-csv-verify-key"
 				value="<?php echo $this->nonce; ?>"/>
 				<input class="button" type="submit" name="Delete" value="Delete" />
 
 			</form>
-		        	| 
 			</span>
 			<span class="view">
-			<a href="" title="View this gig">View</a>
+			<a href="" class="button" title="View this gig">View</a>
 			</span>
 			</div>
 <?php
