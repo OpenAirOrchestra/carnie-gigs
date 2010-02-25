@@ -158,7 +158,7 @@ class carnieGigsCalendar {
 	 */
 	function export_gigs_page() {
 		print '<div class="wrap">';
-		echo "<h2>Export Carnie Gigs<h2>";
+		echo "<h2>Export Carnie Gigs</h2>";
 
 		global $wpdb;
 		$table_name = $wpdb->prefix . "carniegigs";
