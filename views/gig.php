@@ -5,11 +5,16 @@
  */
 class carnieGigViews {
 
+	private $nonce;
+
 	/*
 	 * Render short view of gigs from database results
 	 * in an HTML table.
 	 */
 	function shortGigs($gigs) {
+
+		// refresh nonce
+		$this->$nonce = wp_create_nonce('carnie-gigs');
 		echo '<table class="gigs';
 		if (is_admin()) {
 			echo " widefat fixed";
@@ -42,17 +47,27 @@ class carnieGigViews {
 		echo '<td class="column-title">';
 		echo '<strong><a class="row-title" href="">' . stripslashes($gig['title']) . "</a></strong>";
 		if (is_admin()) {
-			print '<div class="row-actions">';
-			print '<span class="edit">';
-			print '<a href="" title="Edit this gig">Edit</a> | ';
-			print '</span>';
-			print '<span class="trash">';
-			print '<a class="submitdelete" href="" title="Delete this gig">Delete</a> | ';
-			print '</span>';
-			print '<span class="view">';
-			print '<a href="" title="View this gig">View</a>';
-			print '</span>';
-			print '</div>';
+?>
+			<div class="row-actions">
+			<span class="edit">
+			<a href="" title="Edit this gig">Edit</a> | 
+			</span>
+			<span class="trash">
+			<form name="deleteform" method="post" action="">
+				<input type="hidden" name="CRUD" value="delete">
+				<input type="hidden" name="gigid" value="<?php echo $gig['id']; ?>">
+				<input type="hidden" name="carnie-gigs-csv-verify-key"
+				value="<?php echo $this->$nonce; ?>"/>
+				<input class="button" type="submit" name="Delete" value="Delete" />
+
+			</form>
+		        	| 
+			</span>
+			<span class="view">
+			<a href="" title="View this gig">View</a>
+			</span>
+			</div>
+<?php
 		}
 		echo "</td>";
 		echo '<td class="date">' . date('d M Y', strtotime($gig['date'])) . "</td>";
