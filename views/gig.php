@@ -14,7 +14,7 @@ class carnieGigViews {
 	function shortGigs($gigs) {
 
 		// refresh nonce
-		$this->$nonce = wp_create_nonce('carnie-gigs');
+		$this->nonce = wp_create_nonce('carnie-gigs');
 		echo '<table class="gigs';
 		if (is_admin()) {
 			echo " widefat fixed";
@@ -57,7 +57,7 @@ class carnieGigViews {
 				<input type="hidden" name="CRUD" value="delete">
 				<input type="hidden" name="gigid" value="<?php echo $gig['id']; ?>">
 				<input type="hidden" name="carnie-gigs-csv-verify-key"
-				value="<?php echo $this->$nonce; ?>"/>
+				value="<?php echo $this->nonce; ?>"/>
 				<input class="button" type="submit" name="Delete" value="Delete" />
 
 			</form>
