@@ -27,20 +27,25 @@ class carnieGigEditController {
 			$_REQUEST   = array_map( 'stripslashes_deep', $_REQUEST );
 		}
 
-		if ($_POST['CRUD']) {
+		$message = null;
+		if ($_POST['method']) {
 			// Verify nonce.
 			if ( wp_verify_nonce($_POST['carnie-gigs-csv-verify-key'], 'carnie-gigs') ) {
-				print '<div id="message" class="updated fade">';
-				print "<p>" . $_POST['CRUD'] . "</p>";
-				print '</div>';
+				$message = $_POST['method'];
 			} else {
-				echo '"security failure", "nonce"';
+				$message = '"security failure", "nonce"';
 			}
 		}
 
 		// Render list
 		print '<div class="wrap">';
 		echo "<h2>Edit Carnie Gigs";
+
+		if ($message) {
+				print '<div id="message" class="updated fade">';
+				print "<p>" . $message . "</p>";
+				print '</div>';
+		}
 		echo '<a href="carnie-gig-new.php" class="button add-new-h2">Add New</a>';
 		echo "</h2>";
 		
