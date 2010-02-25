@@ -29,6 +29,7 @@ $include_folder = dirname(__FILE__);
 require_once $include_folder . '/version.php';
 require_once $include_folder . '/views/gig.php';
 require_once $include_folder . '/views/export_csv_form.php';
+require_once $include_folder . '/controllers/edit-carnie-gigs.php';
 require_once $include_folder . '/utility.php';
 
 /*
@@ -36,7 +37,7 @@ require_once $include_folder . '/utility.php';
  */
 class carnieGigsCalendar {
 
-	private $gigsView, $exportCsvFormView;
+	private $gigsView, $exportCsvFormView, $editGigsController;
 	
 	/*
 	 * Constructor
@@ -44,6 +45,7 @@ class carnieGigsCalendar {
 	function __construct() {
 		$this->gigsView = new carnieGigViews;
 		$this->exportCsvFormView = new carnieCsvExportView;
+		$this->editGigsController = new carnieGigEditController;
 	}
 	   
 	/*
@@ -146,30 +148,9 @@ class carnieGigsCalendar {
 	 */
 	function admin_menu() {
 		// admin 
-		add_object_page('Carnie Gigs', 'Carnie Gigs', 'publish_pages', 'edit-carnie-gigs', array($this, 'edit_gigs_page'));
-		add_submenu_page('edit-carnie-gigs', 'Edit Carnie Gigs', 'Edit', 'publish_pages', 'edit-carnie-gigs', array($this, 'edit_gigs_page'));
+		add_object_page('Carnie Gigs', 'Carnie Gigs', 'publish_pages', 'edit-carnie-gigs', array($this->$editGigsController, 'edit_gigs_page'));
+		add_submenu_page('edit-carnie-gigs', 'Edit Carnie Gigs', 'Edit', 'publish_pages', 'edit-carnie-gigs', array($this->$editGigsController, 'edit_gigs_page'));
 		add_submenu_page('edit-carnie-gigs', 'Export Carnie Gigs', 'Export', 'publish_pages', 'export-carnie-gigs', array($this, 'export_gigs_page'));
-	}
-
-	/*
-	 * edit gigs page
-	 */
-	function edit_gigs_page() {
-		print '<div class="wrap">';
-		echo "<h2>Edit Carnie Gigs";
-		echo '<a href="carnie-gig-new.php" class="button add-new-h2">Add New</a>';
-		echo "</h2>";
-		
-		global $wpdb;
-		$table_name = $wpdb->prefix . "carniegigs";
-		
-		$select = "SELECT * FROM " . $table_name .
-			" ORDER BY `date` DESC";
-
-		$results = $wpdb->get_results( $select, ARRAY_A );
-
-		$this->gigsView->shortGigs($results);
-		print "</div>";
 	}
 
 	/*
