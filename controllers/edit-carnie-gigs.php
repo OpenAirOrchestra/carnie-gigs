@@ -22,9 +22,9 @@ class carnieGigEditController {
 		print '<div class="wrap">';
 		echo "<h2>Edit Carnie Gigs";
 
-		if ($message) {
+		if ($this->message) {
 				print '<div id="message" class="updated fade">';
-				print "<p>" . $message . "</p>";
+				print "<p>" . $this->message . "</p>";
 				print '</div>';
 		}
 		echo '<a href="carnie-gig-new.php" class="button add-new-h2">Add New</a>';
@@ -84,10 +84,6 @@ class carnieGigEditController {
 				if ($_POST['method'] == 'delete' && $_POST['gigid']) {
 					$this->delete($_POST['gigid']);
 				}
-				else 
-				{
-				}
-
 			} else {
 				$this->message = '"security failure", "nonce"';
 			}
