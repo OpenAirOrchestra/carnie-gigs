@@ -53,7 +53,7 @@ class carnieGigEditController {
 
 
 		if ($wpdb->query($wpdb->prepare("DELETE FROM $table_name WHERE id = %d;", $gigid))) {
-			$this->message = "deleted " . $title;
+			$this->message = 'Deleted "$title"';
 		} else {
 			$this->message = "Error deleting " . $gigid;
 			$wpdb->print_error();
