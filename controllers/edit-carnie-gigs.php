@@ -76,10 +76,16 @@ class carnieGigEditController {
 		}
 
 		if ($_POST['method']) {
+			
+			$this->message = "DEBUG " . $_POST['method'] . " " . $_POST['gigid'];
+				
 			// Verify nonce.
 			if ( wp_verify_nonce($_POST['carnie-gigs-csv-verify-key'], 'carnie-gigs') ) {
 				if ($_POST['method'] == 'delete' && $_POST['gigid']) {
 					$this->delete($_POST['gigid']);
+				}
+				else 
+				{
 				}
 
 			} else {
