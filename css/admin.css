@@ -1,0 +1,10 @@
+.row-actions form.edit {
+	display:inline;
+	display:inline-block;
+	background-color: red;
+}
+.row-actions form.trash {
+	display:inline;
+	display:inline-block;
+	background-color: green;
+}

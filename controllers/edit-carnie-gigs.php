@@ -92,5 +92,13 @@ class carnieGigEditController {
 		// Render list
 		$this->render_gigs_page();
 	}
+
+	/*
+	 * Edit gigs admin page head
+	 */
+	function edit_gigs_head() {
+		$folder = carnieUtil::get_url();
+		echo "<link rel='stylesheet' href='$folder/css/admin.css' type='text/css' />\n";
+	}
 }
 ?>

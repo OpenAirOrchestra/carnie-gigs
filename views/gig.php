@@ -49,8 +49,7 @@ class carnieGigViews {
 		if (is_admin()) {
 ?>
 			<div class="row-actions">
-			<span class="edit">
-			<form name="editform" method="post" action="">
+			<form name="editform" class="edit" method="post" action="">
 				<input type="hidden" name="method" value="edit">
 				<input type="hidden" name="gigid" value="<?php echo $gig['id']; ?>">
 				<input type="hidden" name="carnie-gigs-csv-verify-key"
@@ -58,9 +57,7 @@ class carnieGigViews {
 				<input class="button" type="submit" name="Edit" value="Edit" />
 
 			</form>
-			</span>
-			<span class="trash">
-			<form name="deleteform" method="post" action="">
+			<form class="trash" name="deleteform" method="post" action="">
 				<input type="hidden" name="method" value="delete">
 				<input type="hidden" name="gigid" value="<?php echo $gig['id']; ?>">
 				<input type="hidden" name="carnie-gigs-csv-verify-key"
@@ -68,7 +65,6 @@ class carnieGigViews {
 				<input class="button" type="submit" name="Delete" value="Delete" />
 
 			</form>
-			</span>
 			<span class="view">
 			<a href="" class="button" title="View this gig">View</a>
 			</span>
