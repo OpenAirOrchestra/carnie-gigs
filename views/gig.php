@@ -95,9 +95,12 @@ class carnieGigViews {
 	 * Render a single gig in a form
 	 */
 	function form($gig, $Errors) {
+		// refresh nonce
+		$this->nonce = wp_create_nonce('carnie-gigs');
 ?>
 
 <form method="POST"  action="">
+	<input type="hidden" name="carnie-gigs-csv-verify-key" value="<?php echo $this->nonce; ?>"/>
 
 	<table>
 		<tr>
