@@ -34,7 +34,7 @@ class carnieGigNewController {
 		}
 		echo "</h2>";
 		
-		$this->gigsView->form([], []);
+		$this->gigsView->form(array(), array());
 		print "</div>";
 	}
 
