@@ -34,9 +34,7 @@ class carnieGigNewController {
 		}
 		echo "</h2>";
 		
-		global $wpdb;
-		$table_name = $wpdb->prefix . "carniegigs";
-		
+		$this->gigsView->form([], []);
 		print "</div>";
 	}
 
@@ -54,15 +52,13 @@ class carnieGigNewController {
 			$_REQUEST   = array_map( 'stripslashes_deep', $_REQUEST );
 		}
 
-		if ($_POST['method']) {
+		if ($_POST['_submit_check']) {
 			
-			$this->message = "DEBUG " . $_POST['method'] . " " . $_POST['gigid'];
+			$this->message = "DEBUG " . $_POST['_submit_check'] . " " . $_POST['gigid'];
 				
 			// Verify nonce.
 			if ( wp_verify_nonce($_POST['carnie-gigs-csv-verify-key'], 'carnie-gigs') ) {
-				if ($_POST['method'] == 'new') {
-					$this->create($_POST);
-				}
+				$this->create($_POST);
 			} else {
 				$this->message = '"security failure", "nonce"';
 			}

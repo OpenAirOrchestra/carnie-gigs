@@ -32,6 +32,7 @@ require_once $include_folder . '/views/export_csv_form.php';
 require_once $include_folder . '/controllers/edit-carnie-gigs.php';
 require_once $include_folder . '/controllers/new-carnie-gig.php';
 require_once $include_folder . '/utility.php';
+require_once $include_folder . '/forms.php';
 
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
