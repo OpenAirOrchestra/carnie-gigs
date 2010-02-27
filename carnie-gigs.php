@@ -154,7 +154,6 @@ class carnieGigsCalendar {
 		add_submenu_page('edit-carnie-gigs', 'Export Carnie Gigs', 'Export', 'publish_pages', 'export-carnie-gigs', array($this, 'export_gigs_page'));
 
 		add_action("admin_print_scripts-$editpage1", array($this->editGigsController, 'edit_gigs_head'));
-	       ')	);
 
 	}
 
