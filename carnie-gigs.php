@@ -156,7 +156,7 @@ class carnieGigsCalendar {
 		$editpage1 = add_object_page('Carnie Gigs', 'Carnie Gigs', 'publish_pages', 'edit-carnie-gigs', array($this->editGigsController, 'edit_gigs_page'));
 
 		$editPage2 = add_submenu_page('edit-carnie-gigs', 'Edit Carnie Gigs', 'Edit', 'publish_pages', 'edit-carnie-gigs', array($this->editGigsController, 'edit_gigs_page'));
-		add_submenu_page('edit-carnie-gigs', 'New Carnie Gig', 'Add New', 'publish_pages', 'new-carnie-gig', array($this->newGigController, 'new_gigs_page'));
+		add_submenu_page('edit-carnie-gigs', 'New Carnie Gig', 'Add New', 'publish_pages', 'new-carnie-gig', array($this->newGigController, 'new_gig_page'));
 		add_submenu_page('edit-carnie-gigs', 'Export Carnie Gigs', 'Export', 'publish_pages', 'export-carnie-gigs', array($this, 'export_gigs_page'));
 
 		add_action("admin_print_scripts-$editpage1", array($this->editGigsController, 'edit_gigs_head'));
