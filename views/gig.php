@@ -90,5 +90,12 @@ class carnieGigViews {
 		}
 		print "</tr>\n";
 	}
+
+	/*
+	 * Render a single gig in a form
+	 */
+	function form($gig) {
+	}
+
 }
 ?>
