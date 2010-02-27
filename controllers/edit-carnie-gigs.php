@@ -27,7 +27,7 @@ class carnieGigEditController {
 				print "<p>" . $this->message . "</p>";
 				print '</div>';
 		}
-		echo '<a href="carnie-gig-new.php" class="button add-new-h2">Add New</a>';
+		echo '<a href="admin.php?page=new-carnie-gig" class="button add-new-h2">Add New</a>';
 		echo "</h2>";
 		
 		global $wpdb;
