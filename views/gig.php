@@ -116,6 +116,7 @@ class carnieGigViews {
 						<div id="publishing-action">
 <?php carnieForms::input_submit("Submit", "Publish"); ?> 
 						</div>
+						<div class="clear">
 					</div>
 				</div>
 			</div>
