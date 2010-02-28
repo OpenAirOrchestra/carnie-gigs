@@ -55,8 +55,9 @@ class carnieForms {
 	function input_date($element_name, $values) {
 	     print '<input type="text" name="' . $element_name .'" value="';
 	     if (strlen($values[$element_name]) > 0) {
-	     	print htmlentities(date('d M Y', strtotime($values[$element_name]))) . '">';
+	     	echo htmlentities(date('d M Y', strtotime($values[$element_name])));
 	     }
+	     print '">';
 	}
 
 	//
