@@ -106,62 +106,122 @@ class carnieGigViews {
 		<tr>
 			<td valign="top">Date: </td>
 			<td valign="top"><?php carnieForms::input_date("date", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['date'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['date']) {
+				?> <span class="error"><?php echo $Errors['date'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">Title: </td>
 			<td valign="top"><?php carnieForms::input_text("title", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['title'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['title']) {
+				?> <span class="error"><?php echo $Errors['title'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">URL: </td>
 			<td valign="top"><?php carnieForms::input_text("url", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['url'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['url']) {
+				?> <span class="error"><?php echo $Errors['url'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">Description: </td>
 			<td valign="top"><?php carnieForms::input_textarea("description", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['description'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['description']) {
+				?> <span class="error"><?php echo $Errors['description'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">Location: </td>
 			<td valign="top"><?php carnieForms::input_textarea("location", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['location'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['location']) {
+				?> <span class="error"><?php echo $Errors['location'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">Call Time: </td>
 			<td valign="top"><?php carnieForms::input_time("calltime", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['calltime'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['calltime']) {
+				?> <span class="error"><?php echo $Errors['calltime'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">Event Start Time: </td>
 			<td valign="top"><?php carnieForms::input_time("eventstart", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['eventstart'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['eventstart']) {
+				?> <span class="error"><?php echo $Errors['eventstart'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">Performance Start Time: </td>
 			<td valign="top"><?php carnieForms::input_time("performancestart", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['performancestart'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['performancestart']) {
+				?> <span class="error"><?php echo $Errors['performancestart'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">Gig Co-ordinator: </td>
 			<td valign="top"><?php carnieForms::input_text("coordinator", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['coordinator'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['coordinator']) {
+				?> <span class="error"><?php echo $Errors['coordinator'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">Event Contact: </td>
 			<td valign="top"><?php carnieForms::input_textarea("contact", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['contact'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['contact']) {
+				?> <span class="error"><?php echo $Errors['contact'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">Costume: </td>
 			<td valign="top"><?php carnieForms::input_text("costume", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['costume'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['costume']) {
+				?> <span class="error"><?php echo $Errors['costume'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">Attendees: </td>
 			<td valign="top"><?php carnieForms::input_textarea("attendees", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['attendees'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['attendees']) {
+				?> <span class="error"><?php echo $Errors['attendees'] ?></span>
+				<?php } ?>
+		</td>
 		</tr>
 		<tr>
 
@@ -187,7 +247,12 @@ class carnieGigViews {
 		<tr>
 			<td valign="top">Fee: </td>
 			<td valign="top"><?php carnieForms::input_text("fee", $gig); ?> </td>
-			<td valign="top"><span class="error"><?php echo $Errors['fee'] ?></span></td>
+			<td valign="top">
+				<?php 
+				if ($Errors['fee']) {
+				?> <span class="error"><?php echo $Errors['fee'] ?></span>
+				<?php } ?>
+			</td>
 		</tr>
 		<tr>
 			<td valign="top">	<input type="hidden" name="_submit_check" value="1"/> 
