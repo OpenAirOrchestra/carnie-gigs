@@ -99,8 +99,20 @@ class carnieGigViews {
 		$this->nonce = wp_create_nonce('carnie-gigs');
 ?>
 
+
 <form method="POST"  action="">
 	<input type="hidden" name="carnie-gigs-csv-verify-key" value="<?php echo $this->nonce; ?>"/>
+	<input type="hidden" name="_submit_check" value="1"/> 
+	<?php echo "<input type=\"hidden\" name=\"id\" value=\"" . $gig['id'] . "\"/>"; ?>
+
+	<div id="poststuff" class="metabox-holder has-right-sidebar">
+	<div id="side-info-column" class="inner-sidebar">
+		<div id="submitdiv" class="postbox">
+			<?php carnieForms::input_submit("Submit", "Publish"); ?> 
+		</div>
+	</div>
+	<div id="post-body">
+		<div id="post-body-content">
 
 	<table>
 		<tr>
@@ -254,14 +266,11 @@ class carnieGigViews {
 				<?php } ?>
 			</td>
 		</tr>
-		<tr>
-			<td valign="top">	<input type="hidden" name="_submit_check" value="1"/> 
-				<?php echo "<input type=\"hidden\" name=\"id\" value=\"" . $gig['id'] . "\"/>"; ?>
-				<?php carnieForms::input_submit("Submit", "Publish"); ?> 
-			</td>
-		</tr>
 	</table>
 
+		</div>
+	</div>
+	</div>
 </form>
 
 
