@@ -111,7 +111,13 @@ class carnieGigViews {
 			<div class="handlediv" title="Click to toggle"><br/></div>
 			<h3 class="hndle"><span>Publish</span></h3>
 			<div class="inside">
-				<?php carnieForms::input_submit("Submit", "Publish"); ?> 
+				<div class="submitbox" id="submitbox">
+					<div id="major-publishing-actions">
+						<div id="publishing-action">
+<?php carnieForms::input_submit("Submit", "Publish"); ?> 
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
