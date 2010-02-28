@@ -34,7 +34,7 @@ class carnieGigNewController {
 		}
 		echo "</h2>";
 		
-		$this->gigsView->form(array(), array());
+		$this->gigsView->form(array( "date" => date('d M Y', time()), array());
 		print "</div>";
 	}
 
