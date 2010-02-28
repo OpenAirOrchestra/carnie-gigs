@@ -116,7 +116,7 @@ class carnieGigViews {
 						<div id="publishing-action">
 <?php carnieForms::input_submit("Submit", "Publish"); ?> 
 						</div>
-						<div class="clear">
+					<div style="clear:left">Note: This gig will only appear on public pages if "advertise" checkbox is selected.</div>
 					</div>
 				</div>
 			</div>
