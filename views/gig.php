@@ -108,11 +108,19 @@ class carnieGigViews {
 	<div id="poststuff" class="metabox-holder has-right-sidebar">
 	<div id="side-info-column" class="inner-sidebar">
 		<div id="submitdiv" class="postbox">
-			<?php carnieForms::input_submit("Submit", "Publish"); ?> 
+			<div class="handlediv" title="Click to toggle"><br/></div>
+			<h3 class="hndle"><span>Publish</span></h3>
+			<div class="inside">
+				<?php carnieForms::input_submit("Submit", "Publish"); ?> 
+			</div>
 		</div>
 	</div>
 	<div id="post-body">
 		<div id="post-body-content">
+			<div class="postbox">
+				<div class="handlediv" title="Click to toggle"><br/></div>
+				<h3 class="hndle"><span>Gig</span></h3>
+				<div class="inside">
 
 	<table>
 		<tr>
@@ -268,6 +276,8 @@ class carnieGigViews {
 		</tr>
 	</table>
 
+				</div>
+			</div>
 		</div>
 	</div>
 	</div>
