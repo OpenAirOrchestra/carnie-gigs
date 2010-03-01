@@ -5,12 +5,13 @@
  */
 class carnieGigNewController {
 
-	private $gigsView, $message;
+	private $gigsView, $message, $model;
 	/*
 	 * Constructor
 	 */
 	function __construct() {
 		$this->gigsView = new carnieGigViews;
+		$this->model = new carnieGigModel;
 		$this->message = null;
 	}
 	   
@@ -23,7 +24,7 @@ class carnieGigNewController {
 	/*
 	 * render new gig form
 	 */
-	function render_form() {
+	function render_form($errors) {
 		print '<div class="wrap">';
 		echo "<h2>New Carnie Gig";
 
@@ -34,7 +35,12 @@ class carnieGigNewController {
 		}
 		echo "</h2>";
 		
-		$this->gigsView->form(array( "date" => date('d M Y', time())), array());
+		if (! $errors) {
+			$this->gigsView->form(array( "date" => date('d M Y', time())), array());
+		} else {
+			$this->gigsView->form($_POST, $errors);
+		}
+
 		print "</div>";
 	}
 
@@ -52,20 +58,26 @@ class carnieGigNewController {
 			$_REQUEST   = array_map( 'stripslashes_deep', $_REQUEST );
 		}
 
+		$errors = NULL;
+
 		if ($_POST['_submit_check']) {
 			
-			$this->message = "DEBUG " . $_POST['_submit_check'] . " " . $_POST['gigid'];
 				
 			// Verify nonce.
 			if ( wp_verify_nonce($_POST['carnie-gigs-csv-verify-key'], 'carnie-gigs') ) {
-				$this->create($_POST);
+				$errors = $model->validate_post();
+				if ($errors) {
+					$this->create($_POST);
+				} else {
+					$this->message = 'Error';
+				}
 			} else {
 				$this->message = '"security failure", "nonce"';
 			}
 		}
 
 		// Render form in page
-		$this->render_form();
+		$this->render_form($errors);
 	}
 }
 ?>
