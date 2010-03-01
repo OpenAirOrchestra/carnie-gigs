@@ -65,7 +65,7 @@ class carnieGigNewController {
 				
 			// Verify nonce.
 			if ( wp_verify_nonce($_POST['carnie-gigs-csv-verify-key'], 'carnie-gigs') ) {
-				$errors = $model->validate_post();
+				$errors = $this->model->validate_post();
 				if ($errors) {
 					$this->create($_POST);
 				} else {
