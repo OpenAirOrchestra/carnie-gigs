@@ -19,6 +19,7 @@ class carnieGigNewController {
 	 * create new gig in the database
 	 */
 	function create($gig) {
+		$this->message = 'Created blah blah blah';
 	}
 	   
 	/*
@@ -67,9 +68,9 @@ class carnieGigNewController {
 			if ( wp_verify_nonce($_POST['carnie-gigs-csv-verify-key'], 'carnie-gigs') ) {
 				$errors = $this->model->validate_post();
 				if ($errors) {
-					$this->create($_POST);
+					$this->message = 'Please correct errors below.';
 				} else {
-					$this->message = 'Error';
+					$this->create($_POST);
 				}
 			} else {
 				$this->message = '"security failure", "nonce"';

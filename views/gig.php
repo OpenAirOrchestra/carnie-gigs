@@ -136,7 +136,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['date']) {
-				?> <span class="error"><?php echo $Errors['date'] ?></span>
+				?> <p class="error"><?php echo $Errors['date'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
@@ -146,7 +146,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['title']) {
-				?> <span class="error"><?php echo $Errors['title'] ?></span>
+				?> <p class="error"><?php echo $Errors['title'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
@@ -156,7 +156,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['url']) {
-				?> <span class="error"><?php echo $Errors['url'] ?></span>
+				?> <p class="error"><?php echo $Errors['url'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
@@ -166,7 +166,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['description']) {
-				?> <span class="error"><?php echo $Errors['description'] ?></span>
+				?> <p class="error"><?php echo $Errors['description'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
@@ -176,7 +176,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['location']) {
-				?> <span class="error"><?php echo $Errors['location'] ?></span>
+				?> <p class="error"><?php echo $Errors['location'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
@@ -186,7 +186,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['calltime']) {
-				?> <span class="error"><?php echo $Errors['calltime'] ?></span>
+				?> <p class="error"><?php echo $Errors['calltime'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
@@ -196,7 +196,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['eventstart']) {
-				?> <span class="error"><?php echo $Errors['eventstart'] ?></span>
+				?> <p class="error"><?php echo $Errors['eventstart'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
@@ -206,7 +206,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['performancestart']) {
-				?> <span class="error"><?php echo $Errors['performancestart'] ?></span>
+				?> <p class="error"><?php echo $Errors['performancestart'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
@@ -216,7 +216,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['coordinator']) {
-				?> <span class="error"><?php echo $Errors['coordinator'] ?></span>
+				?> <p class="error"><?php echo $Errors['coordinator'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
@@ -226,7 +226,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['contact']) {
-				?> <span class="error"><?php echo $Errors['contact'] ?></span>
+				?> <p class="error"><?php echo $Errors['contact'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
@@ -236,7 +236,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['costume']) {
-				?> <span class="error"><?php echo $Errors['costume'] ?></span>
+				?> <p class="error"><?php echo $Errors['costume'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
@@ -246,7 +246,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['attendees']) {
-				?> <span class="error"><?php echo $Errors['attendees'] ?></span>
+				?> <p class="error"><?php echo $Errors['attendees'] ?></p>
 				<?php } ?>
 		</td>
 		</tr>
@@ -277,7 +277,7 @@ class carnieGigViews {
 			<td valign="top">
 				<?php 
 				if ($Errors['fee']) {
-				?> <span class="error"><?php echo $Errors['fee'] ?></span>
+				?> <p class="error"><?php echo $Errors['fee'] ?></p>
 				<?php } ?>
 			</td>
 		</tr>
