@@ -115,7 +115,7 @@ class carnieGigModel {
 			$columns = "";
 
 			foreach ( $_POST as $ind=>$val ) {
-				if (in_array($ind, $valid_columns)) && (strlen($val) > 0)) {
+				if ((in_array($ind, $valid_columns)) && (strlen($val) > 0)) {
 					if (strlen($values) > 0) {
 						$values = $values . ",";
 						$columns = $columns . ",";
@@ -146,7 +146,7 @@ class carnieGigModel {
 
 		}
 
-		return $message.
+		return $message;
 	}
 }
 
