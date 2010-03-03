@@ -26,7 +26,7 @@ class carnieGigNewController {
 		if (! current_user_can('publish_pages')) {
 			$this->message = 'Current user cannot publish pages';
 		} else {
-			$this->message = $this->model->commit_form($tablename);
+			$this->message = $this->model->commit_form($table_name);
 		}
 	}
 	   
