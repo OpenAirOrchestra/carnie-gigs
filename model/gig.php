@@ -38,6 +38,116 @@ class carnieGigModel {
 		}
 		return $form_errors;
 	}
+
+	/*
+	 * Commit $_POST to database as gig.  
+	 * Returns message with success or failure string.
+	 */
+	function commit_form($tablename) {
+		$message = NULL;
+		$valid_columns = array( "id", "date", "title", "description", "location", "url", "privateevent", "calltime", "eventstart", "performancestart", "contact", "coordinator", "costume", "advertise", "cancelled", "closedcall", "attendees", "fee", "tentative");
+		
+		global $wpdb;
+
+		if (strlen($_POST['id']) > 0) {
+			$id = $wpdb->escape($_POST['id']);
+
+			$query = "UPDATE " . $tablename . " SET ";
+
+			$values = "";
+
+			foreach ( $_POST as $ind=>$val ) {
+				if (in_array($ind, $valid_columns)) {
+					if (strlen($values) > 0) {
+						$values = $values . ",";
+					}	
+
+					// Special processing of date and time
+					$value = $val;
+					if ($ind == "date") {
+						$value = form_date_to_mysql($val);
+					}
+					else if (($ind == "calltime") ||
+						($ind == "eventstart") ||
+						($ind == "performancestart")) {
+						$value = form_time_to_mysql($val);
+					}
+					$values = $values . "`" . $wpdb->escape($ind) . "` = ";
+					if ($value == null) {
+						$values = $values . "NULL";
+					} else {
+						$values = $values . "'" . $wpdb->escape($value) . "'";
+					}
+				}
+			}
+
+			// Special handling for unchecked checkboxes
+			if (strlen($_POST['privateevent']) == 0) {
+				$values = $values . ",`privateevent`='0'";
+			}
+			if (strlen($_POST['closedcall']) == 0) {
+				$values = $values . ",`closedcall`='0'";
+			}
+			if (strlen($_POST['advertise']) == 0) {
+				$values = $values . ",`advertise`='0'";
+			}
+			if (strlen($_POST['cancelled']) == 0) {
+				$values = $values . ",`cancelled`='0'";
+			}
+			if (strlen($_POST['tentative']) == 0) {
+				$values = $values . ",`tentative`='0'";
+			}
+
+			$query = $query . $values;
+			$query = $query . " WHERE id=$id LIMIT 1";
+
+			if ($wpdb->query($query)) {
+				$message = "Your Gig has been updated in the database.";
+			} else {
+				$message = "Error in query: $query"; 
+			}
+
+
+		} else {
+			$query = "INSERT INTO " . $tablename;
+
+			$values = "";
+			$columns = "";
+
+			foreach ( $_POST as $ind=>$val ) {
+				if (in_array($ind, $valid_columns)) && (strlen($val) > 0)) {
+					if (strlen($values) > 0) {
+						$values = $values . ",";
+						$columns = $columns . ",";
+					}	
+
+					// Special processing of date and time
+					$value = $val;
+					if ($ind == "date") {
+						$value = form_date_to_mysql($val);
+					}
+					else if (($ind == "calltime") ||
+						($ind == "eventstart") ||
+						($ind == "performancestart")) {
+						$value = form_time_to_mysql($val);
+					}
+					$values = $values . "'" . $wpdb->escape($value) . "'";
+					$columns = $columns . $ind;
+				}
+			}
+
+			$query = $query . "(" . $columns . ") VALUES(" . $values . ")";
+
+			if ($wpdb->query($query)) {
+				$message = "Your new Gig has been added to the database.";
+			} else {
+				$message =  "Error in query: $query"; 
+			}	
+
+		}
+
+		return $message.
+	}
 }
 
 ?>

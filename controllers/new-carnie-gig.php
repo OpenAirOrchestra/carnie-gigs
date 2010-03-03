@@ -19,7 +19,15 @@ class carnieGigNewController {
 	 * create new gig in the database
 	 */
 	function create($gig) {
-		$this->message = 'Created blah blah blah';
+		global $wpdb;
+		$table_name = $wpdb->prefix . "carniegigs";
+
+		
+		if (! current_user_can('publish_pages')) {
+			$this->message = 'Current user cannot publish pages';
+		} else {
+			$this->message = $this->model->commit_form($tablename);
+		}
 	}
 	   
 	/*
