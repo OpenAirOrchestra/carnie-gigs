@@ -124,12 +124,12 @@ class carnieGigModel {
 					// Special processing of date and time
 					$value = $val;
 					if ($ind == "date") {
-						$value = form_date_to_mysql($val);
+						$value = carnieForms::form_date_to_mysql($val);
 					}
 					else if (($ind == "calltime") ||
 						($ind == "eventstart") ||
 						($ind == "performancestart")) {
-						$value = form_time_to_mysql($val);
+						$value = carnieForms::form_time_to_mysql($val);
 					}
 					$values = $values . "'" . $wpdb->escape($value) . "'";
 					$columns = $columns . $ind;
