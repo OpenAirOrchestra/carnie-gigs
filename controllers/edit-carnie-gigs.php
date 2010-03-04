@@ -5,7 +5,7 @@
  */
 class carnieGigEditController {
 
-	private $gigsView, $model $message;
+	private $gigsView, $model, $message;
 	/*
 	 * Constructor
 	 */
@@ -76,6 +76,7 @@ class carnieGigEditController {
 		$this->gigsView->form($gig, $errors);
 		print "</div>";
 	}
+
 	/*
 	 * delete a gig
 	 */
@@ -123,7 +124,10 @@ class carnieGigEditController {
 				if ($_POST['method'] == 'delete' && $_POST['gigid']) {
 					$this->delete($_POST['gigid']);
 				} else if ($_POST['method'] == 'edit' && $_POST['gigid']) {
-					$gig = $this->model->gig($_POST['gigid']);
+					$gig = $this->model->gig($table_name, $_POST['gigid']);
+					if ($gig) {
+						$this->message = NULL;
+					}
 				} else if ($_POST['_submit_check']) {
 					$errors = $this->model->validate_post();
 					if ($errors) {
@@ -141,7 +145,7 @@ class carnieGigEditController {
 		}
 
 		if ($gig) {
-			$this->render_gigs_page($gig, $errors);
+			$this->render_gig_page($gig, $errors);
 		} else {
 			// Render list
 			$this->render_gigs_page();

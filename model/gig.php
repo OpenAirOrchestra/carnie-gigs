@@ -11,7 +11,8 @@ class carnieGigModel {
 	function gig($table_name, $gigid) {
 		global $wpdb;
 
-		$gig = $wpdb->get_row($wpdb->prepare("SELECT FROM $table_name WHERE id = %d;", $gigid), ARRAY_A);
+		$query = $wpdb->prepare("SELECT * FROM $table_name WHERE id = %d;", $gigid);
+		$gig = $wpdb->get_row($query, ARRAY_A);
 
 		return $gig;
 	}
