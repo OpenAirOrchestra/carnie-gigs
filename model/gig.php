@@ -33,17 +33,17 @@ class carnieGigModel {
 		if (strlen($_POST['location']) == 0) {
 			$form_errors['location'] = "Location is a required field";
 		}
-		if ((strlen($_POST['calltime']) != 0) && (! check_time($_POST['calltime']))) {
+		if ((strlen($_POST['calltime']) != 0) && (! carnieForms::check_time($_POST['calltime']))) {
 			$form_errors['calltime'] = "Did not recognize \"" . 
 				$_POST['calltime'] . "\" as a time.  Please enter time in 12 hour format (HH:MMam/pm), like 3:00pm";
 			$_POST['calltime'] = "";
 		}
-		if ((strlen($_POST['eventstart']) != 0) && (! check_time($_POST['eventstart']))) {
+		if ((strlen($_POST['eventstart']) != 0) && (! carnieForms::check_time($_POST['eventstart']))) {
 			$form_errors['eventstart'] = "Did not recognize \"" . 
 				$_POST['eventstart'] . "\" as a time.  Please enter time in 12 hour format (HH:MMam/pm), like 3:00pm";
 			$_POST['eventstart'] = "";
 		}
-		if ((strlen($_POST['performancestart']) != 0) && (! check_time($_POST['performancestart']))) {
+		if ((strlen($_POST['performancestart']) != 0) && (! carnieForms::check_time($_POST['performancestart']))) {
 			$form_errors['performancestart'] = "Did not recognize \"" . 
 				$_POST['performancestart'] . "\" as a time.  Please enter time in 12 hour format (HH:MMam/pm), like 3:00pm";
 			$_POST['performancestart'] = "";
@@ -77,12 +77,12 @@ class carnieGigModel {
 					// Special processing of date and time
 					$value = $val;
 					if ($ind == "date") {
-						$value = form_date_to_mysql($val);
+						$value = carnieForms::form_date_to_mysql($val);
 					}
 					else if (($ind == "calltime") ||
 						($ind == "eventstart") ||
 						($ind == "performancestart")) {
-						$value = form_time_to_mysql($val);
+						$value = carnieForms::form_time_to_mysql($val);
 					}
 					$values = $values . "`" . $wpdb->escape($ind) . "` = ";
 					if ($value == null) {

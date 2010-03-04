@@ -112,7 +112,7 @@ class carnieGigEditController {
 		global $wpdb;
 		$table_name = $wpdb->prefix . "carniegigs";
 
-		if ($_POST['method']) {
+		if ($_POST['method'] || $_POST['_submit_check']) {
 
 			$gig = NULL;
 			$errors = array();
@@ -128,14 +128,14 @@ class carnieGigEditController {
 					if ($gig) {
 						$this->message = NULL;
 					}
-				} else if ($_POST['_submit_check']) {
+				} else if ($_POST['_submit_check'])  {
 					$errors = $this->model->validate_post();
 					if ($errors) {
 						$gig = $_POST;
 						$this->message = 'Please correct errors below.';
 					} else {
 						$this->update($_POST);
-						$gig = $this->model->gig($table_name, $_POST['gigid']);
+						$gig = $this->model->gig($table_name, $_POST['id']);
 						$errors = array();
 					}
 				}
