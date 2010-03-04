@@ -5,15 +5,30 @@
  */
 class carnieGigEditController {
 
-	private $gigsView, $message;
+	private $gigsView, $model $message;
 	/*
 	 * Constructor
 	 */
 	function __construct() {
 		$this->gigsView = new carnieGigViews;
+		$this->model = new carnieGigModel;
 		$this->message = null;
 	}
 	   
+	/*
+	 * Update a gig record
+	 */
+	function update($gig) {
+		global $wpdb;
+		$table_name = $wpdb->prefix . "carniegigs";
+
+		
+		if (! current_user_can('edit_pages')) {
+			$this->message = 'Current user cannot edit pages';
+		} else {
+			$this->message = $this->model->commit_form($table_name);
+		}
+	}
 	   
 	/*
 	 * render gigs page
@@ -42,6 +57,25 @@ class carnieGigEditController {
 		print "</div>";
 	}
 
+	   
+	/*
+	 * render gig page
+	 */
+	function render_gig_page($gig, $errors) {
+		print '<div class="wrap">';
+		echo "<h2>Edit Carnie Gig";
+
+		if ($this->message) {
+				print '<div id="message" class="updated fade">';
+				print "<p>" . $this->message . "</p>";
+				print '</div>';
+		}
+		echo "</h2>";
+		
+
+		$this->gigsView->form($gig, $errors);
+		print "</div>";
+	}
 	/*
 	 * delete a gig
 	 */
@@ -74,8 +108,13 @@ class carnieGigEditController {
 			$_COOKIE    = array_map( 'stripslashes_deep', $_COOKIE );
 			$_REQUEST   = array_map( 'stripslashes_deep', $_REQUEST );
 		}
+		global $wpdb;
+		$table_name = $wpdb->prefix . "carniegigs";
 
 		if ($_POST['method']) {
+
+			$gig = NULL;
+			$errors = array();
 			
 			$this->message = "DEBUG " . $_POST['method'] . " " . $_POST['gigid'];
 				
@@ -83,14 +122,30 @@ class carnieGigEditController {
 			if ( wp_verify_nonce($_POST['carnie-gigs-csv-verify-key'], 'carnie-gigs') ) {
 				if ($_POST['method'] == 'delete' && $_POST['gigid']) {
 					$this->delete($_POST['gigid']);
+				} else if ($_POST['method'] == 'edit' && $_POST['gigid']) {
+					$gig = $this->model->gig($_POST['gigid']);
+				} else if ($_POST['_submit_check']) {
+					$errors = $this->model->validate_post();
+					if ($errors) {
+						$gig = $_POST;
+						$this->message = 'Please correct errors below.';
+					} else {
+						$this->update($_POST);
+						$gig = $this->model->gig($table_name, $_POST['gigid']);
+						$errors = array();
+					}
 				}
 			} else {
 				$this->message = '"security failure", "nonce"';
 			}
 		}
 
-		// Render list
-		$this->render_gigs_page();
+		if ($gig) {
+			$this->render_gigs_page($gig, $errors);
+		} else {
+			// Render list
+			$this->render_gigs_page();
+		}
 	}
 
 	/*

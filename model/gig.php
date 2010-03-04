@@ -6,6 +6,17 @@
 class carnieGigModel {
 
 	/*
+	 * Read a gig from a table
+	 */
+	function gig($table_name, $gigid) {
+		global $wpdb;
+
+		$gig = $wpdb->get_row($wpdb->prepare("SELECT FROM $table_name WHERE id = %d;", $gigid), ARRAY_A);
+
+		return $gig;
+	}
+
+	/*
 	 * Validate $_POST as a gig.  Returns associative array of
 	 * form errors
 	 */
