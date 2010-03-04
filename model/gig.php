@@ -114,7 +114,7 @@ class carnieGigModel {
 			$query = $query . " WHERE id=$id LIMIT 1";
 
 			if ($wpdb->query($query)) {
-				$message = "Your Gig has been updated in the database.";
+				$message = '"' . stripslashes($_POST['title'] . '"' .  " has been updated in the database.";
 			} else {
 				$message = "Error in query: $query"; 
 			}
@@ -151,7 +151,7 @@ class carnieGigModel {
 			$query = $query . "(" . $columns . ") VALUES(" . $values . ")";
 
 			if ($wpdb->query($query)) {
-				$message = "Your new Gig has been added to the database.";
+				$message = '"' . stripslashes($_POST['title'] . '"' .  " has been added to the database.";
 			} else {
 				$message =  "Error in query: $query"; 
 			}	
