@@ -313,13 +313,16 @@ class carnieGigViews {
 			$post_content = $post_content . "<h3>Cancelled</h3>";
 		}
 		if ($gig['closedcall']) {
-			$post_content = $post_content . "<h3>closedcall</h3>";
+			$post_content = $post_content . "<p>Closed Call</p>";
+		}
+		if ($gig['privateevent']) {
+			$post_content = $post_content . "<p>Private Event</p>";
 		}
 		$post_content = $post_content . "
 			<table>
 			<tbody>
 			<tr>
-			<td valign=\"top\">What</td>
+			<td valign=\"top\"><strong>What</strong></td>
 			<td valign=\"top\">";
 
 		if ($gig['url']) {
@@ -341,9 +344,9 @@ class carnieGigViews {
 			"</td>
 			</tr>
 			<tr>
-			<td valign=\"top\">When</td>
+			<td valign=\"top\"><strong>When</strong></td>
 			<td valign=\"top\">" .
-			date('g:ia', strtotime($gig['calltime']));
+			date('g:ia', strtotime($gig['date']));
 
 		if (strlen($gig['calltime'])) {
 			$post_content = $post_content .	
@@ -365,7 +368,7 @@ class carnieGigViews {
 			"</td>
 			</tr>
 			<tr>
-			<td valign=\"top\">Where</td>
+			<td valign=\"top\"><strong>Where</strong></td>
 			<td valign=\"top\">" .
 			stripslashes($gig['location']);
 
@@ -374,7 +377,7 @@ class carnieGigViews {
 				"</td>
 				</tr>
 				<tr>
-				<td valign=\"top\">Info</td>
+				<td valign=\"top\"><strong>Info</strong></td>
 				<td valign=\"top\">" .
 				stripslashes($gig['description']);
 		}
@@ -383,7 +386,7 @@ class carnieGigViews {
 				"</td>
 				</tr>
 				<tr>
-				<td valign=\"top\">Costume</td>
+				<td valign=\"top\"><strong>Costume</strong></td>
 				<td valign=\"top\">" .
 				stripslashes($gig['costume']);
 		}
@@ -393,7 +396,7 @@ class carnieGigViews {
 				"</td>
 				</tr>
 				<tr>
-				<td valign=\"top\">Co-ordinator</td>
+				<td valign=\"top\"><strong>Co-ordinator</strong></td>
 				<td valign=\"top\">" .
 				stripslashes($gig['coordinator']);
 		}
@@ -403,7 +406,7 @@ class carnieGigViews {
 				"</td>
 				</tr>
 				<tr>
-				<td valign=\"top\">Contact</td>
+				<td valign=\"top\"><strong>Contact</strong></td>
 				<td valign=\"top\">" .
 				stripslashes($gig['contact']);
 		}
@@ -413,7 +416,7 @@ class carnieGigViews {
 				"</td>
 				</tr>
 				<tr>
-				<td valign=\"top\">Attendees</td>
+				<td valign=\"top\"><strong>Attendees</strong></td>
 				<td valign=\"top\">" .
 				stripslashes($gig['attendees']);
 		}
