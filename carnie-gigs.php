@@ -99,6 +99,8 @@ class carnieGigsCalendar {
 
 			   $wpdb->query($sql);
 
+			   $this->update_all_posts();
+
 			   add_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);
 		   }
 	}
@@ -114,6 +116,25 @@ class carnieGigsCalendar {
 			   " SELECT * FROM gigdb.gigs";
 
 		   $results = $wpdb->query( $insert );
+	}
+
+	/*
+	 * Updates all posts associated with gigs in the database
+	 */
+	function update_all_posts () {
+		$gigPostController = new carnieGigPostController;
+		
+		global $wpdb;
+		$table_name = $wpdb->prefix . "carniegigs";
+
+		$select = "SELECT 'id' FROM " . $table_name .
+			" ORDER BY `date` DESC";
+
+		$results = $wpdb->get_results( $select, ARRAY_A );
+
+		foreach ($results as $gig) {
+			$gigPostController->update($gig['id']);
+		}
 	}
 
 	/*
