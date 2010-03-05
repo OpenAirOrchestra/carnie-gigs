@@ -15,6 +15,23 @@ class carnieGigPostController {
 		$this->gigsView = new carnieGigViews;
 		$this->model = new carnieGigModel;
 	}
+
+	/*
+	 * Categories ids to associate gig post with
+	 * TODO: make this an option instead of hardcoded
+	 */
+	function category_ids () {
+		$gig_categories = array();
+		$category_ids = get_all_category_ids();
+		foreach($category_ids as $cat_id) {
+			$cat_name = get_cat_name($cat_id);
+			
+			if ($cat_name == "Gigs") {
+				array_push($gig_categories, $cat_id);
+			}
+		}
+		return $gig_categories
+	}
 	   
 	/*
 	 * Update post associated with gig in the database
@@ -33,6 +50,7 @@ class carnieGigPostController {
 			'post_status' => 'publish',
 			'post_title' => ($gig['date'] . " " . $gig['title']),
 			'post_content' => $post_content
+			'post_category' => $this->category_ids();
 			);
 
 		if ($gig['postid']) {
@@ -47,8 +65,6 @@ class carnieGigPostController {
 			$wpdb->update( $table_name, array( 'postid' => $postid ), array ( 'id' => $gig['id'] ), array('%d'), array ('%d') );
 		}
 
-
-		echo "I will update the post for" . $gig['title'];
 	}
 
 	/*
