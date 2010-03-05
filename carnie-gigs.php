@@ -127,13 +127,16 @@ class carnieGigsCalendar {
 		global $wpdb;
 		$table_name = $wpdb->prefix . "carniegigs";
 
-		$select = "SELECT 'id' FROM " . $table_name .
-			" ORDER BY `date` DESC";
+		$select = "SELECT * FROM " . $table_name;
 
 		$results = $wpdb->get_results( $select, ARRAY_A );
 
 		foreach ($results as $gig) {
-			$gigPostController->update($gig['id']);
+			print_r($gig);
+			if ($gig['id']) {
+				echo "Update " . $gig['id'];
+				$gigPostController->update($gig['id']);
+			}
 		}
 	}
 
