@@ -30,8 +30,8 @@ class carnieGigPostController {
 			"</p>";
 
 		$post = array(
-			'post_status' => 'publish'
-			'post_title' => $gig['date'] . " " . $gig['title']
+			'post_status' => 'publish',
+			'post_title' => ($gig['date'] . " " . $gig['title']),
 			'post_content' => $post_content
 			);
 
