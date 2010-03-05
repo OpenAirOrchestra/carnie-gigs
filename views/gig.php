@@ -42,10 +42,19 @@ class carnieGigViews {
 			$classstr = $classstr . " iedit";
 		}
 
+		$permalink = NULL;
+		if ($gig['postid']) {
+			$permalink = get_permalink($gig['postid']);
+		}
+
 		print '<tr id="'. $idstr . '" class="' . $classstr . '">';
 
 		echo '<td class="column-title">';
-		echo '<strong><a class="row-title" href="">' . stripslashes($gig['title']) . "</a></strong>";
+		if ($permalink) {
+			echo '<strong><a class="row-title" href="' . $permalink . '">' . stripslashes($gig['title']) . "</a></strong>";
+		} else {
+			echo '<strong><span class="row-title">' . stripslashes($gig['title']) . "</span></strong>";
+		}
 		if (is_admin()) {
 ?>
 			<div class="row-actions">
@@ -65,9 +74,6 @@ class carnieGigViews {
 				<input class="button" type="submit" name="Delete" value="Delete" />
 
 			</form>
-			<span class="view">
-			<a href="" class="button" title="View this gig">View</a>
-			</span>
 			</div>
 <?php
 		}
