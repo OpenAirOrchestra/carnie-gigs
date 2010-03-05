@@ -20,14 +20,25 @@ class carnieGigPostController {
 	 * Update post associated with gig in the database
 	 */
 	function update($gigid) {
-		$error = NULL;
-
 		global $wpdb;
 		$table_name = $wpdb->prefix . "carniegigs";
 
 		$gig = $this->model->gig($table_name, $gigid);
 
-		echo "I will update " . $gig['title'];
+		echo "I will update the post for" . $gig['title'];
+	}
+
+	/*
+	 * Delete post associated with gig in the database.
+	 * Must be called *before* database record is deleted.
+	 */
+	function delete($gigid) {
+		global $wpdb;
+		$table_name = $wpdb->prefix . "carniegigs";
+
+		$gig = $this->model->gig($table_name, $gigid);
+
+		echo "I will delete the post for " . $gig['title'];
 	}
 }
 ?>
