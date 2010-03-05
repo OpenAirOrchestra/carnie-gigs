@@ -300,5 +300,134 @@ class carnieGigViews {
 <?php
 	}
 
+	/*
+	 *
+	 * Return post content for a gig record.
+	 */
+	function post_content($gig) {
+		$post_content = "<div class=\"gig-post gig\" id=\"gig-" . $gig['id'] . "\">";
+		if ($gig['tentative']) {
+			$post_content = $post_content . "<h3>Tentative</h3>";
+		}
+		if ($gig['cancelled']) {
+			$post_content = $post_content . "<h3>Cancelled</h3>";
+		}
+		if ($gig['closedcall']) {
+			$post_content = $post_content . "<h3>closedcall</h3>";
+		}
+		$post_content = $post_content . "
+			<table>
+			<tbody>
+			<tr>
+			<td valign=\"top\">What</td>
+			<td valign=\"top\">";
+
+		if ($gig['url']) {
+			$url = $gig['url'];
+			if ((strncasecmp($gig['url'], 'http://', 7) == 0) ||
+				(strncasecmp($gig['url'], 'https://', 8) == 0)) {
+				$url = "http://" . $url;
+			}
+			$post_content = $post_content .	
+				'<a href="' . $url . '">' .
+				htmlentities(stripslashes($gig['title'])) .
+				"</a>";
+		} else {
+			$post_content = $post_content .	
+				htmlentities(stripslashes($gig['title'])) ;
+		}
+
+		$post_content = $post_content .	
+			"</td>
+			</tr>
+			<tr>
+			<td valign=\"top\">When</td>
+			<td valign=\"top\">" .
+			date('g:ia', strtotime($gig['calltime']));
+
+		if (strlen($gig['calltime'])) {
+			$post_content = $post_content .	
+				"<br/>Call: ".
+				date('g:ia', strtotime($gig['calltime']));
+		}
+		if (strlen($gig['eventstart']) > 0) {
+			$post_content = $post_content .	
+				"<br/>Event Start: ".
+				date('g:ia', strtotime($gig['eventstart']));
+		}
+		if (strlen($gig['performancestart']) > 0) {
+			$post_content = $post_content .	
+				"<br/>Performance Start: ".
+				date('g:ia', strtotime($gig['performancestart']));
+		}
+		
+		$post_content = $post_content .	
+			"</td>
+			</tr>
+			<tr>
+			<td valign=\"top\">Where</td>
+			<td valign=\"top\">" .
+			stripslashes($gig['location']);
+
+		if (strlen($gig['description']) > 0) {
+			$post_content = $post_content .	
+				"</td>
+				</tr>
+				<tr>
+				<td valign=\"top\">Info</td>
+				<td valign=\"top\">" .
+				stripslashes($gig['description']);
+		}
+		if (strlen($gig['costume']) > 0) {
+			$post_content = $post_content .	
+				"</td>
+				</tr>
+				<tr>
+				<td valign=\"top\">Costume</td>
+				<td valign=\"top\">" .
+				stripslashes($gig['costume']);
+		}
+		
+		if (strlen($gig['coordinator']) > 0) {
+			$post_content = $post_content .	
+				"</td>
+				</tr>
+				<tr>
+				<td valign=\"top\">Co-ordinator</td>
+				<td valign=\"top\">" .
+				stripslashes($gig['coordinator']);
+		}
+		
+		if (strlen($gig['contact']) > 0) {
+			$post_content = $post_content .	
+				"</td>
+				</tr>
+				<tr>
+				<td valign=\"top\">Contact</td>
+				<td valign=\"top\">" .
+				stripslashes($gig['contact']);
+		}
+		
+		if (strlen($gig['attendees']) > 0) {
+			$post_content = $post_content .	
+				"</td>
+				</tr>
+				<tr>
+				<td valign=\"top\">Attendees</td>
+				<td valign=\"top\">" .
+				stripslashes($gig['attendees']);
+		}
+
+		$post_content = $post_content .	
+			"</td>
+			</tr>".
+			"	</tbody>
+			</table>
+			</div>";
+
+
+		return $post_content;
+	}
+
 }
 ?>

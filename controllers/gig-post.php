@@ -42,14 +42,10 @@ class carnieGigPostController {
 
 		$gig = $this->model->gig($table_name, $gigid);
 
-		$post_content = "<p>" . 
-			htmlentities(stripslashes($gig['description'])) . 
-			"</p>";
-
 		$post = array(
 			'post_status' => 'publish',
 			'post_title' => ($gig['date'] . " " . $gig['title']),
-			'post_content' => $post_content,
+			'post_content' => $this->gigsView->post_content($gig),
 			'post_category' => $this->category_ids()
 			);
 
