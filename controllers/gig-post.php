@@ -53,6 +53,11 @@ class carnieGigPostController {
 			'post_category' => $this->category_ids()
 			);
 
+		$gigtime = strtotime($gig['date']);
+		if ($gigtime < time()) {
+			$post['post_date'] = date("Y-m-d H:i:s", $gigtime);
+		}
+
 		if ($gig['postid']) {
 			$post['ID'] = $gig['postid'];
 			// Update the post
