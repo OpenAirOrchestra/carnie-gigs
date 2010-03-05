@@ -95,9 +95,9 @@ class carnieGigsCalendar {
 
 			   $this->migrate_legacy_data();
 
-			   $sql = "ALTER TABLE " . $table_name . " ADD `postid` tinyint(1) NOT NULL default '0';"
+			   $sql = "ALTER TABLE  " . $table_name . " ADD  `postid` INT NOT NULL DEFAULT  '0'";
 
-			   dbDelta($sql);
+			   $wpdb->query($sql);
 
 			   add_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);
 		   }
