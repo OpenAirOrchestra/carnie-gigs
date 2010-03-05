@@ -87,6 +87,9 @@ class carnieGigEditController {
 	function delete($gigid) {
 		global $wpdb;
 		$table_name = $wpdb->prefix . "carniegigs";
+		
+		// Delete post associated with gig.
+		$this->gigPostController->delete($gigid);
 
 		$title = $wpdb->get_var($wpdb->prepare("SELECT title FROM $table_name WHERE id = %d;", $gigid));
 

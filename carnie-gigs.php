@@ -92,7 +92,12 @@ class carnieGigsCalendar {
 			   require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 			   dbDelta($sql);
 
+
 			   $this->migrate_legacy_data();
+
+			   $sql = "ALTER TABLE " . $table_name . " ADD `postid` tinyint(1) NOT NULL default '0';"
+
+			   dbDelta($sql);
 
 			   add_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);
 		   }
