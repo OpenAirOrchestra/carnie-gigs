@@ -30,7 +30,7 @@ class carnieGigPostController {
 				array_push($gig_categories, $cat_id);
 			}
 		}
-		return $gig_categories
+		return $gig_categories;
 	}
 	   
 	/*
@@ -49,8 +49,8 @@ class carnieGigPostController {
 		$post = array(
 			'post_status' => 'publish',
 			'post_title' => ($gig['date'] . " " . $gig['title']),
-			'post_content' => $post_content
-			'post_category' => $this->category_ids();
+			'post_content' => $post_content,
+			'post_category' => $this->category_ids()
 			);
 
 		if ($gig['postid']) {
