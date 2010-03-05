@@ -31,6 +31,7 @@ require_once $include_folder . '/views/gig.php';
 require_once $include_folder . '/views/export_csv_form.php';
 require_once $include_folder . '/controllers/edit-carnie-gigs.php';
 require_once $include_folder . '/controllers/new-carnie-gig.php';
+require_once $include_folder . '/controllers/gig-post.php';
 require_once $include_folder . '/model/gig.php';
 require_once $include_folder . '/utility.php';
 require_once $include_folder . '/forms.php';

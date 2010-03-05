@@ -5,7 +5,7 @@
  */
 class carnieGigEditController {
 
-	private $gigsView, $model, $message;
+	private $gigsView, $model, $message, $gigPostController;
 	/*
 	 * Constructor
 	 */
@@ -13,6 +13,7 @@ class carnieGigEditController {
 		$this->gigsView = new carnieGigViews;
 		$this->model = new carnieGigModel;
 		$this->message = null;
+		$this->gigPostController = new carnieGigPostController;
 	}
 	   
 	/*
@@ -26,7 +27,10 @@ class carnieGigEditController {
 		if (! current_user_can('edit_pages')) {
 			$this->message = 'Current user cannot edit pages';
 		} else {
+			// Update gig in the database.
 			$this->message = $this->model->commit_form($table_name);
+			// Update post associated with gig.
+			$this->gigPostController->update($gig['id']);
 		}
 	}
 	   

@@ -5,7 +5,7 @@
  */
 class carnieGigNewController {
 
-	private $gigsView, $message, $model;
+	private $gigsView, $message, $model, $gigPostController;
 	/*
 	 * Constructor
 	 */
@@ -13,6 +13,7 @@ class carnieGigNewController {
 		$this->gigsView = new carnieGigViews;
 		$this->model = new carnieGigModel;
 		$this->message = null;
+		$this->gigPostController = new carnieGigPostController;
 	}
 	   
 	/*
@@ -27,6 +28,14 @@ class carnieGigNewController {
 			$this->message = 'Current user cannot publish pages';
 		} else {
 			$this->message = $this->model->commit_form($table_name);
+			// Warning: there is a race condition here!
+			// if other activity occurs between inserting the
+			// gig record in commit_form and this statement,
+			// the id will be incorrect.
+			$gigid = $wpdb->insert_id;
+
+			// Update post associated with gig.
+			$this->gigPostController->update($gigid);
 		}
 	}
 	   
