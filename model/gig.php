@@ -57,7 +57,7 @@ class carnieGigModel {
 	 */
 	function commit_form($tablename) {
 		$message = NULL;
-		$valid_columns = array( "id", "date", "title", "description", "location", "url", "privateevent", "calltime", "eventstart", "performancestart", "contact", "coordinator", "costume", "advertise", "cancelled", "closedcall", "attendees", "fee", "tentative");
+		$valid_columns = array( "date", "title", "description", "location", "url", "privateevent", "calltime", "eventstart", "performancestart", "contact", "coordinator", "costume", "advertise", "cancelled", "closedcall", "attendees", "fee", "tentative");
 		
 		global $wpdb;
 
