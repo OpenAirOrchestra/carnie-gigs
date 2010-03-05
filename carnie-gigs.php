@@ -132,9 +132,7 @@ class carnieGigsCalendar {
 		$results = $wpdb->get_results( $select, ARRAY_A );
 
 		foreach ($results as $gig) {
-			print_r($gig);
 			if ($gig['id']) {
-				echo "Update " . $gig['id'];
 				$gigPostController->update($gig['id']);
 			}
 		}
