@@ -396,7 +396,7 @@ class carnieGigViews {
 				"</td>
 				</tr>
 				<tr>
-				<td valign=\"top\"><strong>Co-ordinator</strong></td>
+				<td valign=\"top\"><strong>Coordinator</strong></td>
 				<td valign=\"top\">" .
 				stripslashes($gig['coordinator']);
 		}
