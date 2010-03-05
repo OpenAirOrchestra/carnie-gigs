@@ -25,6 +25,29 @@ class carnieGigPostController {
 
 		$gig = $this->model->gig($table_name, $gigid);
 
+		$post_content = "<p>" . 
+			htmlentities(stripslashes($gig['description'])) . 
+			"</p>";
+
+		$post = array(
+			'post_status' => 'publish'
+			'post_title' => $gig['date'] . " " . $gig['title']
+			'post_content' => $post_content
+			);
+
+		if ($gig['postid']) {
+			$post['ID'] = $gig['postid'];
+			// Update the post
+			$postid = wp_update_post( $post );
+		} else {
+			// Insert the post
+			$postid = wp_insert_post( $post );
+			
+			// Put the postid into the gig database record.
+			$wpdb->update( $table_name, array( 'postid' => $postid ), array ( 'id' => $gig['id'] ), array('%d'), array ('%d') );
+		}
+
+
 		echo "I will update the post for" . $gig['title'];
 	}
 
@@ -38,7 +61,10 @@ class carnieGigPostController {
 
 		$gig = $this->model->gig($table_name, $gigid);
 
-		echo "I will delete the post for " . $gig['title'];
+		$postid = $gig['postid'];
+		if ($postid) {
+			wp_delete_post( $postid );
+		}
 	}
 }
 ?>
