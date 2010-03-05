@@ -346,7 +346,7 @@ class carnieGigViews {
 			<tr>
 			<td valign=\"top\"><strong>When</strong></td>
 			<td valign=\"top\">" .
-			date('g:ia', strtotime($gig['date']));
+			date('D, d M Y', strtotime($gig['date']));
 
 		if (strlen($gig['calltime'])) {
 			$post_content = $post_content .	
