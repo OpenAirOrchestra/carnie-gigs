@@ -327,8 +327,8 @@ class carnieGigViews {
 
 		if ($gig['url']) {
 			$url = $gig['url'];
-			if ((strncasecmp($gig['url'], 'http://', 7) == 0) ||
-				(strncasecmp($gig['url'], 'https://', 8) == 0)) {
+			if ((strncasecmp($gig['url'], 'http://', 7) != 0) &&
+				(strncasecmp($gig['url'], 'https://', 8) != 0)) {
 				$url = "http://" . $url;
 			}
 			$post_content = $post_content .	
