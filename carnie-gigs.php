@@ -208,7 +208,7 @@ class carnieGigsCalendar {
 			}
 			$attendees = preg_split("/[,\r\n\t\f]+/",$string);
 
-			$widget = $attendanceView->attendanceView($gigid, $attendees);
+			$widget = $attendanceView->content($gigid, $attendees);
 		}
 		
 		return $widget;
