@@ -13,7 +13,7 @@ class carnieGigAttendanceView {
 	function content($gigid, $attendees) {
 
 		if ($attendees) {
-			$content = "<ul>";
+			$content = "";
 			
 			global $current_user;
 			get_currentuserinfo();
@@ -22,20 +22,27 @@ class carnieGigAttendanceView {
 				$display_name = $current_user->user_login;
 			}
 
-			$found = false;
+			$first = true;
 			foreach ($attendees as $value) {
 				if ($value) {
 					$value = trim($value);
 					if (strlen($value)) {
-						if ($value == $display_name) {
-							$found = true;
+						if (strlen($content)) {
+							$content = $content . ", ";
 						}
-						$content = $content . "<li>" . $value . "</li>";
+						if ($value == $display_name) {
+							$found = true; 
+							$content = $content . "<span style=\"font-weight:bolder\">";
+						} else {
+							$content = $content . "<span>";
+						}
+
+						$content = $content . $value . "</span>";
 					}
 				}
 			}
 											
-			$content = $content . "</ul>";
+			$content = $content . "";
 		}
 		
 		// refresh nonce
