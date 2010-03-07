@@ -12,24 +12,31 @@ class carnieGigAttendanceView {
 	 */
 	function content($gigid, $attendees) {
 
-		$content = "<ul>";
-		
-		global $current_user;
-		get_currentuserinfo();
-		$display_name = $current_user->display_name;
-		if (! $display_name) {
-			$display_name = $current_user->user_login;
-		}
-
-		$found = false;
-		foreach ($attendees as $value) {
-			if (trim($value) == $display_name) {
-				$found = true;
+		if ($attendees) {
+			$content = "<ul>";
+			
+			global $current_user;
+			get_currentuserinfo();
+			$display_name = $current_user->display_name;
+			if (! $display_name) {
+				$display_name = $current_user->user_login;
 			}
-			$content = $content . "<li>" . $value . "</li>";
+
+			$found = false;
+			foreach ($attendees as $value) {
+				if ($value) {
+					$value = trim($value);
+					if (strlen($value)) {
+						if ($value == $display_name) {
+							$found = true;
+						}
+						$content = $content . "<li>" . $value . "</li>";
+					}
+				}
+			}
+											
+			$content = $content . "</ul>";
 		}
-								                
-		$content = $content . "</ul>";
 		
 		// refresh nonce
 		$this->nonce = wp_create_nonce('carnie-gig-attendance');
@@ -63,7 +70,10 @@ class carnieGigAttendanceView {
 	 */
 	function widget($gig) {
 		// Split attendees into attendees array
-		$attendees = preg_split("/[,\r\n\t\f]+/",$gig['attendees']);
+		$attendees = array();
+		if ($gig['attendees'] && strlen($gig['attendees'])) {
+			$attendees = preg_split("/[,\r\n\t\f]+/",$gig['attendees']);
+		}
 
 		$widget = $this->title($gig);
 		$widget = $widget . $this->content($gig['id'], $attendees);

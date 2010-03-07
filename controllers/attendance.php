@@ -28,7 +28,8 @@ class carnieGigAttendanceController {
 
 			// Remove any previous occurrence of display_name
 			foreach ($old_attendees as $key => $value) {
-				if (trim($value) != $display_name) {
+				$value = trim($value);
+				if ($value != $display_name && strlen($value)) {
 					array_push($new_attendees, trim($value));
 				}
 			}
