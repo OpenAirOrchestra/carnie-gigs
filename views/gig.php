@@ -415,15 +415,15 @@ class carnieGigViews {
 				stripslashes($gig['contact']);
 		}
 		
-		if (strlen($gig['attendees']) > 0) {
-			$post_content = $post_content .	
-				"</td>
-				</tr>
-				<tr>
-				<td valign=\"top\"><strong>Attendees</strong></td>
-				<td valign=\"top\">" .
-				stripslashes($gig['attendees']);
-		}
+		$post_content = $post_content .	
+			"</td>
+			</tr>
+			<tr>
+			<td valign=\"top\"><strong>Attendees</strong></td>
+			<td valign=\"top\">\n" .
+			"[gigattendance gigid=\"" .  $gig['id'] . "\"]" . 
+			stripslashes($gig['attendees']) .
+			"[/gigattendance]";
 
 		$post_content = $post_content .	
 			"</td>
