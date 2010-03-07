@@ -2,8 +2,8 @@
 /*
 Plugin Name: Carnie Gigs
 Plugin URI: http://members.thecarnivalband.com
-Description: A gig calendar plugin for The Carnival Band (in development, not functional yet)
-Version: 0.1
+Description: A gig calendar plugin for The Carnival Band 
+Version: 0.2
 Author: Open Air Orchestra Webmonkey
 Author URI: mailto://oaowebmonkey@gmail.com
 License: GPL2
@@ -29,9 +29,11 @@ $include_folder = dirname(__FILE__);
 require_once $include_folder . '/version.php';
 require_once $include_folder . '/views/gig.php';
 require_once $include_folder . '/views/export_csv_form.php';
+require_once $include_folder . '/views/attendance.php';
 require_once $include_folder . '/controllers/edit-carnie-gigs.php';
 require_once $include_folder . '/controllers/new-carnie-gig.php';
 require_once $include_folder . '/controllers/gig-post.php';
+require_once $include_folder . '/controllers/attendance.php';
 require_once $include_folder . '/model/gig.php';
 require_once $include_folder . '/utility.php';
 require_once $include_folder . '/forms.php';
@@ -132,9 +134,7 @@ class carnieGigsCalendar {
 		$results = $wpdb->get_results( $select, ARRAY_A );
 
 		foreach ($results as $gig) {
-			print_r($gig);
 			if ($gig['id']) {
-				echo "Update " . $gig['id'];
 				$gigPostController->update($gig['id']);
 			}
 		}
@@ -147,7 +147,7 @@ class carnieGigsCalendar {
          * [carniegigs time="past"] 
          * [carniegigs time="future"] 
 	 */
-	function carniegigs_shortcode_handler($atts, $content="null", $code="") {
+	function carniegigs_shortcode_handler($atts, $content=NULL, $code="") {
 		   extract( shortcode_atts( array(
 			         'time' => 'all',
 			         'display' => 'short'
@@ -170,6 +170,49 @@ class carnieGigsCalendar {
 		   $this->gigsView->shortGigs($results);
 	}
 
+	/*
+	 * Handles gigattendance shortcode
+	 * examples:
+	 * [gigattendance gigid="12"] 
+	 * [gigattendance gigid="12"] Alice, Bruce, Chen [/gigattendance]
+	 */
+	function gigattendance_shortcode_handler($atts, $content=NULL, $code="") {
+		global $wpdb;
+		$table_name = $wpdb->prefix . "carniegigs";
+
+		$attendanceController = new carnieGigAttendanceController;
+		$attendanceView = new carnieGigAttendanceView;
+		$gig = NULL;
+		$widget = "";
+		
+		extract( shortcode_atts( array( 'gigid' => '0'), $atts ) );
+		
+		$model = new carnieGigModel;
+		if ($_POST['gigattendance']) {
+			$attendanceController->process_form($gigid);
+			$model = new carnieGigModel;
+			$gig = $model->gig($table_name, $gigid);
+		} 
+		
+		if ($content == NULL) {
+			if (! $gig) {
+				$gig = $model->gig($table_name, $gigid);
+			}
+			$widget = $attendanceView->$widget($gig);
+		} else {
+			$string = NULL;
+			if ($gig) {
+				$string = $gig['attendees'];
+			} else {
+				$string = $content;
+			}
+			$attendees = preg_split("/[,\r\n\t\f]+/",$string);
+
+			$widget = $attendanceView->attendanceView($gigid, $attendees);
+		}
+		
+		return $widget;
+	}
 
 	/*
 	 * Enqueue style-file, if it exists.
@@ -222,6 +265,7 @@ register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
 
 // shortcodes
 add_shortcode('carniegigs', array($CARNIEGIGSCAL, 'carniegigs_shortcode_handler'));
+add_shortcode('gigattendance', array($CARNIEGIGSCAL, 'gigattendance_shortcode_handler'));
 
 // actions
 add_action('wp_print_styles', array($CARNIEGIGSCAL, 'add_stylesheet'));

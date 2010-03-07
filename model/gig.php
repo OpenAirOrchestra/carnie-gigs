@@ -18,6 +18,36 @@ class carnieGigModel {
 	}
 
 	/*
+	 * Update a gig in the database.  
+	 * Returns result of the query.
+	 *
+	 * BEWARE: In this case,
+	 * values in the associateive array are assumed to be
+	 * already validated, error checked, and in database format.
+	 */
+	function update($table_name, $gig) {
+		$query = "UPDATE " . $tablename . " SET ";
+
+		$values = "";
+
+		foreach ( $gig as $ind=>$value ) {
+			if (strlen($values) > 0) {
+				$values = $values . ",";
+			}	
+			$values = $values . "`" . $wpdb->escape($ind) . "` = ";
+			if ($value == null) {
+				$values = $values . "NULL";
+			} else {
+				$values = $values . "'" . $wpdb->escape($value) . "'";
+			}
+		}
+		$query = $query . $values;
+		$query = $query . " WHERE id=$id LIMIT 1";
+
+		return ($wpdb->query($query));
+	}
+
+	/*
 	 * Validate $_POST as a gig.  Returns associative array of
 	 * form errors
 	 */

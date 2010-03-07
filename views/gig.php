@@ -49,6 +49,10 @@ class carnieGigViews {
 
 		print '<tr id="'. $idstr . '" class="' . $classstr . '">';
 
+		if (is_admin()) {
+			echo '<td>' . $gig['id'] . "</td>";
+		}
+
 		echo '<td class="column-title">';
 		if ($permalink) {
 			echo '<strong><a class="row-title" href="' . $permalink . '">' . stripslashes($gig['title']) . "</a></strong>";
