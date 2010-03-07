@@ -12,8 +12,9 @@ class carnieGigAttendanceController {
 		global $wpdb;
 		$table_name = $wpdb->prefix . "carniegigs";
 
-		// Verify nonce.
-		if ( wp_verify_nonce($_POST['carnie-gigs-csv-verify-key'], 'carnie-gig-attendance') ) {
+		// Verify nonce. and gigid
+		if ( wp_verify_nonce($_POST['carnie-gigs-csv-verify-key'], 'carnie-gig-attendance')  && 
+		($_POST['gigid'] == $gigid)) {
 			global $current_user;
 			get_currentuserinfo();
 			$display_name = $current_user->display_name;

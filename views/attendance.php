@@ -54,6 +54,8 @@ class carnieGigAttendanceView {
 			$content = $content . 'add"/>
 			<input class="button" type="submit" name="Add Me" value="Add Me" />';
 		}
+		$content = $content . '<input type="hidden" name="gigid" value="' .
+			$gigid . '"/>';
 		$content = $content . "</form>";
 		return $content;
 	}
