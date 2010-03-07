@@ -189,7 +189,7 @@ class carnieGigsCalendar {
 		
 		$model = new carnieGigModel;
 		if ($_POST['gigattendance']) {
-			$attendanceController->process_form($gigid);
+			$attendanceController->handle_post($gigid);
 			$model = new carnieGigModel;
 			$gig = $model->gig($table_name, $gigid);
 		} 
