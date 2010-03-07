@@ -423,7 +423,7 @@ class carnieGigViews {
 			<td valign=\"top\">\n" .
 			"[gigattendance gigid=\"" .  $gig['id'] . "\"]" . 
 			stripslashes($gig['attendees']) .
-			"[/gigattendance]";
+			"    [/gigattendance]";
 
 		$post_content = $post_content .	
 			"</td>
