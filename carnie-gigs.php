@@ -198,7 +198,7 @@ class carnieGigsCalendar {
 			if (! $gig) {
 				$gig = $model->gig($table_name, $gigid);
 			}
-			$widget = $attendanceView->$widget($gig);
+			$widget = $attendanceView->widget($gig);
 		} else {
 			$string = NULL;
 			if ($gig) {
