@@ -28,22 +28,25 @@ class carnieGigModel {
 	function update($table_name, $gig) {
 		global $wpdb;
 
-		$query = "UPDATE " . $tablename . " SET ";
+
+		$query = "UPDATE " . $table_name . " SET ";
 		$values = "";
 
 		foreach ( $gig as $ind=>$value ) {
-			if (strlen($values) > 0) {
-				$values = $values . ",";
-			}	
-			$values = $values . "`" . $wpdb->escape($ind) . "` = ";
-			if ($value == null) {
-				$values = $values . "NULL";
-			} else {
-				$values = $values . "'" . $wpdb->escape($value) . "'";
+			if ($ind != 'id') {
+				if (strlen($values) > 0) {
+					$values = $values . ",";
+				}	
+				$values = $values . "`" . $wpdb->escape($ind) . "` = ";
+				if ($value == null) {
+					$values = $values . "NULL";
+				} else {
+					$values = $values . "'" . $wpdb->escape($value) . "'";
+				}
 			}
 		}
 		$query = $query . $values;
-		$query = $query . " WHERE id=$id LIMIT 1";
+		$query = $query . " WHERE id=" . $gig['id'] . " LIMIT 1";
 
 		return ($wpdb->query($query));
 	}

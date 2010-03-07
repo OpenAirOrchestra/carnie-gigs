@@ -45,7 +45,7 @@ class carnieGigAttendanceController {
 			$update['id'] = $gig['id'];
 			$update['attendees'] =  implode(", ", $new_attendees);
 			$model->update($table_name, $update);
-			
+
 			// update post
 			$gigPostController = new carnieGigPostController;
 			$gigPostController->update($gigid);
