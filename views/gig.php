@@ -17,7 +17,7 @@ class carnieGigViews {
 		$this->nonce = wp_create_nonce('carnie-gigs');
 		echo '<table class="gigs';
 		if (is_admin()) {
-			echo " widefat fixed";
+			echo " widefat ";
 		}
 		print '">';
 		$even = false;
