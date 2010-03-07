@@ -17,10 +17,13 @@ class carnieGigAttendanceController {
 			global $current_user;
 			get_currentuserinfo();
 			$display_name = $current_user->display_name;
+			if (! $display_name) {
+				$display_name = $current_user->user_login;
+			}
 
 			$model = new carnieGigModel;
 			$gig = $model->gig($table_name, $gigid);
-			$old_attendees = $this->preg_split("/[,\r\n\t\f]+/",$gig['attendees']);
+			$old_attendees = preg_split("/[,\r\n\t\f]+/",$gig['attendees']);
 			$new_attendees = array();
 
 			// Remove any previous occurrence of display_name
@@ -38,8 +41,9 @@ class carnieGigAttendanceController {
 			sort($new_attendees);
 			
 			// update database
-			$update = array( 'id' => $gig['id'], 
-				'attendees' => implode(", ", $new_attendees));
+			$update = array();
+			$update['id'] = $gig['id'];
+			$update['attendees'] =  implode(", ", $new_attendees);
 			$model->update($table_name, $update);
 			
 			// update post

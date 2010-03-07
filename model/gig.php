@@ -26,8 +26,9 @@ class carnieGigModel {
 	 * already validated, error checked, and in database format.
 	 */
 	function update($table_name, $gig) {
-		$query = "UPDATE " . $tablename . " SET ";
+		global $wpdb;
 
+		$query = "UPDATE " . $tablename . " SET ";
 		$values = "";
 
 		foreach ( $gig as $ind=>$value ) {

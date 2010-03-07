@@ -17,6 +17,10 @@ class carnieGigAttendanceView {
 		global $current_user;
 		get_currentuserinfo();
 		$display_name = $current_user->display_name;
+		if (! $display_name) {
+			$display_name = $current_user->user_login;
+		}
+
 		$found = false;
 		foreach ($attendees as $value) {
 			if (trim($value) == $display_name) {
