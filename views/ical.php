@@ -57,10 +57,10 @@ foreach ($gigs as $gig) {
 	echo "BEGIN:VEVENT\n";
 	echo "SUMMARY:" . $title . "\n";
 	if (strlen($description) > 0) {
-		echo "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:" . $description . "\n";
+		echo "DESCRIPTION;ENCODING=QUOTED-PRINTABLE:" . $description . " \n";
 	}
 	if (strlen($location) > 0) {
-		echo "LOCATION;ENCODING=QUOTED-PRINTABLE:" . $location . "\n"; 
+		echo "LOCATION;ENCODING=QUOTED-PRINTABLE:" . $location . " \n"; 
 	}
 	echo "DTSTART:" . $dtstart . "\n";
 	echo "DTEND:" .  $dtend . "\n";
