@@ -65,8 +65,16 @@ class carnieGigsCalendar {
 				),
 				'description' => 'A Carnival Band Gig',
 				'public' => true,
+				'register_meta_box_cb' => array($CARNIEGIGSCAL, 'register_meta'),
 			)
 		);
+	}
+
+	/*
+	 * Register meta boxes for Gigs
+	 */
+	function register_meta() {
+		// TODO: what do I do here?
 	}
 }
 
