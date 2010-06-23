@@ -65,7 +65,7 @@ class carnieGigsCalendar {
 				),
 				'description' => 'A Carnival Band Gig',
 				'public' => true,
-				'register_meta_box_cb' => array($CARNIEGIGSCAL, 'register_meta'),
+				'register_meta_box_cb' => 'carnie_gigs_register_meta_box_cb',
 			)
 		);
 	}
@@ -108,5 +108,9 @@ add_action('init',  array($CARNIEGIGSCAL, 'create_taxonomy'));
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );
 
+
+// Callback functions
+function carnie_gigs_register_meta_box_cb() {
+}
 
 ?>
