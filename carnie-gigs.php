@@ -71,10 +71,28 @@ class carnieGigsCalendar {
 	}
 
 	/*
-	 * Register meta boxes for Gigs
+	 * Create taxonomy
+	 */
+	function create_taxonomy() {
+		register_taxonomy_for_object_type('post_tag', 'gig');
+	}
+
+	/*
+	 * Callback function that to be called when setting up the meta 
+	 * boxes for the edit form. 
 	 */
 	function register_meta() {
-		// TODO: what do I do here?
+		// TODO: remove_meta_box() and add_meta_box() calls.
+	}
+
+	/*
+	 * Filter for home page to add gigs
+	 */
+	function pre_get_posts( $query ) {
+		
+		if ( is_home() || is_feed() ) {
+			$query->set( 'post_type', array( 'post', 'gig' ));
+		}
 	}
 }
 
@@ -85,5 +103,10 @@ register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
 
 // actions
 add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));
+add_action('init',  array($CARNIEGIGSCAL, 'create_taxonomy'));
+
+// Filters
+add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );
+
 
 ?>
