@@ -27,6 +27,7 @@ License: GPL2
 
 $include_folder = dirname(__FILE__);
 require_once $include_folder . '/version.php';
+require_once $include_folder . '/views/meta_box_admin.php';
 
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
@@ -54,35 +55,38 @@ class carnieGigsCalendar {
 	}
 
 	/*
-	 * Create custom post type
+	 * Create custom post type and taxonomy
 	 */
 	function create_post_type() {
 		register_post_type( 'gig',
 			array(
 				'labels' => array(
 					'name' => __( 'Gigs' ),
-					'singular_name' => __( 'Gig' )
-				),
-				'description' => 'A Carnival Band Gig',
+					'singular_name' => __( 'Gig' ),
+					'add_new' => __( 'Add New' ),
+					'add_new_item' => __( 'Add New Gig' ),
+					'edit' => __( 'Edit' ),
+					'edit_item' => __( 'Edit Gig' ),
+					'new_item' => __( 'New Gig' ),
+					'view' => __( 'View Gig' ),
+					'view_item' => __( 'View Gig' ),
+					'search_items' => __( 'Search Gigs' ),
+					'not_found' => __( 'No gigs found' ),
+					'not_found_in_trash' => __( 'No gigs found in Trash' ),
+					'parent' => __( 'Parent Gig' ),
+					),
+				'description' => 'A gig is a scheduled Carnival Band Performance',
 				'public' => true,
+				'show_ui' => true,
+				'publicly_queryable' => true,
+				'exclude_from_search' => false,
+				'menu_position' => 20,
+				'supports' => array( 'title', 'editor', 'revisions', 'author', 'excerpt', 'comments' ),
+				'taxonomies' => array( 'post_tag', 'category '),
 				'register_meta_box_cb' => 'carnie_gigs_register_meta_box_cb',
+
 			)
 		);
-	}
-
-	/*
-	 * Create taxonomy
-	 */
-	function create_taxonomy() {
-		register_taxonomy_for_object_type('post_tag', 'gig');
-	}
-
-	/*
-	 * Callback function that to be called when setting up the meta 
-	 * boxes for the edit form. 
-	 */
-	function register_meta() {
-		// TODO: remove_meta_box() and add_meta_box() calls.
 	}
 
 	/*
@@ -94,6 +98,12 @@ class carnieGigsCalendar {
 			$query->set( 'post_type', array( 'post', 'gig' ));
 		}
 	}
+
+	function register_meta_box() {
+		// remove_meta_box() and add_meta_box() calls.
+		add_meta_box("carnie-gig-meta", "Gig Details", "carnie_gig_meta",
+			    "gig", "normal", "high");
+	}
 }
 
 $CARNIEGIGSCAL = new carnieGigsCalendar;
@@ -103,14 +113,20 @@ register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
 
 // actions
 add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));
-add_action('init',  array($CARNIEGIGSCAL, 'create_taxonomy'));
 
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );
 
 
 // Callback functions
+
+/*
+ * Callback function that to be called when setting up the meta 
+ * boxes for the edit form. 
+ */
 function carnie_gigs_register_meta_box_cb() {
+	global $CARNIEGIGSCAL;
+	$CARNIEGIGSCAL->register_meta_box();
 }
 
 ?>
