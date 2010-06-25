@@ -34,12 +34,30 @@ require_once $include_folder . '/views/meta_box_admin.php';
  */
 class carnieGigsCalendar {
 
-	private $carnie_gigs_meta_form_view;
+	private $carnie_gigs_meta_form_view,
+		$metadata_prefix,
+		$metadata_fields;
 
 	/*
 	 * Constructor
 	 */
+
 	function __construct() {
+	
+		$this->metadata_prefix = "cbg_";
+		$this->metadata_fields = array(
+			array('name' => 'Location',
+				'desc' => 'Where the gig is to be.',
+				'id' => $this->metadata_prefix . 'location',
+				'type' => 'textarea',
+			),
+			array('name' => 'Fee',
+				'desc' => 'How much the band is to be paid.',
+				'id' => $prefix . 'fee',
+				'type' => 'text',
+				'std' => '0'
+			)
+		);
 	}
 	   
 	/*
@@ -109,7 +127,10 @@ class carnieGigsCalendar {
 		add_meta_box("carnie-gig-meta", 
 			"Gig Details", 
 			array($this->carnie_gigs_meta_form_view, 'render'),
-			"gig", "normal", "high");
+			"gig", "normal", "high",
+			array('metadata_prefix' => $this->metadata_prefix,
+			      'metadata_fields' => $this->metadata_fields)
+		);
 	}
 }
 
