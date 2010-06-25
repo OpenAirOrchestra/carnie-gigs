@@ -3,8 +3,13 @@
 /*
  * Renders meta box for carnie gig... admin UI
  */
+class carnieGigsMetaFormView {
 
-function carnie_gig_meta() { 
-	echo "Boo!"; 
+	/*
+	 * Render form for carnie gigs meta box
+	 */
+	function render() { 
+		echo "Boo You! (http://matth.eu/wordpress-date-field-plugin)"; 
+	}
 }
 ?>

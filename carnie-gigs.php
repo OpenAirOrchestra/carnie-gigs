@@ -34,6 +34,8 @@ require_once $include_folder . '/views/meta_box_admin.php';
  */
 class carnieGigsCalendar {
 
+	private $carnie_gigs_meta_form_view;
+
 	/*
 	 * Constructor
 	 */
@@ -83,7 +85,7 @@ class carnieGigsCalendar {
 				'menu_position' => 20,
 				'supports' => array( 'title', 'editor', 'revisions', 'author', 'excerpt', 'comments' ),
 				'taxonomies' => array( 'post_tag', 'category '),
-				'register_meta_box_cb' => 'carnie_gigs_register_meta_box_cb',
+				'register_meta_box_cb' => array( $this, 'register_meta_box'),
 
 			)
 		);
@@ -100,9 +102,14 @@ class carnieGigsCalendar {
 	}
 
 	function register_meta_box() {
+
+		$this->carnie_gigs_meta_form_view = new carnieGigsMetaFormView;
+
 		// remove_meta_box() and add_meta_box() calls.
-		add_meta_box("carnie-gig-meta", "Gig Details", "carnie_gig_meta",
-			    "gig", "normal", "high");
+		add_meta_box("carnie-gig-meta", 
+			"Gig Details", 
+			array($this->carnie_gigs_meta_form_view, 'render'),
+			"gig", "normal", "high");
 	}
 }
 
@@ -117,16 +124,5 @@ add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );
 
-
-// Callback functions
-
-/*
- * Callback function that to be called when setting up the meta 
- * boxes for the edit form. 
- */
-function carnie_gigs_register_meta_box_cb() {
-	global $CARNIEGIGSCAL;
-	$CARNIEGIGSCAL->register_meta_box();
-}
 
 ?>
