@@ -28,6 +28,7 @@ License: GPL2
 $include_folder = dirname(__FILE__);
 require_once $include_folder . '/version.php';
 require_once $include_folder . '/views/meta_box_admin.php';
+require_once $include_folder . '/views/gig.php';
 require_once $include_folder . '/controllers/meta_box_admin.php';
 
 /*
@@ -37,6 +38,7 @@ class carnieGigsCalendar {
 
 	private $carnie_gigs_meta_form_view,
 		$carnie_gigs_meta_form_controller,
+		$carnie_gig_view,
 		$metadata_prefix,
 		$metadata_fields;
 
@@ -111,6 +113,11 @@ class carnieGigsCalendar {
 			array('name' => 'Private Event',
 				'desc' => 'Is this a private event, like a wedding.',
 				'id' => $this->metadata_prefix . 'privateevent',
+				'type' => 'checkbox',
+			),
+			array('name' => 'Closed Call',
+				'desc' => 'Is this gig only for specific band members to play at.',
+				'id' => $this->metadata_prefix . 'closedcall',
 				'type' => 'checkbox',
 			),
 			array('name' => 'Attendees',
@@ -218,6 +225,23 @@ class carnieGigsCalendar {
 			$this->carnie_gigs_meta_form_controller->save_data($post_id, $this->metadata_fields);
 		}
 	}
+
+	/*
+	 * Filter for the content.  If displaying gig, and not in an
+	 * admin page, add our custom metadata
+	 */
+	function the_content($content) {
+		$post = get_post(get_the_id());
+
+		if (! is_admin() && get_post_type($post) == 'gig' ) {
+			if (! $this->carnie_gig_view) {
+				$this->carnie_gig_view = new carnieGigView;
+			}
+			$content = $this->carnie_gig_view->the_content($content, $this->metadata_prefix);
+		}
+
+		return $content;
+	}
 }
 
 $CARNIEGIGSCAL = new carnieGigsCalendar;
@@ -229,8 +253,8 @@ register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
 add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));
 add_action('save_post', array($CARNIEGIGSCAL, 'save_post_data'));
 
-
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );
+add_filter( 'the_content', array($CARNIEGIGSCAL, 'the_content') );
 
 ?>
