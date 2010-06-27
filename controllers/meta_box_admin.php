@@ -36,7 +36,13 @@ class carnieGigsMetaFormController {
 			$old = get_post_meta($post_id, $field['id'], true);
 			$new = $_POST[$field['id']];
 			
-			// TODO: special handling of time and date fields.
+			// special handling of date time fields.
+			if ($new && $field['type'] == 'time') {
+				$new = date('H:i:s', strtotime($new));
+			}
+			if ($new && $field['type'] == 'date') {
+				$new = date('Y-m-d', strtotime($new));
+			}
 
 			if ($new && $new != $old) {
 				update_post_meta($post_id, $field['id'], $new);

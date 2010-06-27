@@ -233,5 +233,4 @@ add_action('save_post', array($CARNIEGIGSCAL, 'save_post_data'));
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );
 
-
 ?>

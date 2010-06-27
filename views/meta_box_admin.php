@@ -24,6 +24,7 @@ class carnieGigsMetaFormView {
 		foreach ($metabox['args']['metadata_fields'] as $field) {
 			// get current post metadata
 			$meta = get_post_meta($post->ID, $field['id'], true);
+			$meta = htmlentities(stripslashes($meta));
 			echo '<tr>',
 				'<th style="width:20%"><label for="', $field['id'], '">', $field['name'], '</label></th>', 
 				'<td>';
@@ -47,11 +48,19 @@ class carnieGigsMetaFormView {
 				case 'textarea':
 					echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">', $meta ? $meta : $field['std'], '</textarea>', ' ', $field['desc'];
 					break;
+/*
 				case 'date':
 					echo '<input type="date" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : '', '" /><br/>', ' ', $field['desc'];
 					break;
 				case 'time':
 					echo '<input type="time" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : '', '" /><br/>', ' ', $field['desc'];
+					break;
+*/
+				case 'date':
+					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? date('d M Y', strtotime($meta)) : $field['std'], '" size="30" style="width:97%" />', ' ', $field['desc'];
+					break;
+				case 'time':
+					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? date('g:ia', strtotime($meta)) : $field['std'], '" size="30" style="width:97%" />', ' ', $field['desc'];
 					break;
 				case 'url':
 					echo '<input type="url" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" style="width:97%" />', ' ', $field['desc'];
