@@ -117,14 +117,15 @@ class carnieGigView {
 		}
 		
 		// Attendees
-		$attendees = get_post_meta($post->ID, $metadata_prefix . 'attendees', true);
-		if (strlen($attendees)) {
-			$attendees = htmlentities(stripslashes($attendees));
-			$content = $content . ' <dt>Attendees</dt> ';
-			$content = $content . ' <dd> ';
-			$content = $content . $attendees ;
-			$content = $content . ' </dd> ';
+		$attendees = get_post_meta($post->ID, $metadata_prefix . 'attendees');
+		$content = $content . ' <dt>Attendees</dt> ';
+		$content = $content . ' <dd> ';
+		foreach ($attendees as $attendee) {
+			$attendee = htmlentities(stripslashes($attendee));
+			$content = $content . $sep . $attendee;
+			$sep = ', ';
 		}
+		$content = $content . ' </dd> ';
 
 		$content = $content . ' </dl> ';
 

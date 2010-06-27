@@ -44,10 +44,20 @@ class carnieGigsMetaFormController {
 				$new = date('Y-m-d', strtotime($new));
 			}
 
-			if ($new && $new != $old) {
-				update_post_meta($post_id, $field['id'], $new);
-			} elseif ('' == $new && $old) {
-				delete_post_meta($post_id, $field['id'], $old);
+			// Special handling of lists
+			if ($field['type'] == 'list') {
+				$new = preg_split("/[,\r\n\t\f]+/", $new);
+				delete_post_meta($post_id, $field['id']);
+				foreach($new as $value) {
+					$value = trim($value);
+					add_post_meta($post_id, $field['id'], $value);
+				}
+			} else {
+				if ($new && $new != $old) {
+					update_post_meta($post_id, $field['id'], $new);
+				} elseif ('' == $new && $old) {
+					delete_post_meta($post_id, $field['id'], $old);
+				}
 			}
 		}
 	}

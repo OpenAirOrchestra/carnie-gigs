@@ -23,8 +23,11 @@ class carnieGigsMetaFormView {
 		
 		foreach ($metabox['args']['metadata_fields'] as $field) {
 			// get current post metadata
-			$meta = get_post_meta($post->ID, $field['id'], true);
-			$meta = htmlentities(stripslashes($meta));
+			$single = $field['type'] != 'list';
+			$meta = get_post_meta($post->ID, $field['id'], $single);
+			if ($single) {
+				$meta = htmlentities(stripslashes($meta));
+			}
 			echo '<tr>',
 				'<th style="width:20%"><label for="', $field['id'], '">', $field['name'], '</label></th>', 
 				'<td>';
@@ -64,6 +67,18 @@ class carnieGigsMetaFormView {
 					break;
 				case 'url':
 					echo '<input type="url" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" style="width:97%" />', ' ', $field['desc'];
+					break;
+				case 'list':
+					echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">';
+					if ($meta) {
+						$sep = '';
+						foreach ($meta as $meta_value) {
+							$meta_value = htmlentities(stripslashes($meta_value));
+							echo $sep . $meta_value;
+							$sep = ', ';
+						}
+					} 
+					echo '</textarea>', ' ', $field['desc'];
 					break;
 				case 'text':
 				default:
