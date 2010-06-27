@@ -14,9 +14,10 @@ class carnieGigsMetaFormView {
 
 		// From http://www.deluxeblogtips.com/2010/04/how-to-create-meta-box-wordpress-post.html
 		// TODO: http://matth.eu/wordpress-date-field-plugin
+		//
 	       
 		// Use nonce for verification
-		echo '<input type="hidden" name="mytheme_meta_box_nonce" value="', wp_create_nonce(basename(__FILE__)), '" />';
+		echo '<input type="hidden" name="carnie_gig_meta_box_nonce" value="', wp_create_nonce('carnieMetaBox'), '" />';
 
 		echo '<table class="form-table">';
 		
@@ -41,10 +42,16 @@ class carnieGigsMetaFormView {
 					}
 					break;
 				case 'checkbox':
-					echo '<input type="checkbox" name="', $field['id'], '" id="', $field['id'], '"', $meta ? ' checked="checked"' : '', ' />';
+					echo '<input type="checkbox" name="', $field['id'], '" id="', $field['id'], '"', $meta ? ' checked="checked"' : '', ' /> <br/>', ' ', $field['desc'];
 					break;
 				case 'textarea':
 					echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">', $meta ? $meta : $field['std'], '</textarea>', ' ', $field['desc'];
+					break;
+				case 'date':
+					echo '<input type="date" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : '', '" /><br/>', ' ', $field['desc'];
+					break;
+				case 'time':
+					echo '<input type="time" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : '', '" /><br/>', ' ', $field['desc'];
 					break;
 				case 'text':
 				default:

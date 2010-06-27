@@ -28,6 +28,7 @@ License: GPL2
 $include_folder = dirname(__FILE__);
 require_once $include_folder . '/version.php';
 require_once $include_folder . '/views/meta_box_admin.php';
+require_once $include_folder . '/controllers/meta_box_admin.php';
 
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
@@ -35,6 +36,7 @@ require_once $include_folder . '/views/meta_box_admin.php';
 class carnieGigsCalendar {
 
 	private $carnie_gigs_meta_form_view,
+		$carnie_gigs_meta_form_controller,
 		$metadata_prefix,
 		$metadata_fields;
 
@@ -184,9 +186,13 @@ class carnieGigsCalendar {
 		}
 	}
 
+	/*
+	 * Resister meta box
+	 */
 	function register_meta_box() {
-
-		$this->carnie_gigs_meta_form_view = new carnieGigsMetaFormView;
+		if (! $this->carnie_gigs_meta_form_view) {
+			$this->carnie_gigs_meta_form_view = new carnieGigsMetaFormView;
+		}
 
 		// remove_meta_box() and add_meta_box() calls.
 		add_meta_box("carnie-gig-meta", 
@@ -197,6 +203,21 @@ class carnieGigsCalendar {
 			      'metadata_fields' => $this->metadata_fields)
 		);
 	}
+
+	/*
+	 * Save post metadata, only for a carnie gig
+	 */
+	function save_post_data($post_id) {
+		// Is the post a gig?
+		$post = get_post($post_id);
+		if (get_post_type($post) == 'gig') {
+
+			if (! $this->carnie_gigs_meta_form_controller) {
+				$this->carnie_gigs_meta_form_controller = new carnieGigsMetaFormController;
+			}
+			$this->carnie_gigs_meta_form_controller->save_data($post_id, $this->metadata_fields);
+		}
+	}
 }
 
 $CARNIEGIGSCAL = new carnieGigsCalendar;
@@ -206,6 +227,8 @@ register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
 
 // actions
 add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));
+add_action('save_post', array($CARNIEGIGSCAL, 'save_post_data'));
+
 
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );

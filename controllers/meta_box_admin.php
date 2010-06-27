@@ -8,11 +8,10 @@ class carnieGigsMetaFormController {
 	/*
 	 * save form data for carnie gigs meta box
 	 */
-	function save_data($post_id) { 
-		global $meta_box;
+	function save_data($post_id, $metabox_fields) { 
 
 		// verify nonce
-		if (!wp_verify_nonce($_POST['mytheme_meta_box_nonce'], basename(__FILE__))) {
+		if (!wp_verify_nonce($_POST['carnie_gig_meta_box_nonce'], carnieMetaBox)) {
 			return $post_id;
 		}
 
@@ -33,10 +32,12 @@ class carnieGigsMetaFormController {
 		}
 		 */
 
-		foreach ($meta_box['fields'] as $field) {
+		foreach ($metabox_fields as $field) {
 			$old = get_post_meta($post_id, $field['id'], true);
 			$new = $_POST[$field['id']];
 			
+			// TODO: special handling of time and date fields.
+
 			if ($new && $new != $old) {
 				update_post_meta($post_id, $field['id'], $new);
 			} elseif ('' == $new && $old) {
