@@ -60,7 +60,7 @@ class carnieGigsCalendar {
 			array('name' => 'URL',
 				'desc' => 'Link to a website or web page associated with the gig.',
 				'id' => $this->metadata_prefix . 'url',
-				'type' => 'text',
+				'type' => 'url',
 			),
 			array('name' => 'Call Time',
 				'desc' => 'When Carnies should show up for the gig.',

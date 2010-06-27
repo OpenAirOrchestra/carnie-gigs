@@ -53,6 +53,9 @@ class carnieGigsMetaFormView {
 				case 'time':
 					echo '<input type="time" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : '', '" /><br/>', ' ', $field['desc'];
 					break;
+				case 'url':
+					echo '<input type="url" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" style="width:97%" />', ' ', $field['desc'];
+					break;
 				case 'text':
 				default:
 					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" size="30" style="width:97%" />', ' ', $field['desc'];
