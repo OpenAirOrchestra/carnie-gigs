@@ -32,8 +32,11 @@ class carnieGigView {
 			}
 		}
 
+		$content = $content . ' <dl> ';
+
 		// Time details
-		$content = $content . '<h3>When</h3> ';
+		$content = $content . '<dt>When</dt> ';
+		$content = $content . ' <dd> ';
 
 		$date = get_post_meta($post->ID, $metadata_prefix . 'date', true);
 		$content = $content . '<strong>' . date('D, d M Y', strtotime($date)) . '</strong> ';
@@ -55,19 +58,23 @@ class carnieGigView {
 				"<br/>Performance Start: " .
 				date('g:ia', strtotime($performancestart));
 		}
+		$content = $content . ' </dd> ';
 
 		// Location
 		$location = get_post_meta($post->ID, $metadata_prefix . 'location', true);
 		if (strlen($location)) {
 			$location = htmlentities(stripslashes($location));
-			$content = $content . ' <h3>Where</h3> ';
+			$content = $content . ' <dt>Where</dt> ';
+			$content = $content . ' <dd> ';
 			$content = $content . $location ;
+			$content = $content . ' </dd> ';
 		}
 
 		// URL
 		$url = get_post_meta($post->ID, $metadata_prefix . 'url', true);
 		if (strlen($url)) {
-			$content = $content . ' <h3>Link</h3> ';
+			$content = $content . ' <dt>Link</dt> ';
+			$content = $content . ' <dd> ';
 			
 			if ((strncasecmp($url, 'http://', 7) != 0) &&
 				(strncasecmp($url, 'https://', 8) != 0)) {
@@ -76,39 +83,50 @@ class carnieGigView {
 			$content = $content .  '<a href="' . $url . '">' .
 				htmlentities(stripslashes($url)) .
 				"</a>";
+			$content = $content . ' </dd> ';
 		}
 
 		// Costume
 		$costume = get_post_meta($post->ID, $metadata_prefix . 'costume', true);
 		if (strlen($costume)) {
 			$costume = htmlentities(stripslashes($costume));
-			$content = $content . ' <h3>Costume</h3> ';
+			$content = $content . ' <dt>Costume</dt> ';
+			$content = $content . ' <dd> ';
 			$content = $content . $costume ;
+			$content = $content . ' </dd> ';
 		}
 		
 		// Co-ordinator
 		$coordinator = get_post_meta($post->ID, $metadata_prefix . 'coordinator', true);
 		if (strlen($coordinator)) {
 			$coordinator = htmlentities(stripslashes($coordinator));
-			$content = $content . ' <h3>Coordinator</h3> ';
+			$content = $content . ' <dt>Coordinator</dt> ';
+			$content = $content . ' <dd> ';
 			$content = $content . $coordinator ;
+			$content = $content . ' </dd> ';
 		}
 		
 		// Contact
 		$contact = get_post_meta($post->ID, $metadata_prefix . 'contact', true);
 		if (strlen($contact)) {
 			$contact = htmlentities(stripslashes($contact));
-			$content = $content . ' <h3>Contact</h3> ';
+			$content = $content . ' <dt>Contact</dt> ';
+			$content = $content . ' <dd> ';
 			$content = $content . $contact ;
+			$content = $content . ' </dd> ';
 		}
 		
 		// Attendees
 		$attendees = get_post_meta($post->ID, $metadata_prefix . 'attendees', true);
 		if (strlen($attendees)) {
 			$attendees = htmlentities(stripslashes($attendees));
-			$content = $content . ' <h3>Attendees</h3> ';
+			$content = $content . ' <dt>Attendees</dt> ';
+			$content = $content . ' <dd> ';
 			$content = $content . $attendees ;
+			$content = $content . ' </dd> ';
 		}
+
+		$content = $content . ' </dl> ';
 
 		return $content;
 	}
