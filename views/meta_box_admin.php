@@ -9,12 +9,11 @@ class carnieGigsMetaFormView {
 	 * Render form for carnie gigs meta box
 	 */
 	function render($post, $metabox) { 
-		echo "(http://matth.eu/wordpress-date-field-plugin)"; 
-		echo " (http://www.deluxeblogtips.com/2010/04/how-to-create-meta-box-wordpress-post.html) "; 
 
 		$metabox['args']['metadata_prefix'];
 
 		// From http://www.deluxeblogtips.com/2010/04/how-to-create-meta-box-wordpress-post.html
+		// TODO: http://matth.eu/wordpress-date-field-plugin
 	       
 		// Use nonce for verification
 		echo '<input type="hidden" name="mytheme_meta_box_nonce" value="', wp_create_nonce(basename(__FILE__)), '" />';
@@ -29,11 +28,27 @@ class carnieGigsMetaFormView {
 				'<td>';
 			
 			switch ($field['type']) {
-				case 'text':
-					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" size="30" style="width:97%" />', ' ', $field['desc'];
+				case 'select':
+					echo '<select name="', $field['id'], '" id="', $field['id'], '">';
+					foreach ($field['options'] as $option) {
+						echo '<option', $meta == $option ? ' selected="selected"' : '', '>', $option, '</option>';
+					}
+					echo '</select>';
+					break;
+				case 'radio':
+					foreach ($field['options'] as $option) {
+						echo '<input type="radio" name="', $field['id'], '" value="', $option['value'], '"', $meta == $option['value'] ? ' checked="checked"' : '', ' />', $option['name'];
+					}
+					break;
+				case 'checkbox':
+					echo '<input type="checkbox" name="', $field['id'], '" id="', $field['id'], '"', $meta ? ' checked="checked"' : '', ' />';
 					break;
 				case 'textarea':
 					echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">', $meta ? $meta : $field['std'], '</textarea>', ' ', $field['desc'];
+					break;
+				case 'text':
+				default:
+					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" size="30" style="width:97%" />', ' ', $field['desc'];
 					break;
 
 			}
