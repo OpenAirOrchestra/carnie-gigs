@@ -37,7 +37,7 @@ class carnieGigView {
 		$content = $content . ' <dl> ';
 
 		// Time details
-		$content = $content . '<dt>When</dt> ';
+		$content = $content . '<dt>When:</dt> ';
 		$content = $content . ' <dd> ';
 
 		$date = get_post_meta($post->ID, $metadata_prefix . 'date', true);
@@ -66,7 +66,7 @@ class carnieGigView {
 		$location = get_post_meta($post->ID, $metadata_prefix . 'location', true);
 		if (strlen($location)) {
 			$location = htmlentities(stripslashes($location));
-			$content = $content . ' <dt>Where</dt> ';
+			$content = $content . ' <dt>Where:</dt> ';
 			$content = $content . ' <dd> ';
 			$content = $content . $location ;
 			$content = $content . ' </dd> ';
@@ -75,7 +75,7 @@ class carnieGigView {
 		// URL
 		$url = get_post_meta($post->ID, $metadata_prefix . 'url', true);
 		if (strlen($url)) {
-			$content = $content . ' <dt>Link</dt> ';
+			$content = $content . ' <dt>Link:</dt> ';
 			$content = $content . ' <dd> ';
 			
 			if ((strncasecmp($url, 'http://', 7) != 0) &&
@@ -92,7 +92,7 @@ class carnieGigView {
 		$costume = get_post_meta($post->ID, $metadata_prefix . 'costume', true);
 		if (strlen($costume)) {
 			$costume = htmlentities(stripslashes($costume));
-			$content = $content . ' <dt>Costume</dt> ';
+			$content = $content . ' <dt>Costume:</dt> ';
 			$content = $content . ' <dd> ';
 			$content = $content . $costume ;
 			$content = $content . ' </dd> ';
@@ -102,7 +102,7 @@ class carnieGigView {
 		$coordinator = get_post_meta($post->ID, $metadata_prefix . 'coordinator', true);
 		if (strlen($coordinator)) {
 			$coordinator = htmlentities(stripslashes($coordinator));
-			$content = $content . ' <dt>Coordinator</dt> ';
+			$content = $content . ' <dt>Coordinator:</dt> ';
 			$content = $content . ' <dd> ';
 			$content = $content . $coordinator ;
 			$content = $content . ' </dd> ';
@@ -112,7 +112,7 @@ class carnieGigView {
 		$contact = get_post_meta($post->ID, $metadata_prefix . 'contact', true);
 		if (strlen($contact)) {
 			$contact = htmlentities(stripslashes($contact));
-			$content = $content . ' <dt>Contact</dt> ';
+			$content = $content . ' <dt>Contact:</dt> ';
 			$content = $content . ' <dd> ';
 			$content = $content . $contact ;
 			$content = $content . ' </dd> ';
@@ -137,7 +137,7 @@ class carnieGigView {
 
 		$attendees = get_post_meta($postid, $metadata_prefix . 'attendees');
 		sort($attendees);
-		$content = $content . ' <dt>Attendees</dt> ';
+		$content = $content . ' <dt>Attendees:</dt> ';
 		$content = $content . ' <dd> ';
 		foreach ($attendees as $attendee) {
 			$content = $content . $sep;
