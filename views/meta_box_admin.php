@@ -72,6 +72,7 @@ class carnieGigsMetaFormView {
 					echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">';
 					if ($meta) {
 						$sep = '';
+						sort($meta);
 						foreach ($meta as $meta_value) {
 							$meta_value = htmlentities(stripslashes($meta_value));
 							echo $sep . $meta_value;

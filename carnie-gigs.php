@@ -30,6 +30,7 @@ require_once $include_folder . '/version.php';
 require_once $include_folder . '/views/meta_box_admin.php';
 require_once $include_folder . '/views/gig.php';
 require_once $include_folder . '/controllers/meta_box_admin.php';
+require_once $include_folder . '/controllers/attendance.php';
 
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
@@ -38,6 +39,7 @@ class carnieGigsCalendar {
 
 	private $carnie_gigs_meta_form_view,
 		$carnie_gigs_meta_form_controller,
+		$carnie_gig_attendance_controller,
 		$carnie_gig_view,
 		$metadata_prefix,
 		$metadata_fields;
@@ -234,9 +236,17 @@ class carnieGigsCalendar {
 		$post = get_post(get_the_id());
 
 		if (! is_admin() && get_post_type($post) == 'gig' ) {
+			if ($_POST['gigattendance'] && $_POST['gigid'] == $post->ID) {
+				// process gig attendance
+				if (! $this->carnie_gig_attendance_controller) {
+					$this->carnie_gig_attendance_controller = new carnieGigAttendanceController;
+				}
+				$this->carnie_gig_attendance_controller->handle_post($post->ID, $metadata_prefix);
+			}
 			if (! $this->carnie_gig_view) {
 				$this->carnie_gig_view = new carnieGigView;
 			}
+			// render metadata for gig
 			$content = $this->carnie_gig_view->the_content($content, $this->metadata_prefix);
 		}
 

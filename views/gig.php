@@ -5,6 +5,8 @@
  */
 class carnieGigView {
 
+	private $nonce;
+
 	/*
 	 * content filter for gigs.
 	 */
@@ -117,18 +119,68 @@ class carnieGigView {
 		}
 		
 		// Attendees
-		$attendees = get_post_meta($post->ID, $metadata_prefix . 'attendees');
+		$content = $this->attendees($content, $metadata_prefix, $post->ID);
+		return $content;
+	}
+
+	/*
+	 * Return body of gig attendance widget.
+	 */
+	function attendees($content, $metadata_prefix, $postid) { 
+		global $current_user;
+		get_currentuserinfo();
+		$display_name = $current_user->display_name; 
+		if (! $display_name) {
+			$display_name = $current_user->user_login;
+		}
+		$found = false;
+
+		$attendees = get_post_meta($postid, $metadata_prefix . 'attendees');
+		sort($attendees);
 		$content = $content . ' <dt>Attendees</dt> ';
 		$content = $content . ' <dd> ';
 		foreach ($attendees as $attendee) {
+			$content = $content . $sep;
+
+			if ($attendee == $current_user->display_name ||
+			    $attendee == $current_user->user_login) {
+				    $found = true;
+				    $content = $content . '<span style=\"font-weight:bolder\">';
+			} else {
+				    $content = $content . '<span>';
+			}
+
 			$attendee = htmlentities(stripslashes($attendee));
-			$content = $content . $sep . $attendee;
+
+		        $content = $content . $attendee;
+			$content = $content . '</span>';
 			$sep = ', ';
 		}
+
+		// refresh nonce
+		$this->nonce = wp_create_nonce('carnie-gig-attendance');
+
+$content = $content . '
+<form method="POST"  action="">
+        <input type="hidden" name="carnie-gigs-csv-verify-key" value="' .
+                        $this->nonce . '"/>
+                        <input type="hidden" name="gigattendance" value="';
+
+                if ($found) {
+                        $content = $content . 'remove"/>
+                        <input class="button" type="submit" name="Remove Me" value="Remove Me" />';
+                } else {
+                        $content = $content . 'add"/>
+                        <input class="button" type="submit" name="Add Me" value= "Add Me" />';
+                }
+                $content = $content . '<input type="hidden" name="gigid" value=" ' .
+                        $postid . '"/>';
+                $content = $content . "</form>";
+
+
 		$content = $content . ' </dd> ';
 
 		$content = $content . ' </dl> ';
-
 		return $content;
 	}
 }
