@@ -241,7 +241,7 @@ class carnieGigsCalendar {
 				if (! $this->carnie_gig_attendance_controller) {
 					$this->carnie_gig_attendance_controller = new carnieGigAttendanceController;
 				}
-				$this->carnie_gig_attendance_controller->handle_post($post->ID, $metadata_prefix);
+				$this->carnie_gig_attendance_controller->handle_post($post->ID, $this->metadata_prefix);
 			}
 			if (! $this->carnie_gig_view) {
 				$this->carnie_gig_view = new carnieGigView;
