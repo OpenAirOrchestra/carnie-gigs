@@ -39,7 +39,6 @@ Its the path of least resistance to adapt some pre-existing carnie calendar php 
 This version is the first to provide any funcationality.
 
 = 0.3 =
-This version changes from using a separate database table to custom posts. 
-Any custom code you have accessing the gig database directly will have
-to be re-written.
+This version changes to using custom posts. There is still an exported database.
+Manual database import from old db may be required.
 

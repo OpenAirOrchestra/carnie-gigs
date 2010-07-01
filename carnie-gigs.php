@@ -31,6 +31,7 @@ require_once $include_folder . '/views/meta_box_admin.php';
 require_once $include_folder . '/views/gig.php';
 require_once $include_folder . '/controllers/meta_box_admin.php';
 require_once $include_folder . '/controllers/attendance.php';
+require_once $include_folder . '/model/fields.php';
 
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
@@ -48,92 +49,11 @@ class carnieGigsCalendar {
 	 * Constructor
 	 */
 	function __construct() {
-	
-		$this->metadata_prefix = "cbg_";
-		$this->metadata_fields = array(
-			array('name' => 'Date',
-				'desc' => 'When the gig is to be.',
-				'id' => $this->metadata_prefix . 'date',
-				'type' => 'date',
-			),
-			array('name' => 'Location',
-				'desc' => 'Where the gig is to be.',
-				'id' => $this->metadata_prefix . 'location',
-				'type' => 'textarea',
-			),
-			array('name' => 'URL',
-				'desc' => 'Link to a website or web page associated with the gig.',
-				'id' => $this->metadata_prefix . 'url',
-				'type' => 'url',
-			),
-			array('name' => 'Call Time',
-				'desc' => 'When Carnies should show up for the gig.',
-				'id' => $this->metadata_prefix . 'calltime',
-				'type' => 'time',
-			),
-			array('name' => 'Event Start',
-				'desc' => 'When the event starts or what the door time is for the public.',
-				'id' => $this->metadata_prefix . 'eventstart',
-				'type' => 'time',
-			),
-			array('name' => 'Performance Start',
-				'desc' => 'When the band starts making noise.',
-				'id' => $this->metadata_prefix . 'performancestart',
-				'type' => 'time',
-			),
-			array('name' => 'Contact',
-				'desc' => 'The contact person or organization for this gig.',
-				'id' => $this->metadata_prefix . 'contact',
-				'type' => 'textarea',
-			),
-			array('name' => 'Gig Coordinator',
-				'desc' => 'Which carnie is responsible for organizing and wrangling this gig.',
-				'id' => $this->metadata_prefix . 'coordinator',
-				'type' => 'text',
-			),
-			array('name' => 'Costume',
-				'desc' => 'What we want band members to wear for the gig.',
-				'id' => $this->metadata_prefix . 'costume',
-				'type' => 'text',
-			),
 
-			array('name' => 'Advertise',
-				'desc' => 'Check this if the gig is to appear on the public website for the band.',
-				'id' => $this->metadata_prefix . 'advertise',
-				'type' => 'checkbox',
-			),
-			array('name' => 'Cancelled',
-				'desc' => 'Check this if the gig is cancelled.',
-				'id' => $this->metadata_prefix . 'cancelled',
-				'type' => 'checkbox',
-			),
-			array('name' => 'Tentative',
-				'desc' => 'Check this to tentatively schedule a gig.',
-				'id' => $this->metadata_prefix . 'tentative',
-				'type' => 'checkbox',
-			),
-			array('name' => 'Private Event',
-				'desc' => 'Is this a private event, like a wedding.',
-				'id' => $this->metadata_prefix . 'privateevent',
-				'type' => 'checkbox',
-			),
-			array('name' => 'Closed Call',
-				'desc' => 'Is this gig only for specific band members to play at.',
-				'id' => $this->metadata_prefix . 'closedcall',
-				'type' => 'checkbox',
-			),
-			array('name' => 'Attendees',
-				'desc' => 'Who has committed to attending the gig, or who attended the gig. Please make this a comma separated list.',
-				'id' => $this->metadata_prefix . 'attendees',
-				'type' => 'list',
-			),
-			array('name' => 'Fee',
-				'desc' => 'How much the band is to be paid.',
-				'id' => $prefix . 'fee',
-				'type' => 'text',
-				'std' => '0'
-			)
-		);
+		$carnie_fields = new carnieFields;
+	
+		$this->metadata_prefix = $carnie_fields->metadata_prefix;
+		$this->metadata_fields = $carnie_fields->metadata_fields;
 	}
 	   
 	/*
@@ -141,17 +61,62 @@ class carnieGigsCalendar {
 	 * Migrate any data from legacy table
 	 */
 	function activate () {
-			   add_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);
+		$old_version = get_option("carniegigs_db_version");
+
+		if ($old_version) {
+			if ($old_version < CARNIE_GIGS_DB_VERSION) {
+				$this->migrate_legacy_data();
+				update_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);
+			}
+		} else {
+			add_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);
+		}
+
 	}
 
 	/*
-	 * Migrates legacy data from gigdb.gigs
+	 * Migrates any legacy data in old gig database table
 	 */
 	function migrate_legacy_data () {
+
+		$database_host = "carnivalband.db";
+		$database_name = "wordpress_cbm";
+		$database_user = "wordpress";
+		$database_password = 'wysi11y';
+		$legacy_wpdb = new wpdb( $database_user, $database_password, $database_name, $database_host ) or die ('could not connect');
+
+		$table_name = "wp_carniegigs";
+		$select = "SELECT * FROM " . $table_name;
+		$results = $legacy_wpdb->get_results( $select, ARRAY_A );
+
+		foreach ($results as $gig) {
+			if ($gig['postid']) {
+				// Remove original, legacy post (if any)
+				wp_delete_post( $gig[$postid], TRUE );
+			}
+			// Create new post
+			$post = array('post_status' => 'publish', 
+				'post_title' => $gig['title'], 
+				'post_content' => $gig['description'],
+				'post_type' => 'gig'
+			);
+			$gigtime = strtotime($gig['date']);
+			if ($gigtime < time()) {
+				$post['post_date'] = date("Y-m-d H:i:s", $gigtime);
+			}
+			
+			$postid = wp_insert_post( $post );
+
+			// Create associated metadata fields
+			if (! $this->carnie_gigs_meta_form_controller) {
+				$this->carnie_gigs_meta_form_controller = new carnieGigsMetaFormController;
+			}
+			$this->carnie_gigs_meta_form_controller->save_metadata($postid, $this->metadata_fields, $gig);
+		}
 	}
 
 	/*
-	 * Create custom post type and taxonomy
+	 * Create custom post type 
 	 */
 	function create_post_type() {
 		register_post_type( 'gig',
@@ -176,7 +141,7 @@ class carnieGigsCalendar {
 				'show_ui' => true,
 				'publicly_queryable' => true,
 				'exclude_from_search' => false,
-				'menu_position' => 20,
+				'menu_position' => 5,
 				'supports' => array( 'title', 'editor', 'revisions', 'author', 'excerpt', 'comments' ),
 				'taxonomies' => array( 'post_tag', 'category '),
 				'register_meta_box_cb' => array( $this, 'register_meta_box'),
