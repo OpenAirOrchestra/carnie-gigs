@@ -49,7 +49,6 @@ class carnieGigsCalendar {
 	 * Constructor
 	 */
 	function __construct() {
-
 		$carnie_fields = new carnieFields;
 	
 		$this->metadata_prefix = $carnie_fields->metadata_prefix;
@@ -111,7 +110,7 @@ class carnieGigsCalendar {
 			if (! $this->carnie_gigs_meta_form_controller) {
 				$this->carnie_gigs_meta_form_controller = new carnieGigsMetaFormController;
 			}
-			$this->carnie_gigs_meta_form_controller->save_metadata($postid, $this->metadata_fields, $gig);
+			$this->carnie_gigs_meta_form_controller->save_metadata($postid, $this->metadata_fields, $this->metadata_prefix, $gig);
 		}
 	}
 
@@ -189,7 +188,7 @@ class carnieGigsCalendar {
 			if (! $this->carnie_gigs_meta_form_controller) {
 				$this->carnie_gigs_meta_form_controller = new carnieGigsMetaFormController;
 			}
-			$this->carnie_gigs_meta_form_controller->save_data($post_id, $this->metadata_fields);
+			$this->carnie_gigs_meta_form_controller->save_data($post_id, $this->metadata_fields, $this->metadata_prefix);
 		}
 	}
 
