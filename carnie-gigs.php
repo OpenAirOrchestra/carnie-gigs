@@ -82,7 +82,7 @@ class carnieGigsCalendar {
 		$database_name = "wordpress_cbm";
 		$database_user = "wordpress";
 		$database_password = 'wysi11y';
-		$legacy_wpdb = new wpdb( $database_user, $database_password, $database_name, $database_host ) or die ('could not connect');
+		$legacy_wpdb = new wpdb( $database_user, $database_password, $database_name, $database_host ) or wp_die ('could not connect');
 
 		$table_name = "wp_carniegigs";
 		$select = "SELECT * FROM " . $table_name;
@@ -216,6 +216,27 @@ class carnieGigsCalendar {
 
 		return $content;
 	}
+
+	/*
+	 * Create admin menu(s) for this plugin.  
+	 * The admin menu gets us to managing options.
+	 */
+	function admin_menu() {
+		add_options_page('Gigs Options', 'Gigs', 'manage_options', 'carnie-gigs-options', array($this, 'options_page'));
+	}
+
+	/*
+	 * Call to render options page: TODO
+	 */
+	function options_page() {
+		if (!current_user_can('manage_options'))  {
+			wp_die( __('You do not have sufficient permissions to access this page.') );
+		} 
+		echo '<div class="wrap">';
+		echo '<p>Here is where the form goes for external database.</p>';
+		echo '</div>';
+
+	}
 }
 
 $CARNIEGIGSCAL = new carnieGigsCalendar;
@@ -226,6 +247,8 @@ register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
 // actions
 add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));
 add_action('save_post', array($CARNIEGIGSCAL, 'save_post_data'));
+add_action('admin_menu', array($CARNIEGIGSCAL, 'admin_menu'));
+
 
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );

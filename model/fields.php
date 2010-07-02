@@ -90,7 +90,7 @@ class carnieFields {
 			),
 			array('name' => 'Fee',
 				'desc' => 'How much the band is to be paid.',
-				'id' => $prefix . 'fee',
+				'id' => $this->metadata_prefix . 'fee',
 				'type' => 'text',
 				'std' => '0'
 			)
