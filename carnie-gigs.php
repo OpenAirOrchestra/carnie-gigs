@@ -33,6 +33,7 @@ require_once $include_folder . '/views/options.php';
 require_once $include_folder . '/controllers/meta_box_admin.php';
 require_once $include_folder . '/controllers/attendance.php';
 require_once $include_folder . '/model/fields.php';
+require_once $include_folder . '/model/mirror_database.php';
 
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
@@ -235,9 +236,9 @@ class carnieGigsCalendar {
 	 * Register settings for this plugin
 	 */
 	function register_settings() {
-		register_setting( 'carnie-gigs-settings-group', 'mirror_host' );
-		register_setting( 'carnie-gigs-settings-group', 'mirror_database' );
-		register_setting( 'carnie-gigs-settings-group', 'mirror_table' );
+		register_setting( 'carnie-gigs-settings-group', 'carniegigs_mirror_host' );
+		register_setting( 'carnie-gigs-settings-group', 'carniegigs_mirror_database' );
+		register_setting( 'carnie-gigs-settings-group', 'carniegigs_mirror_table' );
 	}
 
 	function options_page() {
@@ -248,6 +249,13 @@ class carnieGigsCalendar {
 		$carnie_gigs_options_view = new carnieGigsOptionsView;
 		$carnie_gigs_options_view->render();
 
+	}
+
+	/*
+	 * Called whenver one of the options related to the mirror
+	 * database is changed
+	 */
+	function mirror_database_changed() {
 	}
 }
 
@@ -260,7 +268,9 @@ register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
 add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));
 add_action('save_post', array($CARNIEGIGSCAL, 'save_post_data'));
 add_action('admin_menu', array($CARNIEGIGSCAL, 'create_admin_menu'));
-
+add_action('update_option_carniegigs_mirror_host', array($CARNIEGIGSCAL, 'mirror_database_changed'));
+add_action('update_option_carniegigs_mirror_database', array($CARNIEGIGSCAL, 'mirror_database_changed'));
+add_action('update_option_carniegigs_mirror_table', array($CARNIEGIGSCAL, 'mirror_database_changed'));
 
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );

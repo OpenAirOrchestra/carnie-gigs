@@ -35,15 +35,15 @@ class carnieGigsOptionsView {
     <table class="form-table">
 	            <tr valign="top">
 		            <th scope="row">Mirror Host</th>
-			            <td><input type="text" name="mirror_host" value="<?php echo get_option('mirror_host'); ?>" /></td>
+			            <td><input type="text" name="carniegigs_mirror_host" value="<?php echo get_option('carniegigs_mirror_host'); ?>" /></td>
 				            </tr>
 		            <th scope="row">Mirror Database</th>
-			            <td><input type="text" name="mirror_database" value="<?php echo get_option('mirror_database'); ?>" /></td>
+			            <td><input type="text" name="carniegigs_mirror_database" value="<?php echo get_option('carniegigs_mirror_database'); ?>" /></td>
 				            </tr>
 					             
         <tr valign="top">
         <th scope="row">Mirror Table</th>
-        <td><input type="text" name="mirror_table" value="<?php echo get_option('mirror_table'); ?>" /></td>
+        <td><input type="text" name="carniegigs_mirror_table" value="<?php echo get_option('carniegigs_mirror_table'); ?>" /></td>
         </tr>
         
     </table>
