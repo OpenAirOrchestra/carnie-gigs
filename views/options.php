@@ -14,6 +14,23 @@ class carnieGigsOptionsView {
 <h2>Carnie Gigs Plugin Settings</h2>
 
 <form method="post" action="options.php">
+
+    <h3>Mirror Database</h3>
+
+	<p>
+	The Carnie Gigs plugin can mirror it's gig data to a flat table in 
+	another database.  The wordpress database user must have permissions
+	to connect to and write to that database.
+	</p>
+	<p>
+	Certain features of the Carnie Gigs plugin, such as export to 
+	csv and iCal entries are only available if there is a mirror database
+	set up.  That is because it is much more efficient to query a flat
+	database to extract that data, and because the code for those features
+	has not been updated to search the custom posts and their associated
+	post metadata yet.
+	</p>
+
     <?php settings_fields( 'carnie-gigs-settings-group' ); ?>
     <table class="form-table">
 	            <tr valign="top">
