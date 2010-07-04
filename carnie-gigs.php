@@ -29,6 +29,7 @@ $include_folder = dirname(__FILE__);
 require_once $include_folder . '/version.php';
 require_once $include_folder . '/views/meta_box_admin.php';
 require_once $include_folder . '/views/gig.php';
+require_once $include_folder . '/views/options.php';
 require_once $include_folder . '/controllers/meta_box_admin.php';
 require_once $include_folder . '/controllers/attendance.php';
 require_once $include_folder . '/model/fields.php';
@@ -220,21 +221,32 @@ class carnieGigsCalendar {
 	/*
 	 * Create admin menu(s) for this plugin.  
 	 * The admin menu gets us to managing options.
+	 *
+	 * http://codex.wordpress.org/Creating_Options_Pages
 	 */
-	function admin_menu() {
-		add_options_page('Gigs Options', 'Gigs', 'manage_options', 'carnie-gigs-options', array($this, 'options_page'));
+	function create_admin_menu() {
+		add_options_page('Carnie Gigs Plugin Settings', 'Carnie Gigs Settings', 'manage_options', 'carnie-gigs-options', array($this, 'options_page'));
+		
+		//call register settings function
+		add_action( 'admin_init', array($this, 'register_settings'));
 	}
 
 	/*
-	 * Call to render options page: TODO
+	 * Register settings for this plugin
 	 */
+	function register_settings() {
+		register_setting( 'carnie-gigs-settings-group', 'mirror_host' );
+		register_setting( 'carnie-gigs-settings-group', 'mirror_database' );
+		register_setting( 'carnie-gigs-settings-group', 'mirror_table' );
+	}
+
 	function options_page() {
 		if (!current_user_can('manage_options'))  {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		} 
-		echo '<div class="wrap">';
-		echo '<p>Here is where the form goes for external database.</p>';
-		echo '</div>';
+
+		$carnie_gigs_options_view = new carnieGigsOptionsView;
+		$carnie_gigs_options_view->render();
 
 	}
 }
@@ -247,7 +259,7 @@ register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
 // actions
 add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));
 add_action('save_post', array($CARNIEGIGSCAL, 'save_post_data'));
-add_action('admin_menu', array($CARNIEGIGSCAL, 'admin_menu'));
+add_action('admin_menu', array($CARNIEGIGSCAL, 'create_admin_menu'));
 
 
 // Filters
