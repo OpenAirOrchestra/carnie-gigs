@@ -42,6 +42,7 @@ class carnieGigsCalendar {
 
 	private $carnie_gigs_meta_form_view,
 		$carnie_gigs_meta_form_controller,
+		$carnie_mirror_database,
 		$carnie_gig_attendance_controller,
 		$carnie_gig_view,
 		$metadata_prefix,
@@ -80,10 +81,10 @@ class carnieGigsCalendar {
 	 */
 	function migrate_legacy_data () {
 
-		$database_host = "carnivalband.db";
+		$database_host = DB_HOST;
 		$database_name = "wordpress_cbm";
-		$database_user = "wordpress";
-		$database_password = 'wysi11y';
+		$database_user = DB_USER;
+		$database_password = DB_PASSWORD;
 		$legacy_wpdb = new wpdb( $database_user, $database_password, $database_name, $database_host ) or wp_die ('could not connect');
 
 		$table_name = "wp_carniegigs";
@@ -236,8 +237,6 @@ class carnieGigsCalendar {
 	 * Register settings for this plugin
 	 */
 	function register_settings() {
-		register_setting( 'carnie-gigs-settings-group', 'carniegigs_mirror_host' );
-		register_setting( 'carnie-gigs-settings-group', 'carniegigs_mirror_database' );
 		register_setting( 'carnie-gigs-settings-group', 'carniegigs_mirror_table' );
 	}
 
@@ -256,7 +255,12 @@ class carnieGigsCalendar {
 	 * database is changed
 	 */
 	function mirror_database_changed() {
+		if (! $this->carnie_mirror_database) {
+			$this->carnie_mirror_database = new carnieMirrorDatabase;
+		}
+		$this->carnie_mirror_database->rebuild();
 	}
+
 }
 
 $CARNIEGIGSCAL = new carnieGigsCalendar;
@@ -268,8 +272,6 @@ register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
 add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));
 add_action('save_post', array($CARNIEGIGSCAL, 'save_post_data'));
 add_action('admin_menu', array($CARNIEGIGSCAL, 'create_admin_menu'));
-add_action('update_option_carniegigs_mirror_host', array($CARNIEGIGSCAL, 'mirror_database_changed'));
-add_action('update_option_carniegigs_mirror_database', array($CARNIEGIGSCAL, 'mirror_database_changed'));
 add_action('update_option_carniegigs_mirror_table', array($CARNIEGIGSCAL, 'mirror_database_changed'));
 
 // Filters
