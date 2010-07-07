@@ -59,7 +59,9 @@ class carnieMirrorDatabase {
 			$wpdb->query($query); 
 
 			// Populate new table
-			$gig_posts = get_posts('post_type=gig');
+			// get_posts() only returns number_posts at a time.
+			// set numberposts to -1 to remove this limit
+			$gig_posts = get_posts('post_type=gig&numberposts=-1');
 			foreach($gig_posts as $post) {
 				$this->save_post($post, $metadata_fields, $metadata_prefix);
 			}
