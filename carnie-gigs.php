@@ -258,7 +258,8 @@ class carnieGigsCalendar {
 		if (! $this->carnie_mirror_database) {
 			$this->carnie_mirror_database = new carnieMirrorDatabase;
 		}
-		$this->carnie_mirror_database->rebuild();
+		$this->carnie_mirror_database->rebuild($this->metadata_fields, 
+			$this->metadata_prefix);
 	}
 
 }

@@ -20,7 +20,7 @@ class carnieMirrorDatabase {
 	/*
 	 * Rebuild the mirror database table
 	 */
-	function rebuild() {
+	function rebuild($metadata_fields, $metadata_prefix) {
 		if ($this->mirror_specified()) {
 			global $wpdb;
 
@@ -39,6 +39,23 @@ class carnieMirrorDatabase {
 				description text,
 				";
 
+			foreach ($metadata_fields as $field) {
+				$key = $field['id'];
+				$key = str_replace($metadata_prefix, '', $key);
+				$query = $query . $key;
+
+				if ($field['type'] == 'time') {
+					$query = $query . " time,";
+				} else if ($field['type'] == 'date') {
+					$query = $query . " date,";
+				} else if ($field['type'] == 'checkbox') {
+					$query = $query . "  TINYINT(1),";
+				} else {
+					$query = $query . " text,";
+				}
+				$query = $query . "
+					";
+			}
 			$query = $query . " UNIQUE KEY id (id)";
 			$query = $query . ");";
 			$wpdb->query($query); 
