@@ -24,8 +24,6 @@ class carnieMirrorDatabase {
 		if ($this->mirror_specified()) {
 			global $wpdb;
 
-			$wpdb->show_errors();
-
 			// Drop existing 
 
 			$query = 'DROP TABLE IF EXISTS  ' . $this->table;
@@ -61,12 +59,55 @@ class carnieMirrorDatabase {
 			$wpdb->query($query); 
 
 			// Populate new table
+			$gig_posts = get_posts('post_type=gig');
+			foreach($gig_posts as $post) {
+				$this->save_post($post, $metadata_fields, $metadata_prefix);
+			}
 		}
 	}
 
 	function mirror_specified() {
 		$this->get_options();
 		return $this->table && strlen($this->table);
+	}
+
+	function save_post($post, $metadata_fields, $metadata_prefix) {
+		global $wpdb;
+
+		$wpdb->show_errors();
+
+		$this->get_options();
+
+		$data = array( 'gigid' => $post->ID,
+			'title' => $post->post_title,
+			'description' => $post->post_content);
+		$format = array( '%d', '%s', '%s');
+
+		foreach ($metadata_fields as $field) {
+			$meta = get_post_meta($post->ID, $field['id'], true);
+			$key = $field['id'];
+			$key = str_replace($metadata_prefix, '', $key);
+
+			// Special handling for checkboxes
+			if ($field['type'] == 'checkbox') {
+				$data[$key] = $meta && strlen($meta) ? 1 : 0;
+				array_push($format, '%d');
+			} else {
+				$data[$key] = $meta;
+				array_push($format, '%s');
+			}
+		}
+
+		// do we insert or update?
+		$query = 'SELECT ID FROM ' . $this->table . 
+			' WHERE gigid = ' . $post->ID;
+		$id = $wpdb->get_var($query);
+		if ($id) {
+			$where = array( 'id' => $id );
+			$wpdb->insert( $this->table, $data, $where, $format );
+		} else {
+			$wpdb->insert( $this->table, $data, $format );
+		}
 	}
 }
 
