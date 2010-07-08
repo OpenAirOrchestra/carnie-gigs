@@ -41,6 +41,7 @@ class carnieGigView {
 		$content = $content . ' <dd> ';
 
 		$date = get_post_meta($post->ID, $metadata_prefix . 'date', true);
+
 		$content = $content . '<strong>' . date('D, d M Y', strtotime($date)) . '</strong> ';
 		$calltime = get_post_meta($post->ID, $metadata_prefix . 'calltime', true);
 		if (strlen($calltime)) {
@@ -60,6 +61,11 @@ class carnieGigView {
 				"<br/>Performance Start: " .
 				date('g:ia', strtotime($performancestart));
 		}
+		$content = $content . "<br/><a title=\"Download iCal entry\" href=\"" . 
+			carnieUtil::get_url() . 
+			"ical.php?id=" . $post->ID .  "\"> <img height=\"38px\" src=\"" .  
+			carnieUtil::get_url() . 
+			"images/calendar.jpg\"></a> ";
 		$content = $content . ' </dd> ';
 
 		// Location

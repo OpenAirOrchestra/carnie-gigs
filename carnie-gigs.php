@@ -27,6 +27,7 @@ License: GPL2
 
 $include_folder = dirname(__FILE__);
 require_once $include_folder . '/version.php';
+require_once $include_folder . '/utility.php';
 require_once $include_folder . '/views/meta_box_admin.php';
 require_once $include_folder . '/views/gig.php';
 require_once $include_folder . '/views/options.php';
