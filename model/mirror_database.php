@@ -105,8 +105,8 @@ class carnieMirrorDatabase {
 			' WHERE gigid = \'' . $post->ID . '\'';
 		$id = $wpdb->get_var($query);
 		if ($id) {
-			$where = array( 'id' => $id );
-			$wpdb->insert( $this->table, $data, $where, $format );
+			$where = array( 'gigid' => $post->ID );
+			$wpdb->update( $this->table, $data, $where, $format );
 		} else {
 			$wpdb->insert( $this->table, $data, $format );
 		}

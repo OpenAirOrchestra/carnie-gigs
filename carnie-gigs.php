@@ -200,18 +200,17 @@ class carnieGigsCalendar {
 				$this->carnie_mirror_database = new carnieMirrorDatabase;
 			}
 
-			/* NOT WORKING TODO: DFDF
-			 * IS NOT SAVING EXCEPT ON ADD. ELSE REVISIONS
-			 * ARE BEING SAVED.
-			 *
-			$actualPostID = wp_is_post_revision( $post );
-			if ($actualPostID) {
-				$post = get_post($actualPostID);
+			// Update the database.
+			$the_post_id = wp_is_post_revision( $post );
+			if ($the_post_id) {
+				$post_id = $the_post_id;
+				$post = get_post($post_id);
 			}
-			$this->carnie_mirror_database->save_post($post, 
-				$this->metadata_fields,
-				$this->metadata_prefix);
-			*/
+			if (get_post_status($post_id) == 'publish') {
+				$this->carnie_mirror_database->save_post($post, 
+					$this->metadata_fields,
+					$this->metadata_prefix);
+			}
 		}
 	}
 
@@ -219,33 +218,42 @@ class carnieGigsCalendar {
 	 * Called when a post is deleted.
 	 */
 	function deleted_post($post_id) {
-		if (! $this->carnie_mirror_database) {
-			$this->carnie_mirror_database = new carnieMirrorDatabase;
+		$post = get_post($post_id);
+		if (get_post_type($post) == 'gig') {
+			if (! $this->carnie_mirror_database) {
+				$this->carnie_mirror_database = new carnieMirrorDatabase;
+			}
+			$this->carnie_mirror_database->delete_post($post_id); 
 		}
-		$this->carnie_mirror_database->delete_post($post_id); 
 	}
 
 	/*
 	 * Called when a post is trashed.
 	 */
 	function trashed_post($post_id) {
-		if (! $this->carnie_mirror_database) {
-			$this->carnie_mirror_database = new carnieMirrorDatabase;
+		$post = get_post($post_id);
+		if (get_post_type($post) == 'gig') {
+			if (! $this->carnie_mirror_database) {
+				$this->carnie_mirror_database = new carnieMirrorDatabase;
+			}
+			$this->carnie_mirror_database->delete_post($post_id); 
 		}
-		$this->carnie_mirror_database->delete_post($post_id); 
 	}
 
 	/*
 	 * Called after a post is removed from the trash
 	 */
 	function untrashed_post($post_id) {
-		if (! $this->carnie_mirror_database) {
-			$this->carnie_mirror_database = new carnieMirrorDatabase;
-		}
 		$post = get_post($post_id);
-		$this->carnie_mirror_database->save_post($post, 
-			$this->metadata_fields,
-			$this->metadata_prefix);
+		if (get_post_type($post) == 'gig' && get_post_status($post_id) == 'publish') {
+			if (! $this->carnie_mirror_database) {
+				$this->carnie_mirror_database = new carnieMirrorDatabase;
+			}
+			$post = get_post($post_id);
+			$this->carnie_mirror_database->save_post($post, 
+				$this->metadata_fields,
+				$this->metadata_prefix);
+		}
 	}
 
 	/*
@@ -328,7 +336,6 @@ add_action('save_post', array($CARNIEGIGSCAL, 'save_post_data'));
 add_action('deleted_post', array($CARNIEGIGSCAL, 'deleted_post'));
 add_action('trashed_post', array($CARNIEGIGSCAL, 'trashed_post'));
 add_action('untrashed_post', array($CARNIEGIGSCAL, 'untrashed_post'));
-// add_action('publish_post', array($CARNIEGIGSCAL, 'publish_post')); DFDF
 add_action('admin_menu', array($CARNIEGIGSCAL, 'create_admin_menu'));
 add_action('update_option_carniegigs_mirror_table', array($CARNIEGIGSCAL, 'mirror_database_changed'));
 
