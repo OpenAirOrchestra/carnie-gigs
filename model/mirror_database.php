@@ -102,13 +102,28 @@ class carnieMirrorDatabase {
 
 		// do we insert or update?
 		$query = 'SELECT ID FROM ' . $this->table . 
-			' WHERE gigid = ' . $post->ID;
+			' WHERE gigid = \'' . $post->ID . '\'';
 		$id = $wpdb->get_var($query);
 		if ($id) {
 			$where = array( 'id' => $id );
 			$wpdb->insert( $this->table, $data, $where, $format );
 		} else {
 			$wpdb->insert( $this->table, $data, $format );
+		}
+	}
+
+	/*
+	 * Delete post data from mirror database
+	 */
+	function delete_post($post_id) {
+		if ($this->mirror_specified()) {
+			global $wpdb;
+			
+			$wpdb->show_errors();
+
+			$query = 'DELETE FROM ' . $this->table . 
+				' WHERE gigid = \'' . $post_id . '\'';
+			$wpdb->query($query);
 		}
 	}
 }
