@@ -8,7 +8,7 @@ class carnieGigAttendanceController {
 	/*
 	 * handle post.
 	 */
-	function handle_post($gigid, $metadata_prefix) {
+	function handle_post($gigid, $metadata_fields, $metadata_prefix) {
 		$postid = $gigid;
 
 		// Verify nonce. and gigid
@@ -38,6 +38,15 @@ class carnieGigAttendanceController {
 				// add
 				add_post_meta($postid, $metadata_prefix . 'attendees', $display_name);
 			}
+
+
+			// Update the database.
+			$post = get_post($postid);
+			$carnie_mirror_database = new carnieMirrorDatabase;
+			$carnie_mirror_database->save_post($post, 
+				$metadata_fields,
+				$metadata_prefix);
+
 		}
 	}
 }
