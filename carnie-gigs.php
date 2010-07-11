@@ -31,6 +31,7 @@ require_once $include_folder . '/utility.php';
 require_once $include_folder . '/views/meta_box_admin.php';
 require_once $include_folder . '/views/gig.php';
 require_once $include_folder . '/views/options.php';
+require_once $include_folder . '/views/export_csv_form.php';
 require_once $include_folder . '/controllers/meta_box_admin.php';
 require_once $include_folder . '/controllers/attendance.php';
 require_once $include_folder . '/model/fields.php';
@@ -323,6 +324,20 @@ class carnieGigsCalendar {
 
 		echo '<div class="wrap">';
 		echo "<h2>Export Carnie Gigs</h2>";
+		echo "<p>When you click the button below WordPress will create a CSV file for you to save to your computer.</p>";
+		echo "<p>Once you have saved the download file, you can load  into a spreadsheet program like Excel.</p>";
+
+		if (! $this->carnie_mirror_database) {
+			$this->carnie_mirror_database = new carnieMirrorDatabase;
+		}
+		   
+		if ($this->carnie_mirror_database->mirror_specified()) {
+			$gig = $this->carnie_mirror_database->one_gig();
+			$exportCsvFormView = new carnieCsvExportView;
+			$exportCsvFormView->exportForm($gig[0]);
+		} else {
+			echo "<p>Create a mirror database to use this feature. See settings for this plugin.</p>";
+		}
 		echo '</div>';
 	}
 	/*

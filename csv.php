@@ -15,10 +15,10 @@ header("Content-Disposition: attachment; filename=$Filename");
 
 // Verify nonce.
 if ( wp_verify_nonce($_POST['carnie-gigs-csv-verify-key'], 'carnie-gigs') ) {
-	$table_name = $wpdb->prefix . "carniegigs";
 
+	$table_name = get_option('carniegigs_mirror_table');
 	$select = "SELECT * FROM " . $table_name;
-	if (! current_user_can('read_private_pages')) {
+	if (! current_user_can('read_private_posts')) {
 		$select = "SELECT id date title description location url calltime eventstart performancestart coordinator costume  FROM " . $table_name;
 	}
 

@@ -170,6 +170,21 @@ class carnieMirrorDatabase {
 		}
 		return $results;
 	}
+
+	/*
+	 * Return one gig in the mirror database
+	 */
+	function one_gig () {
+		$results = array();
+
+		if ($this->mirror_specified()) {
+			global $wpdb;
+			$select = "SELECT * FROM " . $this->table .
+			   " LIMIT 1";
+			$results = $wpdb->get_results( $select, ARRAY_A );
+		}
+		return $results;
+	}
 }
 
 ?>
