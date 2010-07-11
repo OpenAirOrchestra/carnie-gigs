@@ -231,7 +231,12 @@ $content = $content . '
 			echo '<strong><span class="row-title">' . stripslashes($gig['title']) . "</span></strong>";
 		}
 		echo "</td>";
-		echo '<td class="date">' . date('d M Y', strtotime($gig['date'])) . "</td>";
+		$time = strtotime($gig['date']);
+		echo '<td class="date">' . 
+			date('d', $time) . '&nbsp;' .
+			date('M', $time) . '&nbsp;' .
+			date('Y', $time) . 
+			"</td>";
 		print '<td class="status">';
 		if ($gig['cancelled']) {
 			echo "(cancelled)";
@@ -244,7 +249,7 @@ $content = $content . '
 		if (! is_admin()) {
 			print '<td class="icon">';
 			print "<a title=\"Download iCal entry\" href=\"" . carnieUtil::get_url() . "ical.php?id=" . $gig['gigid'] . 
-				"\"> <img src=\"" .  carnieUtil::get_url() . "images/calendar.jpg\"></a>";
+				"\"> <img height=\"19px\" src=\"" .  carnieUtil::get_url() . "images/calendar.jpg\"></a>";
 			print "</td>";
 		}
 		print "</tr>\n";
