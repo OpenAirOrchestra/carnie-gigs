@@ -15,6 +15,9 @@ A gig calendar specifically tailored for The Canival Band.
 
 1. Upload `carnie-gigs.zip` to the `/wp-content/plugins/` directory and unzip.
 2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Add the shortcode [carniegigs] to a page to list all gigs.
+4. Add the shortcode [carniegigs time="past"] to a page to list past gigs.
+5. Add the shortcode [carniegigs time="future"] to a page to list future gigs.
 
 == Frequently Asked Questions ==
 

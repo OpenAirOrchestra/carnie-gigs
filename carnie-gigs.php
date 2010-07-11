@@ -145,6 +145,7 @@ class carnieGigsCalendar {
 				'publicly_queryable' => true,
 				'exclude_from_search' => false,
 				'menu_position' => 5,
+				'menu_icon' => carnieUtil::get_url() . "/images/saxophone16.png",
 				'supports' => array( 'title', 'editor', 'revisions', 'author', 'excerpt', 'comments' ),
 				'taxonomies' => array( 'post_tag', 'category '),
 				'register_meta_box_cb' => array( $this, 'register_meta_box'),
@@ -308,7 +309,6 @@ class carnieGigsCalendar {
 
 		$carnie_gigs_options_view = new carnieGigsOptionsView;
 		$carnie_gigs_options_view->render();
-
 	}
 
 	/*
@@ -323,12 +323,46 @@ class carnieGigsCalendar {
 			$this->metadata_prefix);
 	}
 
+	/*
+	 * Handles carniegigs shortcode
+	 * examples:
+	 * [carniegigs] 
+         * [carniegigs time="past"] 
+         * [carniegigs time="future"] 
+	 */
+	function carniegigs_shortcode_handler($atts, $content=NULL, $code="") {
+		extract( shortcode_atts( array(
+			'time' => 'all',
+			'display' => 'short'), $atts ) );
+		if (! $this->carnie_mirror_database) {
+			$this->carnie_mirror_database = new carnieMirrorDatabase;
+		}
+		   
+		$gigs = array();
+		if ($time == 'past') {
+			$gigs = $this->carnie_mirror_database->past_gigs();
+		} else if ($time == 'future') {
+			$gigs = $this->carnie_mirror_database->future_gigs();
+		} else {
+			$gigs = $this->carnie_mirror_database->all_gigs();
+		}
+
+		if (! $this->carnie_gig_view) {
+			$this->carnie_gig_view = new carnieGigView;
+		}
+		
+		$this->carnie_gig_view->shortGigs($gigs);
+	}
 }
+
 
 $CARNIEGIGSCAL = new carnieGigsCalendar;
 
 // activation hook
 register_activation_hook(__FILE__, array($CARNIEGIGSCAL, 'activate') );
+
+// shortcodes
+add_shortcode('carniegigs', array($CARNIEGIGSCAL, 'carniegigs_shortcode_handler'));
 
 // actions
 add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));

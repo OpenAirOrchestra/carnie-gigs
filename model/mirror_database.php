@@ -119,12 +119,56 @@ class carnieMirrorDatabase {
 		if ($this->mirror_specified()) {
 			global $wpdb;
 			
-			$wpdb->show_errors();
-
 			$query = 'DELETE FROM ' . $this->table . 
 				' WHERE gigid = \'' . $post_id . '\'';
 			$wpdb->query($query);
 		}
+	}
+
+	/*
+	 * Return past gigs in the mirror database
+	 */
+	function past_gigs () {
+		$results = array();
+
+		if ($this->mirror_specified()) {
+			global $wpdb;
+			$select = "SELECT * FROM " . $this->table .
+			   ' WHERE `date` < CURDATE() ORDER BY `date` DESC';
+			$results = $wpdb->get_results( $select, ARRAY_A );
+		}
+		return $results;
+	}
+
+	/*
+	 * Return future gigs in the mirror database
+	 */
+	function future_gigs () {
+		global $wpdb;
+		$results = array();
+
+		if ($this->mirror_specified()) {
+			$select = "SELECT * FROM " . $this->table .
+				   ' WHERE `date` >= CURDATE() ORDER BY `date`';
+
+			$results = $wpdb->get_results( $select, ARRAY_A );
+		}
+		return $results;
+	}
+
+	/*
+	 * Return all gigs in the mirror database
+	 */
+	function all_gigs () {
+		$results = array();
+
+		if ($this->mirror_specified()) {
+			global $wpdb;
+			$select = "SELECT * FROM " . $this->table .
+			   " ORDER BY `date` DESC";
+			$results = $wpdb->get_results( $select, ARRAY_A );
+		}
+		return $results;
 	}
 }
 
