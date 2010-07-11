@@ -289,7 +289,12 @@ class carnieGigsCalendar {
 	 * http://codex.wordpress.org/Creating_Options_Pages
 	 */
 	function create_admin_menu() {
+		
+		// Add options page
 		add_options_page('Carnie Gigs Plugin Settings', 'Carnie Gigs Settings', 'manage_options', 'carnie-gigs-options', array($this, 'options_page'));
+
+		// Add tools page
+		add_management_page('Export Carnie Gigs', 'Export Carnie Gigs', 'read_private_posts', 'export-carnie-gigs-tools', array($this, 'export_gigs_page'));
 		
 		//call register settings function
 		add_action( 'admin_init', array($this, 'register_settings'));
@@ -311,6 +316,15 @@ class carnieGigsCalendar {
 		$carnie_gigs_options_view->render();
 	}
 
+	function export_gigs_page() {
+		if (!current_user_can('read_private_posts'))  {
+			wp_die( __('You do not have sufficient permissions to access this page.') );
+		} 
+
+		echo '<div class="wrap">';
+		echo "<h2>Export Carnie Gigs</h2>";
+		echo '</div>';
+	}
 	/*
 	 * Called whenver one of the options related to the mirror
 	 * database is changed
