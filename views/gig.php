@@ -218,8 +218,8 @@ $content = $content . '
 		}
 
 		$permalink = NULL;
-		if ($gig['postid']) {
-			$permalink = get_permalink($gig['postid']);
+		if ($gig['gigid']) {
+			$permalink = get_permalink($gig['gigid']);
 		}
 
 		print '<tr id="'. $idstr . '" class="' . $classstr . '">';
