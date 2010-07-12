@@ -382,6 +382,18 @@ class carnieGigsCalendar {
 		
 		$this->carnie_gig_view->shortGigs($gigs);
 	}
+
+	/*
+	 * Filter for subscribe2 post types
+	 * the s2_post_types filter to allow for custom post types in WP 3.0
+	 * for the Subscribe2 plugin to send notifications for our
+	 * custom post type.
+	 */
+	function s2_post_types( $s2_post_types ) {
+		$carnieTypes = array( 'gig' );
+
+		return array_merge($s2_post_types, $carnieTypes);
+	}
 }
 
 
@@ -405,5 +417,6 @@ add_action('update_option_carniegigs_mirror_table', array($CARNIEGIGSCAL, 'mirro
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );
 add_filter( 'the_content', array($CARNIEGIGSCAL, 'the_content') );
+add_filter( 's2_post_types', array($CARNIEGIGSCAL, 's2_post_types') );
 
 ?>
