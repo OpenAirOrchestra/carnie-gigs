@@ -48,7 +48,8 @@ class carnieGigsCalendar {
 		$carnie_gig_attendance_controller,
 		$carnie_gig_view,
 		$metadata_prefix,
-		$metadata_fields;
+		$metadata_fields,
+		$published_post_ID;
 
 	/*
 	 * Constructor
@@ -265,7 +266,7 @@ class carnieGigsCalendar {
 	function the_content($content) {
 		$post = get_post(get_the_id());
 
-		if (! is_admin() && get_post_type($post) == 'gig' ) {
+		if ($post && get_post_type($post) == 'gig' ) {
 			if ($_POST['gigattendance'] && $_POST['gigid'] == $post->ID) {
 				// process gig attendance
 				if (! $this->carnie_gig_attendance_controller) {
@@ -277,7 +278,7 @@ class carnieGigsCalendar {
 				$this->carnie_gig_view = new carnieGigView;
 			}
 			// render metadata for gig
-			$content = $this->carnie_gig_view->the_content($content, $this->metadata_prefix);
+			$content = $this->carnie_gig_view->the_content($content, $this->metadata_prefix, $this->published_post_ID);
 		}
 
 		return $content;
@@ -394,6 +395,27 @@ class carnieGigsCalendar {
 
 		return array_merge($s2_post_types, $carnieTypes);
 	}
+
+	/*
+	 * Stash the post when transitioning it to 'publish' for
+	 * later use in the_content filter if we are in the
+	 * context of the Subscribe2 plugin sending email notification
+	 */
+	function transition_post_status($new_status, $old_status, $post) {
+		if ($new_status == 'publish' && get_post_type($post) == 'gig') {
+			// This runs before the
+			// save_post hook, before we have our
+			// metadata saved.  
+			// The subscribe2 hooks are on publish, so
+			// they run and send email before we have
+			// the metadata saved. 
+			//
+
+			// Stash the id of the post for possible later use
+			// by the_content hook called by Subscribe2.
+			$this->published_post_ID = $post->ID;
+		}
+	}
 }
 
 
@@ -413,7 +435,9 @@ add_action('trashed_post', array($CARNIEGIGSCAL, 'trashed_post'));
 add_action('untrashed_post', array($CARNIEGIGSCAL, 'untrashed_post'));
 add_action('admin_menu', array($CARNIEGIGSCAL, 'create_admin_menu'));
 add_action('update_option_carniegigs_mirror_table', array($CARNIEGIGSCAL, 'mirror_database_changed'));
+add_action('transition_post_status', array($CARNIEGIGSCAL, 'transition_post_status'), 10, 3);
 
+//
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );
 add_filter( 'the_content', array($CARNIEGIGSCAL, 'the_content') );

@@ -10,16 +10,55 @@ class carnieGigView {
 	/*
 	 * content filter for gigs.
 	 */
-	function the_content($content, $metadata_prefix) { 
-		$post = get_post(get_the_id());
+	function the_content($content, $metadata_prefix, $published_post_ID) { 
+		$postid = get_the_id();
+		$render_attendees = true;
+		
+		// We may be in the context of the Subscribe2 plugin
+		// creating email.  Try the ID stashed when
+		// transitioning status.
+		if (! $postid) {
+			$postid = $published_post_ID;
+			$render_attendees = false;
+		}
+
+		// Pull data from the meta of the post or $_POST,
+		// depending.
+
+		$cancelled = get_post_meta($postid, $metadata_prefix . 'cancelled', true);
+		$tentative = get_post_meta($postid, $metadata_prefix . 'tentative', true);
+		$closedcall = get_post_meta($postid, $metadata_prefix . 'closedcall', true);
+		$privateevent = get_post_meta($postid, $metadata_prefix . 'privateevent', true);
+		$date = get_post_meta($postid, $metadata_prefix . 'date', true);
+		$calltime = get_post_meta($postid, $metadata_prefix . 'calltime', true);
+		$eventstart = get_post_meta($postid, $metadata_prefix . 'eventstart', true);
+		$performancestart = get_post_meta($postid, $metadata_prefix . 'performancestart', true);
+		$location = get_post_meta($postid, $metadata_prefix . 'location', true);
+		$costume = get_post_meta($postid, $metadata_prefix . 'costume', true);
+		$url = get_post_meta($postid, $metadata_prefix . 'url', true);
+		$coordinator = get_post_meta($postid, $metadata_prefix . 'coordinator', true);
+
+		// Not in the loop...
+		// do we have the data we need in $_POST?  Do we have date?
+		if (! get_the_id() && $_POST[$metadata_prefix . 'date']) {
+			// DFDF pull data from $_POST instead
+			$cancelled = $_POST[ $metadata_prefix . 'cancelled' ];
+			$tentative = $_POST[ $metadata_prefix . 'tentative' ];
+			$closedcall = $_POST[ $metadata_prefix . 'closedcall' ];
+			$privateevent = $_POST[ $metadata_prefix . 'privateevent' ];
+			$date = $_POST[ $metadata_prefix . 'date' ];
+			$calltime = $_POST[ $metadata_prefix . 'calltime' ];
+			$eventstart = $_POST[ $metadata_prefix . 'eventstart' ];
+			$performancestart = $_POST[ $metadata_prefix . 'performancestart' ];
+			$location = $_POST[ $metadata_prefix . 'location' ];
+			$costume = $_POST[ $metadata_prefix . 'costume' ];
+			$url = $_POST[ $metadata_prefix . 'url' ];
+			$coordinator = $_POST[ $metadata_prefix . 'coordinator' ];
+		}
 
 		$content = $content . ' <h2>Details</h2> ';
 
 		// Tentative, cancelled, closed call
-		$cancelled = get_post_meta($post->ID, $metadata_prefix . 'cancelled', true);
-		$tentative = get_post_meta($post->ID, $metadata_prefix . 'tentative', true);
-		$closedcall = get_post_meta($post->ID, $metadata_prefix . 'closedcall', true);
-		$privateevent = get_post_meta($post->ID, $metadata_prefix . 'privateevent', true);
 		if ($cancelled) {
 			$content = $content . '<h3>Cancelled</h3>';
 		} else {
@@ -40,22 +79,18 @@ class carnieGigView {
 		$content = $content . '<dt>When:</dt> ';
 		$content = $content . ' <dd> ';
 
-		$date = get_post_meta($post->ID, $metadata_prefix . 'date', true);
 
 		$content = $content . '<strong>' . date('D, d M Y', strtotime($date)) . '</strong> ';
-		$calltime = get_post_meta($post->ID, $metadata_prefix . 'calltime', true);
 		if (strlen($calltime)) {
 			$content = $content .
 				"<br/>Call: " .
 				date('g:ia', strtotime($calltime));
 		}
-		$eventstart = get_post_meta($post->ID, $metadata_prefix . 'eventstart', true);
 		if (strlen($eventstart)) {
 			$content = $content .
 				"<br/>Event Start: " .
 				date('g:ia', strtotime($eventstart));
 		}
-		$performancestart = get_post_meta($post->ID, $metadata_prefix . 'performancestart', true);
 		if (strlen($performancestart)) {
 			$content = $content .
 				"<br/>Performance Start: " .
@@ -63,13 +98,12 @@ class carnieGigView {
 		}
 		$content = $content . "<br/><a title=\"Download iCal entry\" href=\"" . 
 			carnieUtil::get_url() . 
-			"ical.php?id=" . $post->ID .  "\"> <img height=\"38px\" src=\"" .  
+			"ical.php?id=" . $postid .  "\"> <img height=\"38px\" src=\"" .  
 			carnieUtil::get_url() . 
 			"images/calendar.jpg\"></a> ";
 		$content = $content . ' </dd> ';
 
 		// Location
-		$location = get_post_meta($post->ID, $metadata_prefix . 'location', true);
 		if (strlen($location)) {
 			$location = htmlentities(stripslashes($location));
 			$content = $content . ' <dt>Where:</dt> ';
@@ -79,7 +113,6 @@ class carnieGigView {
 		}
 
 		// URL
-		$url = get_post_meta($post->ID, $metadata_prefix . 'url', true);
 		if (strlen($url)) {
 			$content = $content . ' <dt>Link:</dt> ';
 			$content = $content . ' <dd> ';
@@ -95,7 +128,6 @@ class carnieGigView {
 		}
 
 		// Costume
-		$costume = get_post_meta($post->ID, $metadata_prefix . 'costume', true);
 		if (strlen($costume)) {
 			$costume = htmlentities(stripslashes($costume));
 			$content = $content . ' <dt>Costume:</dt> ';
@@ -105,7 +137,6 @@ class carnieGigView {
 		}
 		
 		// Co-ordinator
-		$coordinator = get_post_meta($post->ID, $metadata_prefix . 'coordinator', true);
 		if (strlen($coordinator)) {
 			$coordinator = htmlentities(stripslashes($coordinator));
 			$content = $content . ' <dt>Coordinator:</dt> ';
@@ -115,7 +146,7 @@ class carnieGigView {
 		}
 		
 		// Contact
-		$contact = get_post_meta($post->ID, $metadata_prefix . 'contact', true);
+		$contact = get_post_meta($postid, $metadata_prefix . 'contact', true);
 		if (strlen($contact)) {
 			$contact = htmlentities(stripslashes($contact));
 			$content = $content . ' <dt>Contact:</dt> ';
@@ -124,8 +155,10 @@ class carnieGigView {
 			$content = $content . ' </dd> ';
 		}
 		
-		// Attendees
-		$content = $this->attendees($content, $metadata_prefix, $post->ID);
+		if ($render_attendees) {
+			// Attendees
+			$content = $this->attendees($content, $metadata_prefix, $postid);
+		}
 		return $content;
 	}
 
