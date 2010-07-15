@@ -144,6 +144,7 @@ class carnieGigsCalendar {
 				'description' => 'A gig is a scheduled Carnival Band Performance',
 				'public' => true,
 				'show_ui' => true,
+				'capability_type' => 'page',
 				'publicly_queryable' => true,
 				'exclude_from_search' => false,
 				'menu_position' => 5,
