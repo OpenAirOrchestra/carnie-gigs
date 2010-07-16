@@ -429,6 +429,7 @@ class carnieGigsCalendar {
 
 		$columns['gig_coordinator'] = "Co-ordinator";
 		$columns['gig_date'] = "Performance Date";
+		$columns['gig_status'] = "Status";
 
 		return $columns;
 	}
@@ -447,6 +448,24 @@ class carnieGigsCalendar {
 		} else if ($column == 'gig_coordinator') {
 			$coordinator = get_post_meta($post->ID, $this->metadata_prefix . 'coordinator', true);
 			echo $coordinator;
+		} else if ($column == 'gig_status') {
+			$cancelled = get_post_meta($post->ID, $this->metadata_prefix . 'cancelled', true);
+			$tentative = get_post_meta($post->ID, $this->metadata_prefix . 'tentative', true);
+			$closedcall = get_post_meta($post->ID, $this->metadata_prefix . 'closedcall', true);
+			$privateevent = get_post_meta($post->ID, $this->metadata_prefix . 'privateevent', true);
+
+			if (strlen($cancelled)) {
+				echo "cancelled ";
+			}
+			if (strlen($tentative)) {
+				echo "tentative ";
+			}
+			if (strlen($closedcall)) {
+				echo "closed&nbsp;call ";
+			}
+			if (strlen($privateevent)) {
+				echo "private&nbsp;event";
+			}
 		}
 	}
 }
