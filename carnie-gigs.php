@@ -417,6 +417,38 @@ class carnieGigsCalendar {
 			$this->published_post_ID = $post->ID;
 		}
 	}
+
+	/*
+	 * Columns filter for the admin screen listing gigs
+	 */
+	function manage_gig_columns($columns) {
+
+		unset($columns['categories']);
+		unset($columns['tags']);
+		unset($columns['comments']);
+
+		$columns['gig_coordinator'] = "Co-ordinator";
+		$columns['gig_date'] = "Performance Date";
+
+		return $columns;
+	}
+
+	/*
+	 * Provide data for custom columns
+	 */
+	function manage_gig_custom_columns($column) {
+		global $post;
+		if ($column == 'gig_date') {
+			$date = get_post_meta($post->ID, $this->metadata_prefix . 'date', true);
+			if ($date) {
+				echo $date;
+			}
+			
+		} else if ($column == 'gig_coordinator') {
+			$coordinator = get_post_meta($post->ID, $this->metadata_prefix . 'coordinator', true);
+			echo $coordinator;
+		}
+	}
 }
 
 
@@ -437,11 +469,12 @@ add_action('untrashed_post', array($CARNIEGIGSCAL, 'untrashed_post'));
 add_action('admin_menu', array($CARNIEGIGSCAL, 'create_admin_menu'));
 add_action('update_option_carniegigs_mirror_table', array($CARNIEGIGSCAL, 'mirror_database_changed'));
 add_action('transition_post_status', array($CARNIEGIGSCAL, 'transition_post_status'), 10, 3);
+add_action("manage_posts_custom_column", array($CARNIEGIGSCAL, 'manage_gig_custom_columns') );
 
-//
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );
 add_filter( 'the_content', array($CARNIEGIGSCAL, 'the_content') );
+add_filter("manage_edit-gig_columns", array($CARNIEGIGSCAL, 'manage_gig_columns') );
 add_filter( 's2_post_types', array($CARNIEGIGSCAL, 's2_post_types') );
 
 ?>
