@@ -68,9 +68,10 @@ class carnieGigsCalendar {
 	function activate () {
 		$old_version = get_option("carniegigs_db_version");
 
+
 		if ($old_version) {
 			if ($old_version < CARNIE_GIGS_DB_VERSION) {
-				$this->migrate_legacy_data();
+				// $this->migrate_legacy_data();
 				update_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);
 			}
 		} else {

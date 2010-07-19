@@ -131,10 +131,15 @@ class carnieMirrorDatabase {
 	function past_gigs () {
 		$results = array();
 
+		// SELECT DATE(DATE_SUB(NOW(), INTERVAL 7 HOUR));
+		//
 		if ($this->mirror_specified()) {
 			global $wpdb;
+			// The server is in florida, so convert 
+			// to PST
+			// SELECT DATE(DATE_SUB(NOW(), INTERVAL 7 HOUR));
 			$select = "SELECT * FROM " . $this->table .
-			   ' WHERE `date` < CURDATE() ORDER BY `date` DESC';
+			   ' WHERE `date` < DATE(DATE_SUB(NOW(), INTERVAL 7 HOUR)) ORDER BY `date` DESC';
 			$results = $wpdb->get_results( $select, ARRAY_A );
 		}
 		return $results;
@@ -147,9 +152,13 @@ class carnieMirrorDatabase {
 		global $wpdb;
 		$results = array();
 
+		// We covert the date becase the server is in florida
+		// and we are in PST Vancouver
+		// DATE(DATE_SUB(NOW(), INTERVAL 7 HOUR))
+
 		if ($this->mirror_specified()) {
 			$select = "SELECT * FROM " . $this->table .
-				   ' WHERE `date` >= CURDATE() ORDER BY `date`';
+				   ' WHERE `date` >= DATE(DATE_SUB(NOW(), INTERVAL 7 HOUR)) ORDER BY `date`';
 
 			$results = $wpdb->get_results( $select, ARRAY_A );
 		}
