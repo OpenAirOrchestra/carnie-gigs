@@ -86,7 +86,23 @@ class carnieMirrorDatabase {
 		$format = array( '%d', '%s', '%s');
 
 		foreach ($metadata_fields as $field) {
-			$meta = get_post_meta($post->ID, $field['id'], true);
+			$meta = "";
+			if ($field['type'] == 'list') {
+				// assemble lists into comma separated strings
+				$meta = get_post_meta($post->ID, $field['id']);
+				$list = "";
+				$sep = "";
+				foreach ($meta as $value) {
+					$value = trim($value);
+					$list = $list . $sep . $value;
+					$sep = ", ";
+				}
+				$meta = $list;
+			} else {
+				$meta = get_post_meta($post->ID, $field['id'], true);
+			}
+
+
 			$key = $field['id'];
 			$key = str_replace($metadata_prefix, '', $key);
 

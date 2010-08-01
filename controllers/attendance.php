@@ -42,6 +42,7 @@ class carnieGigAttendanceController {
 
 			// Update the database.
 			$post = get_post($postid);
+
 			$carnie_mirror_database = new carnieMirrorDatabase;
 			$carnie_mirror_database->save_post($post, 
 				$metadata_fields,
