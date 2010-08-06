@@ -197,17 +197,14 @@ class carnieGigView {
 		}
 
 		// Don't display add me button for old gigs.
-		$old = false;
+		$days = 0;
 		$date = get_post_meta($postid, $metadata_prefix . 'date', true);
 		if ($date) {
 			$seconds = time() - strtotime($date);
 			$days = $seconds * 60 * 60 * 24;
-			if ($days > 10) {
-				$old = true;
-			}
 		}
 
-		if (! $old) {
+		if ($days <= 10) {
 			// refresh nonce
 			$this->nonce = wp_create_nonce('carnie-gig-attendance');
 
