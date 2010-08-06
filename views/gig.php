@@ -41,7 +41,7 @@ class carnieGigView {
 		// Not in the loop...
 		// do we have the data we need in $_POST?  Do we have date?
 		if (! get_the_id() && $_POST[$metadata_prefix . 'date']) {
-			// DFDF pull data from $_POST instead
+			// pull data from $_POST instead
 			$cancelled = $_POST[ $metadata_prefix . 'cancelled' ];
 			$tentative = $_POST[ $metadata_prefix . 'tentative' ];
 			$closedcall = $_POST[ $metadata_prefix . 'closedcall' ];
@@ -196,29 +196,40 @@ class carnieGigView {
 			$sep = ', ';
 		}
 
-		// refresh nonce
-		$this->nonce = wp_create_nonce('carnie-gig-attendance');
+		// Don't display add me button for old gigs.
+		$old = false;
+		$date = get_post_meta($postid, $metadata_prefix . 'date', true);
+		if ($date) {
+			$seconds = time() - strtotime($gig['date']));
+			$days = $seconds * 60 * 60 * 24;
+			if ($days > 10) {
+				$old = true;
+			}
+		}
 
-$content = $content . '
-<form method="POST"  action="">
-        <input type="hidden" name="carnie-gigs-csv-verify-key" value="' .
-                        $this->nonce . '"/>
-                        <input type="hidden" name="gigattendance" value="';
+		if (! $old) {
+			// refresh nonce
+			$this->nonce = wp_create_nonce('carnie-gig-attendance');
 
-                if ($found) {
-                        $content = $content . 'remove"/>
-                        <input class="button" type="submit" name="Remove Me" value="Remove Me" />';
-                } else {
-                        $content = $content . 'add"/>
-                        <input class="button" type="submit" name="Add Me" value= "Add Me" />';
-                }
-                $content = $content . '<input type="hidden" name="gigid" value=" ' .
-                        $postid . '"/>';
-                $content = $content . "</form>";
+			$content = $content . '
+			<form method="POST"  action="">
+				<input type="hidden" name="carnie-gigs-csv-verify-key" value="' .
+					$this->nonce . '"/>
+					<input type="hidden" name="gigattendance" value="';
 
+				if ($found) {
+					$content = $content . 'remove"/>
+					<input class="button" type="submit" name="Remove Me" value="Remove Me" />';
+				} else {
+					$content = $content . 'add"/>
+					<input class="button" type="submit" name="Add Me" value= "Add Me" />';
+				}
+				$content = $content . '<input type="hidden" name="gigid" value=" ' .
+					$postid . '"/>';
+				$content = $content . "</form>";
+		}
 
 		$content = $content . ' </dd> ';
-
 		$content = $content . ' </dl> ';
 		return $content;
 	}
