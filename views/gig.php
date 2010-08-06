@@ -201,9 +201,7 @@ class carnieGigView {
 		$date = get_post_meta($postid, $metadata_prefix . 'date', true);
 		if ($date) {
 			$seconds = time() - strtotime($date);
-			$days = $seconds * 60 * 60 * 24;
-
-			$content = $content . "DEBUG " . $date . " " . $seconds . " " . $days;
+			$days = $seconds / ( 60 * 60 * 24 );
 		}
 
 		if ($days <= 10) {
