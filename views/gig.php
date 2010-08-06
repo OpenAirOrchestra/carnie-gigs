@@ -200,7 +200,7 @@ class carnieGigView {
 		$old = false;
 		$date = get_post_meta($postid, $metadata_prefix . 'date', true);
 		if ($date) {
-			$seconds = time() - strtotime($gig['date']));
+			$seconds = time() - strtotime($date);
 			$days = $seconds * 60 * 60 * 24;
 			if ($days > 10) {
 				$old = true;
