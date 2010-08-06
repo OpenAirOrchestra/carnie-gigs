@@ -202,6 +202,8 @@ class carnieGigView {
 		if ($date) {
 			$seconds = time() - strtotime($date);
 			$days = $seconds * 60 * 60 * 24;
+
+			$content = $content . "DEBUG " . $date . " " . $seconds . " " . $days;
 		}
 
 		if ($days <= 10) {
