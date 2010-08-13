@@ -93,6 +93,26 @@ class carnieFields {
 				'id' => $this->metadata_prefix . 'fee',
 				'type' => 'text',
 				'std' => '0'
+			),
+			array('name' => 'Date Fee Deposited',
+				'desc' => 'When the performance fee was deposited.  This is plain text field, so it may include depositor if neccessary.',
+				'id' => $this->metadata_prefix . 'datefeedeposited',
+				'type' => 'text',
+			),
+			array('name' => 'Expenses',
+				'desc' => 'Itemized Gig Expenses.',
+				'id' => $this->metadata_prefix . 'expenses',
+				'type' => 'textarea',
+			),
+			array('name' => 'Net',
+				'desc' => 'Performance fee minus total gig expenses (typically).',
+				'id' => $this->metadata_prefix . 'net',
+				'type' => 'text',
+			),
+			array('name' => 'Production Comission',
+				'desc' => 'Usually 15 percent of Net.',
+				'id' => $this->metadata_prefix . 'productioncomission',
+				'type' => 'text',
 			)
 		);
 	}
