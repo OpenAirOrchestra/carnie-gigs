@@ -3,7 +3,7 @@
 Plugin Name: Carnie Gigs
 Plugin URI: http://members.thecarnivalband.com
 Description: A gig calendar plugin for The Carnival Band 
-Version: 0.3
+Version: 0.4
 Author: Open Air Orchestra Webmonkey
 Author URI: mailto://oaowebmonkey@gmail.com
 License: GPL2
@@ -145,7 +145,7 @@ class carnieGigsCalendar {
 				'description' => 'A gig is a scheduled Carnival Band Performance',
 				'public' => true,
 				'show_ui' => true,
-				'capability_type' => 'page',
+				'capability_type' => 'gig',
 				'publicly_queryable' => true,
 				'exclude_from_search' => false,
 				'menu_position' => 5,
@@ -298,7 +298,7 @@ class carnieGigsCalendar {
 		add_options_page('Carnie Gigs Plugin Settings', 'Carnie Gigs Settings', 'manage_options', 'carnie-gigs-options', array($this, 'options_page'));
 
 		// Add tools page
-		add_management_page('Export Carnie Gigs', 'Export Carnie Gigs', 'read_private_posts', 'export-carnie-gigs-tools', array($this, 'export_gigs_page'));
+		add_management_page('Export Carnie Gigs', 'Export Carnie Gigs', 'read_private_gigs', 'export-carnie-gigs-tools', array($this, 'export_gigs_page'));
 		
 		//call register settings function
 		add_action( 'admin_init', array($this, 'register_settings'));
@@ -321,7 +321,7 @@ class carnieGigsCalendar {
 	}
 
 	function export_gigs_page() {
-		if (!current_user_can('read_private_posts'))  {
+		if (!current_user_can('read_private_gigs'))  {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		} 
 

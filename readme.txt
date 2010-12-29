@@ -18,6 +18,20 @@ A gig calendar specifically tailored for The Canival Band.
 3. Add the shortcode [carniegigs] to a page to list all gigs.
 4. Add the shortcode [carniegigs time="past"] to a page to list past gigs.
 5. Add the shortcode [carniegigs time="future"] to a page to list future gigs.
+6. Download and install the "members" plugin so you can modify capabilites for roles. See http://wordpress.org/extend/plugins/members/
+7. Add the following capabilites to the administrator role:
+
+	* delete_others_gigs
+	* delete_private_gigs
+	* delete_published_gigs
+	* edit_gigs
+	* edit_others_gigs
+	* edit_private_gigs
+	* edit_published_gigs
+	* publish_gigs
+	* read_private_gigs
+
+8. Assign the above capabilites to other roles as desired.
 
 == Frequently Asked Questions ==
 
@@ -36,6 +50,9 @@ Its the path of least resistance to adapt some pre-existing carnie calendar php 
 = 0.3 =
 * Rewrite as custom post type
 
+= 0.4 = 
+* Change custom post capability type from "page" to "gig"
+
 == Upgrade Notice ==
 
 = 0.1 =
@@ -44,4 +61,8 @@ This version is the first to provide any funcationality.
 = 0.3 =
 This version changes to using custom posts. There is still an exported database.
 Manual database import from old db may be required.
+
+= 0.4 = 
+This version changes the custom post capability type from "page" to "gig". 
+You will need to add capabilities for roles for the plugin to work.
 

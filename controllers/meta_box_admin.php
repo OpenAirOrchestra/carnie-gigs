@@ -63,11 +63,11 @@ class carnieGigsMetaFormController {
 		// check permissions
 		// TODO
 		/*
-		if ('page' == $_POST['post_type']) {
-			if (!current_user_can('edit_page', $post_id)) {
+		if ('gig' == $_POST['post_type']) {
+			if (!current_user_can('edit_gig', $post_id)) {
 				return $post_id;
 			}
-		} elseif (!current_user_can('edit_post', $post_id)) {
+		} else {
 			return $post_id;
 		}
 		 */
