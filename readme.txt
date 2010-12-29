@@ -21,14 +21,17 @@ A gig calendar specifically tailored for The Canival Band.
 6. Download and install the "members" plugin so you can modify capabilites for roles. See http://wordpress.org/extend/plugins/members/
 7. Add the following capabilites to the administrator role:
 
+	* delete_gig
 	* delete_others_gigs
 	* delete_private_gigs
 	* delete_published_gigs
+	* edit_gig
 	* edit_gigs
 	* edit_others_gigs
 	* edit_private_gigs
 	* edit_published_gigs
 	* publish_gigs
+	* read_gig
 	* read_private_gigs
 
 8. Assign the above capabilites to other roles as desired.
