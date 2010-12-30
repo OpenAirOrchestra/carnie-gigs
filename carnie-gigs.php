@@ -146,6 +146,17 @@ class carnieGigsCalendar {
 				'public' => true,
 				'show_ui' => true,
 				'capability_type' => 'gig',
+				'capabilities' => array(
+					'publish_posts' => 'publish_gigs',
+					'edit_posts' => 'edit_gigs',
+					'edit_others_posts' => 'edit_others_gigs',
+					'delete_posts' => 'delete_gigs',
+					'delete_others_posts' => 'delete_others_gigs',
+					'read_private_posts' => 'read_private_gigs',
+					'edit_post' => 'edit_gig',
+					'delete_post' => 'delete_gig',
+					'read_post' => 'read_gig',
+					),
 				'publicly_queryable' => true,
 				'exclude_from_search' => false,
 				'menu_position' => 5,
@@ -399,6 +410,55 @@ class carnieGigsCalendar {
 	}
 
 	/*
+	 * Filter for mapping the meta capabilities.
+	 * See: http://justintadlock.com/archives/2010/07/10/meta-capabilities-for-custom-post-types
+	 *
+	 * This is so that users will be granted meta capabilities on a 
+	 * per-gig basis so they can do things like edit their own gig.
+	 */
+	function map_meta_cap( $caps, $cap, $user_id, $args ) {
+		
+		/* If editing, deleting, or reading a gig, get the post and post type object. */
+		if ( 'edit_gig' == $cap || 'delete_gig' == $cap || 'read_gig' == $cap ) {
+			$post = get_post( $args[0] );
+			$post_type = get_post_type_object( $post->post_type );
+
+			/* Set an empty array for the caps. */
+			$caps = array();
+		}
+
+		/* If editing a gig, assign the required capability. */
+		if ( 'edit_gig' == $cap ) {
+			if ( $user_id == $post->post_author )
+				$caps[] = $post_type->cap->edit_posts;
+			else
+				$caps[] = $post_type->cap->edit_others_posts;
+		}
+
+		/* If deleting a gig, assign the required capability. */
+		elseif ( 'delete_gig' == $cap ) {
+			if ( $user_id == $post->post_author )
+				$caps[] = $post_type->cap->delete_posts;
+			else
+				$caps[] = $post_type->cap->delete_others_posts;
+		}
+
+		/* If reading a private gig, assign the required capability. */
+		elseif ( 'read_gig' == $cap ) {
+
+			if ( 'private' != $post->post_status )
+				$caps[] = 'read';
+			elseif ( $user_id == $post->post_author )
+				$caps[] = 'read';
+			else
+				$caps[] = $post_type->cap->read_private_posts;
+		}
+				
+		/* Return the capabilities required by the user. */
+		return $caps;
+	}
+
+	/*
 	 * Stash the post when transitioning it to 'publish' for
 	 * later use in the_content filter if we are in the
 	 * context of the Subscribe2 plugin sending email notification
@@ -496,5 +556,6 @@ add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );
 add_filter( 'the_content', array($CARNIEGIGSCAL, 'the_content') );
 add_filter("manage_edit-gig_columns", array($CARNIEGIGSCAL, 'manage_gig_columns') );
 add_filter( 's2_post_types', array($CARNIEGIGSCAL, 's2_post_types') );
+add_filter( 'map_meta_cap', array($CARNIEGIGSCAL, 'map_meta_cap'), 10, 4 );
 
 ?>
