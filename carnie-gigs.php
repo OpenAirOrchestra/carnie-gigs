@@ -146,7 +146,6 @@ class carnieGigsCalendar {
 				'public' => true,
 				'show_ui' => true,
 				'capability_type' => 'gig',
-			DFDF: revert this change.
 				'publicly_queryable' => true,
 				'exclude_from_search' => false,
 				'menu_position' => 5,
