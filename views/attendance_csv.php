@@ -18,7 +18,13 @@ function carnieGigsCsvAttendance($gigs) {
 	// Date, Gig Name, Carnies, Others
 	echo "\"date\", \"title\", ";
 
-	echo "Others\n";
+	$blogusers = get_users_of_blog();
+
+	foreach ($blogusers as $user) {
+		echo sanitizeCsvField($user->nicename) . ", ";
+	}
+
+	echo "\"Others\"\n";
 	
 	// Data
 	foreach ($gigs as $gig) {
