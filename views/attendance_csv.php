@@ -1,7 +1,53 @@
 <?php
 
+function carnieMatchNickname($user, $attendee) {
+	return strcasecmp($user->nickname , $attendee) == 0;
+}
+
+function carnieMatchNicename($user, $attendee) {
+	return strcasecmp($user->user_nicename , $attendee) == 0;
+}
+
+function carnieMatchLogin($user, $attendee) {
+	return strcasecmp($user->user_login , $attendee) == 0;
+}
+
+function carnieUserInListMatch($user, $others, $matchFunction) {
+	$match = array( "match" => array(), "others" => array() );
+
+	foreach ($others as $attendee) {
+		$attendee = trim($attendee);
+		if (call_user_func($matchFunction, $user, $attendee) {
+			array_push($match["match"], $attendee);
+		} else {
+			array_push($match["others"], $attendee);
+		}
+
+	}
+
+	return $match;
+}
+
 function carnieUserInList($user, $others) {
-	return NULL;
+
+	$match = carnieUserInListMatch($users, $others, 'carnieMatchLogin');
+	if (count($match["match"] == 1)) {
+		return $match;
+	}
+	$match = carnieUserInListMatch($users, $others, 'carnieMatchNicename');
+	if (count($match["match"] == 1)) {
+		return $match;
+	}
+	$match = carnieUserInListMatch($users, $others, 'carnieMatchNickname');
+	if (count($match["match"] == 1)) {
+		return $match;
+	}
+
+	// Fallback
+	$match = array( "match" => array(), "others" => $others );
+
+
+	return $match;
 }
 
 function carnieSanitizeCsvField($field) {
@@ -56,9 +102,9 @@ function carnieGigsCsvAttendance($gigs) {
 			$user = get_userdata($bloguser->user_id); // get actual data
 			$match = carnieUserInList($user, $others);
 	       
-			if ($match) {
+			if (count($match["match"]) == 1) {
 				echo " 1";
-				// TODO: remove match from array
+				$others = $match["others"];
 			} 
 			echo ",";		
 		}
