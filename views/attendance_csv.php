@@ -93,7 +93,8 @@ function carnieGigsCsvAttendance($gigs) {
 		echo carnieSanitizeCsvField($gig['date']) . ", ";
 
 		// Title
-		echo carnieSanitizeCsvField($gig['title']) . ", ";
+		$title = str_replace(",", " ", $gig['title']);
+		echo carnieSanitizeCsvField($title) . ", ";
 		
 		$others = explode(",", $gig['attendees']);
 
