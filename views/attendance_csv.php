@@ -64,7 +64,7 @@ function carnieGigsCsvAttendance($gigs) {
 		}
 		
 		// Others
-		echo carnieSanitizeCsvField(implode("," $others));
+		echo carnieSanitizeCsvField(implode(",", $others));
 
 		echo "\n";
 	}
