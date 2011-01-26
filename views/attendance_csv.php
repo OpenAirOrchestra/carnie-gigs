@@ -24,10 +24,6 @@ function carnieGigsCsvAttendance($gigs) {
 		$user = get_userdata($bloguser->user_id); // get actual data
 		$name = $user->display_name;
 
-		if ($user->user_nicename && 
-			strlen($user->user_nicename)) {
-			$name = $user->user_nicename;
-		}
 		if ($user->user_lastname && 
 			strlen($user->user_lastname) &&
 			$user->user_firstname &&
@@ -36,7 +32,7 @@ function carnieGigsCsvAttendance($gigs) {
 			$name = $user->user_firstname . " " . $user->user_lastname;
 		}
 
-		echo sanitizeCsvField($user->user_nicename) . ", ";
+		echo sanitizeCsvField($name) . ", ";
 	}
 
 	echo "\"Others\"\n";
