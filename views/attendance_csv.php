@@ -1,15 +1,24 @@
 <?php
 
+
+function carnieMatchFirstname($user, $attendee) {
+	return $user->user_firstname ? strcasecmp($user->user_firstname , $attendee) == 0 : 0;
+}
+
+function carnieMatchDisplayname($user, $attendee) {
+	return $user->display_name ? strcasecmp($user->display_name , $attendee) == 0 : 0;
+}
+
 function carnieMatchNickname($user, $attendee) {
-	return strcasecmp($user->nickname , $attendee) == 0;
+	return $user->nickname ? strcasecmp($user->nickname , $attendee) == 0 : 0;
 }
 
 function carnieMatchNicename($user, $attendee) {
-	return strcasecmp($user->user_nicename , $attendee) == 0;
+	return $user->user_nicename ? strcasecmp($user->user_nicename , $attendee) == 0 : 0;
 }
 
 function carnieMatchLogin($user, $attendee) {
-	return strcasecmp($user->user_login , $attendee) == 0;
+	return $user->user_login ? strcasecmp($user->user_login , $attendee) == 0 : 0;
 }
 
 function carnieUserInListMatch($user, $others, $matchFunction) {
@@ -30,6 +39,14 @@ function carnieUserInListMatch($user, $others, $matchFunction) {
 
 function carnieUserInList($user, $others) {
 
+	$match = carnieUserInListMatch($users, $others, 'carnieMatchFirstname');
+	if (count($match["match"] == 1)) {
+		return $match;
+	}
+	$match = carnieUserInListMatch($users, $others, 'carnieMatchDisplayname');
+	if (count($match["match"] == 1)) {
+		return $match;
+	}
 	$match = carnieUserInListMatch($users, $others, 'carnieMatchLogin');
 	if (count($match["match"] == 1)) {
 		return $match;
@@ -105,9 +122,10 @@ function carnieGigsCsvAttendance($gigs) {
 	       
 			if (count($match["match"]) == 1) {
 				echo " 1";
+				echo $match["match"][0]; // Debug
 				$others = $match["others"];
 			} 
-			echo ",";		
+			echo ", ";		
 		}
 		
 		// Others
