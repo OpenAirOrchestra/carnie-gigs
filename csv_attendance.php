@@ -17,6 +17,5 @@ $table_name = get_option('carniegigs_mirror_table');
 $select = "SELECT * FROM " . $table_name;
 
 $gigs = $wpdb->get_results( $select, ARRAY_A );
-carnieGigsAttendanceCsv($gigs);
-
+carnieGigsCsvAttendance($gigs);
 ?>
