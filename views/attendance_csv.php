@@ -21,7 +21,17 @@ function carnieGigsCsvAttendance($gigs) {
 	$blogusers = get_users_of_blog();
 
 	foreach ($blogusers as $user) {
-		echo sanitizeCsvField($user->nicename) . ", ";
+		$name = $user->display_name;
+
+		if ($user->user_lastname && 
+			strlen($user->user_lastname) &&
+			$user->user_firstname &&
+			strlen($user->user_firstname)) {
+		
+			$name = $user->user_firstname . " " . $user->user_lastname;
+		}
+
+		echo sanitizeCsvField($user->user_nicename) . ", ";
 	}
 
 	echo "\"Others\"\n";
