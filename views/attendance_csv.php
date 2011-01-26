@@ -1,6 +1,10 @@
 <?php
 
-function sanitizeCsvField($field) {
+function carnieUserInList($user, $others) {
+	return NULL;
+}
+
+function carnieSanitizeCsvField($field) {
 	if ($field != NULL) {
 		// escape " character in field
 		$field = str_replace("\"", "\"\"", $field);
@@ -32,7 +36,7 @@ function carnieGigsCsvAttendance($gigs) {
 			$name = $user->user_firstname . " " . $user->user_lastname;
 		}
 
-		echo sanitizeCsvField($name) . ", ";
+		echo carnieSanitizeCsvField($name) . ", ";
 	}
 
 	echo "\"Others\"\n";
@@ -40,15 +44,27 @@ function carnieGigsCsvAttendance($gigs) {
 	// Data
 	foreach ($gigs as $gig) {
 		// Date
-		echo sanitizeCsvField($gig['date']) . ", ";
+		echo carnieSanitizeCsvField($gig['date']) . ", ";
 
 		// Title
-		echo sanitizeCsvField($gig['title']) . ", ";
+		echo carnieSanitizeCsvField($gig['title']) . ", ";
 		
+		$others = explode(",", $gig['attendees']);
+
 		// Carnies
+		foreach ($blogusers as $bloguser) {
+			$user = get_userdata($bloguser->user_id); // get actual data
+			$match = carnieUserInList($user, $others);
+	       
+			if ($match) {
+				echo " 1";
+				// TODO: remove match from array
+			} 
+			echo ",";		
+		}
 		
 		// Others
-		echo sanitizeCsvField($gig['attendees']);
+		echo carnieSanitizeCsvField(implode("," $others);
 
 		echo "\n";
 	}
