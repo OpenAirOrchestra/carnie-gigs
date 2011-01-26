@@ -17,7 +17,7 @@ function carnieUserInListMatch($user, $others, $matchFunction) {
 
 	foreach ($others as $attendee) {
 		$attendee = trim($attendee);
-		if (call_user_func($matchFunction, $user, $attendee) {
+		if (call_user_func($matchFunction, $user, $attendee)) {
 			array_push($match["match"], $attendee);
 		} else {
 			array_push($match["others"], $attendee);
