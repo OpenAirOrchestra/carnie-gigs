@@ -55,10 +55,7 @@ function carnieMatchLogin($user, $attendee) {
 	return $user->user_login ? strcasecmp($user->user_login , $attendee) == 0 : 0;
 }
 
-$carnieAttendeeCache = array();
-
 function carnieUserInListMatch($user, $others, $matchFunction) {
-	global $carnieAttendeeCache;
 
 	$match = array( "match" => array(), "others" => array() );
 
@@ -66,9 +63,7 @@ function carnieUserInListMatch($user, $others, $matchFunction) {
 		$attendee = trim($attendee);
 
 		if (strlen($attendee) > 0) {
-			if ( $carnieAttendeeCache[$attendee] == $user ||
-				call_user_func($matchFunction, $user, $attendee)) {
-				$carnieAttendeeCache[$attendee] = $user;
+			if ( call_user_func($matchFunction, $user, $attendee)) {
 				array_push($match["match"], $attendee);
 			} else {
 				array_push($match["others"], $attendee);
