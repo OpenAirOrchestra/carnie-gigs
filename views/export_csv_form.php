@@ -37,5 +37,22 @@ class carnieCsvExportView {
 
 		print "</form>\n";
 	}
+
+	function exportAttendanceForm() {
+
+		$action = carnieUtil::get_url() . "attendance_csv.php"
+?>
+		<form name="export_csv_form"
+			method="POST"
+<?php
+		echo 'action="' . $action . '">';
+		echo '<input type="hidden" name="carnie-gigs-attendance-csv-verify-key" id="carnie-gigs-attendance-csv-verify-key"
+						value="' . wp_create_nonce('carnie-gigs-attendance') . '" />';
+?>
+		<p class="submit"><input type="submit" name="submit" class="button" value="Download Exported Attendance File" />
+<?php
+
+		print "</form>\n";
+	}
 }
 ?>

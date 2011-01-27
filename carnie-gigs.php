@@ -336,6 +336,8 @@ class carnieGigsCalendar {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		} 
 
+		$exportCsvFormView = new carnieCsvExportView;
+
 		echo '<div class="wrap">';
 		echo "<h2>Export Carnie Gigs</h2>";
 		echo "<p>When you click the button below WordPress will create a CSV file for you to save to your computer.</p>";
@@ -347,10 +349,15 @@ class carnieGigsCalendar {
 		   
 		if ($this->carnie_mirror_database->mirror_specified()) {
 			$gig = $this->carnie_mirror_database->one_gig();
-			$exportCsvFormView = new carnieCsvExportView;
 			$exportCsvFormView->exportForm($gig[0]);
 		} else {
 			echo "<p>Create a mirror database to use this feature. See settings for this plugin.</p>";
+		}
+		if ($this->carnie_mirror_database->mirror_specified()) {
+			echo "<h2>Export Carnie Gigs Attendance</h2>";
+			echo "<p>When you click the button below WordPress will create a CSV file for you to save to your computer.</p>";
+			echo "<p>Once you have saved the download file, you can load  into a spreadsheet program like Excel.</p>";
+			$exportCsvFormView->exportAttendanceForm();
 		}
 		echo '</div>';
 	}
