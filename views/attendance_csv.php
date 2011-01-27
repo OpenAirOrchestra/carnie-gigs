@@ -6,7 +6,7 @@ function carnieMatchFullname($user, $attendee) {
 
 	if ($user->user_firstname && $user->user_lastname) {
 		$fullname = trim($user->user_firstname . " " . $user->user_lastname);
-		$match = strcasecmp(($fullname, $attendee) == 0);
+		$match = (strcasecmp($fullname, $attendee) == 0);
 	}
 
 	return $match;
