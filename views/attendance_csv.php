@@ -84,11 +84,11 @@ function carnieUserInList($user, $others) {
 	if (count($match["match"]) == 1) {
 		return $match;
 	}
-	$match = carnieUserInListMatch($user, $others, 'carnieMatchFullname');
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchFirstname');
 	if (count($match["match"]) == 1) {
 		return $match;
 	}
-	$match = carnieUserInListMatch($user, $others, 'carnieMatchFirstname');
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchFullname');
 	if (count($match["match"]) == 1) {
 		return $match;
 	}
