@@ -1,5 +1,9 @@
 <?php
 
+function carnieUserCmp($a, $b)  {
+	return strcmp($a->user_login, $b->user_login);
+}
+
 function carnieTrimValue(&$value) 
 { 
 	    $value = trim($value); 
@@ -122,6 +126,7 @@ function carnieGigsCsvAttendance($gigs) {
 	echo "\"date\", \"title\", ";
 
 	$blogusers = get_users_of_blog();
+	usort($blogusers, "carnieUserCmp");
 
 	foreach ($blogusers as $bloguser) {
 		$user = get_userdata($bloguser->user_id); // get actual data
