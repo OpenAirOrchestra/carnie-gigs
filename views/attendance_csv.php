@@ -77,6 +77,8 @@ function carnieUserInListMatch($user, $others, $matchFunction) {
 
 function carnieUserInList($user, $others) {
 
+	global $carnieFirstnamesCounts;
+
 	if ($user->user_firstname && strlen($user->user_firstname)) {
 		// Don't match firstname on users that have dupe first names
 		if ($carnieFirstnamesCounts[$user->user_firstname] == 1) {
