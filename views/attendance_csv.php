@@ -19,6 +19,7 @@ function carnieMatchFirstnameLastInitial($user, $attendee) {
 
 	return $match;
 }
+
 function carnieMatchFullname($user, $attendee) {
 	$match = 0;
 
@@ -29,7 +30,6 @@ function carnieMatchFullname($user, $attendee) {
 
 	return $match;
 }
-
 
 function carnieMatchFirstname($user, $attendee) {
 	$attendee = explode(" ", $attendee);
@@ -53,15 +53,24 @@ function carnieMatchLogin($user, $attendee) {
 	return $user->user_login ? strcasecmp($user->user_login , $attendee) == 0 : 0;
 }
 
+$carnieAttendeeCache = array();
+
 function carnieUserInListMatch($user, $others, $matchFunction) {
+	global $carnieAttendeeCache;
+
 	$match = array( "match" => array(), "others" => array() );
 
 	foreach ($others as $attendee) {
 		$attendee = trim($attendee);
-		if (call_user_func($matchFunction, $user, $attendee)) {
-			array_push($match["match"], $attendee);
-		} else {
-			array_push($match["others"], $attendee);
+
+		if (strlen($attendee) > 0) {
+			if ( $carnieAttendeeCache[$attendee] == $user ||
+				call_user_func($matchFunction, $user, $attendee)) {
+				$carnieAttendeeCache[$attendee] = $user;
+				array_push($match["match"], $attendee);
+			} else {
+				array_push($match["others"], $attendee);
+			}
 		}
 
 	}
@@ -71,7 +80,7 @@ function carnieUserInListMatch($user, $others, $matchFunction) {
 
 function carnieUserInList($user, $others) {
 
-	$match = carnieUserInListMatch($user, $others, 'carnieMatchFirstname');
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchLogin');
 	if (count($match["match"]) == 1) {
 		return $match;
 	}
@@ -79,12 +88,11 @@ function carnieUserInList($user, $others) {
 	if (count($match["match"]) == 1) {
 		return $match;
 	}
-
-	$match = carnieUserInListMatch($user, $others, 'carnieMatchDisplayname');
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchFirstname');
 	if (count($match["match"]) == 1) {
 		return $match;
 	}
-	$match = carnieUserInListMatch($user, $others, 'carnieMatchLogin');
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchDisplayname');
 	if (count($match["match"]) == 1) {
 		return $match;
 	}
