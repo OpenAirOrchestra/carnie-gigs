@@ -52,28 +52,28 @@ function carnieUserInListMatch($user, $others, $matchFunction) {
 function carnieUserInList($user, $others) {
 
 	$match = carnieUserInListMatch($user, $others, 'carnieMatchFirstname');
-	if (count($match["match"] == 1)) {
+	if (count($match["match"]) == 1) {
 		return $match;
 	}
 	$match = carnieUserInListMatch($user, $others, 'carnieMatchFullname');
-	if (count($match["match"] == 1)) {
+	if (count($match["match"]) == 1) {
 		return $match;
 	}
 
 	$match = carnieUserInListMatch($user, $others, 'carnieMatchDisplayname');
-	if (count($match["match"] == 1)) {
+	if (count($match["match"]) == 1) {
 		return $match;
 	}
 	$match = carnieUserInListMatch($user, $others, 'carnieMatchLogin');
-	if (count($match["match"] == 1)) {
+	if (count($match["match"]) == 1) {
 		return $match;
 	}
 	$match = carnieUserInListMatch($user, $others, 'carnieMatchNicename');
-	if (count($match["match"] == 1)) {
+	if (count($match["match"]) == 1) {
 		return $match;
 	}
 	$match = carnieUserInListMatch($user, $others, 'carnieMatchNickname');
-	if (count($match["match"] == 1)) {
+	if (count($match["match"]) == 1) {
 		return $match;
 	}
 
