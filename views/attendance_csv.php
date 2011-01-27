@@ -77,10 +77,6 @@ function carnieUserInListMatch($user, $others, $matchFunction) {
 
 function carnieUserInList($user, $others) {
 
-	$match = carnieUserInListMatch($user, $others, 'carnieMatchLogin');
-	if (count($match["match"]) == 1) {
-		return $match;
-	}
 	if ($user->user_firstname && strlen($user->user_firstname)) {
 		// Don't match firstname on users that have dupe first names
 		if ($carnieFirstnamesCounts[$user->user_firstname] == 1) {
@@ -89,6 +85,10 @@ function carnieUserInList($user, $others) {
 				return $match;
 			}
 		}
+	}
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchLogin');
+	if (count($match["match"]) == 1) {
+		return $match;
 	}
 
 	$match = carnieUserInListMatch($user, $others, 'carnieMatchFullname');
