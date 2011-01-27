@@ -14,6 +14,8 @@ function carnieMatchFullname($user, $attendee) {
 
 
 function carnieMatchFirstname($user, $attendee) {
+	$attendee = explode(" ", $attendee);
+	$attendee = $attendee[0];
 	return $user->user_firstname ? strcasecmp($user->user_firstname , $attendee) == 0 : 0;
 }
 
