@@ -9,6 +9,8 @@ function carnieTrimValue(&$value)
 	    $value = trim($value); 
 }
 
+$carnieFirstnamesCounts = array();
+
 function carnieMatchFirstnameLastInitial($user, $attendee) {
 	$match = 0;
 
@@ -88,9 +90,15 @@ function carnieUserInList($user, $others) {
 	if (count($match["match"]) == 1) {
 		return $match;
 	}
-	$match = carnieUserInListMatch($user, $others, 'carnieMatchFirstname');
-	if (count($match["match"]) == 1) {
-		return $match;
+
+	if ($user->user_firstname && strlen($user->user_firstname)) {
+		// Don't match firstname on users that have dupe first names
+		if ($carnieFirstnamesCounts[$user->user_firstname] == 1) {
+			$match = carnieUserInListMatch($user, $others, 'carnieMatchFirstname');
+			if (count($match["match"]) == 1) {
+				return $match;
+			}
+		}
 	}
 	$match = carnieUserInListMatch($user, $others, 'carnieMatchDisplayname');
 	if (count($match["match"]) == 1) {
@@ -128,7 +136,11 @@ function carnieSanitizeCsvField($field) {
 	return $field;
 }
 
+
 function carnieGigsCsvAttendance($gigs) {
+	
+	global $carnieFirstnamesCounts;
+	$carnieFirstnames = array();
 
 	// Date, Gig Name, Carnies, Others
 	echo "\"date\", \"title\", ";
@@ -148,8 +160,14 @@ function carnieGigsCsvAttendance($gigs) {
 			$name = $user->user_firstname . " " . $user->user_lastname;
 		}
 
+		if ($user->user_firstname && strlen($user->user_firstname)) {
+			array_push($carnieFirstnames, $user->user_firstname);	
+		}
+
 		echo carnieSanitizeCsvField($name) . ", ";
 	}
+
+	$carnieFirstnamesCounts = array_count_values($carnieFirstnames);
 
 	echo "\"Others\"\n";
 	
@@ -165,6 +183,7 @@ function carnieGigsCsvAttendance($gigs) {
 		$others = explode(",", $gig['attendees']);
 		array_walk($others, 'carnieTrimValue');
 		$others = array_unique($others);
+		$others = array_values($others);
 
 		// Carnies
 		foreach ($blogusers as $bloguser) {
