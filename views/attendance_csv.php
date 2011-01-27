@@ -1,6 +1,18 @@
 <?php
 
 
+function carnieMatchFullname($user, $attendee) {
+	$match = 0;
+
+	if ($user->user_firstname && $user->user_lastname) {
+		$fullname = trim($user->user_firstname . " " . $user->user_lastname);
+		$match = strcasecmp(($fullname, $attendee) == 0);
+	}
+
+	return $match;
+}
+
+
 function carnieMatchFirstname($user, $attendee) {
 	return $user->user_firstname ? strcasecmp($user->user_firstname , $attendee) == 0 : 0;
 }
@@ -43,6 +55,11 @@ function carnieUserInList($user, $others) {
 	if (count($match["match"] == 1)) {
 		return $match;
 	}
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchFullname');
+	if (count($match["match"] == 1)) {
+		return $match;
+	}
+
 	$match = carnieUserInListMatch($user, $others, 'carnieMatchDisplayname');
 	if (count($match["match"] == 1)) {
 		return $match;
