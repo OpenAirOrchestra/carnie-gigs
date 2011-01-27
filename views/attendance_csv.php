@@ -1,5 +1,9 @@
 <?php
 
+function carnieTrimValue(&$value) 
+{ 
+	    $value = trim($value); 
+}
 
 function carnieMatchFullname($user, $attendee) {
 	$match = 0;
@@ -132,6 +136,8 @@ function carnieGigsCsvAttendance($gigs) {
 		echo carnieSanitizeCsvField($title) . ", ";
 		
 		$others = explode(",", $gig['attendees']);
+		array_walk($others, 'carnieTrimValue');
+		$others = array_unique($others);
 
 		// Carnies
 		foreach ($blogusers as $bloguser) {
