@@ -39,30 +39,29 @@ function carnieUserInListMatch($user, $others, $matchFunction) {
 
 function carnieUserInList($user, $others) {
 
-	$match = carnieUserInListMatch($users, $others, 'carnieMatchFirstname');
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchFirstname');
 	if (count($match["match"] == 1)) {
 		return $match;
 	}
-	$match = carnieUserInListMatch($users, $others, 'carnieMatchDisplayname');
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchDisplayname');
 	if (count($match["match"] == 1)) {
 		return $match;
 	}
-	$match = carnieUserInListMatch($users, $others, 'carnieMatchLogin');
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchLogin');
 	if (count($match["match"] == 1)) {
 		return $match;
 	}
-	$match = carnieUserInListMatch($users, $others, 'carnieMatchNicename');
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchNicename');
 	if (count($match["match"] == 1)) {
 		return $match;
 	}
-	$match = carnieUserInListMatch($users, $others, 'carnieMatchNickname');
+	$match = carnieUserInListMatch($user, $others, 'carnieMatchNickname');
 	if (count($match["match"] == 1)) {
 		return $match;
 	}
 
 	// Fallback
 	$match = array( "match" => array(), "others" => $others );
-
 
 	return $match;
 }
@@ -121,11 +120,10 @@ function carnieGigsCsvAttendance($gigs) {
 			$match = carnieUserInList($user, $others);
 	       
 			if (count($match["match"]) == 1) {
-				echo " 1";
-				echo $match["match"][0]; // Debug
+				echo "1";
 				$others = $match["others"];
 			} 
-			echo ", ";		
+			echo ",";		
 		}
 		
 		// Others
