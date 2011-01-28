@@ -171,34 +171,39 @@ function carnieGigsCsvAttendance($gigs) {
 	
 	// Data
 	foreach ($gigs as $gig) {
-		// Date
-		echo carnieSanitizeCsvField($gig['date']) . ", ";
 
-		// Title
-		$title = str_replace(",", " ", $gig['title']);
-		echo carnieSanitizeCsvField($title) . ", ";
-		
-		$others = explode(",", $gig['attendees']);
-		array_walk($others, 'carnieTrimValue');
-		$others = array_unique($others);
-		$others = array_values($others);
+		if (! $gig['cancelled']) {
+			// Date
+			echo carnieSanitizeCsvField($gig['date']) . ", ";
 
-		// Carnies
-		foreach ($blogusers as $bloguser) {
-			$user = get_userdata($bloguser->user_id); // get actual data
-			$match = carnieUserInList($user, $others);
-	       
-			if (count($match["match"]) == 1) {
-				echo "1";
-				$others = $match["others"];
-			} 
-			echo ",";		
+			// Title
+			$title = str_replace(",", " ", $gig['title']);
+			echo carnieSanitizeCsvField($title) . ", ";
+			
+			$others = explode(",", $gig['attendees']);
+			array_walk($others, 'carnieTrimValue');
+			$others = array_unique($others);
+			$others = array_values($others);
+
+			// Carnies
+			foreach ($blogusers as $bloguser) {
+				$user = get_userdata($bloguser->user_id); // get actual data
+				$match = carnieUserInList($user, $others);
+		       
+				if (count($match["match"]) == 1) {
+					echo "1";
+					$others = $match["others"];
+				} 
+				echo ",";		
+			}
+			
+			// Others
+			echo carnieSanitizeCsvField(implode(",", $others));
+
+			echo "\n";
+
 		}
-		
-		// Others
-		echo carnieSanitizeCsvField(implode(",", $others));
 
-		echo "\n";
 	}
 }
 ?>
