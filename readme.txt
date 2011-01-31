@@ -53,6 +53,9 @@ Its the path of least resistance to adapt some pre-existing carnie calendar php 
 = 0.4 = 
 * Change custom post capability type from "page" to "gig"
 
+= 0.5 = 
+* Added primitive autocomplete to attendees input and attendance CSV export.
+
 == Upgrade Notice ==
 
 = 0.1 =
