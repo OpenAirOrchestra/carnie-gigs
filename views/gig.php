@@ -83,7 +83,9 @@ class carnieGigView {
 		if (strtotime($date)) {
 			$content = $content . '<strong>' . date('D, d M Y', strtotime($date)) . '</strong> ';
 		} else {
-			$content = $content . '<strong>' . 'DEBUG: ' . $date . '</strong> ';
+			$date = $_POST[ $metadata_prefix . 'date' ];
+			$content = $content . '<strong>' . 'DEBUG 1: ' . date('D, d M Y', strtotime($date)) . '</strong> ';
+			$content = $content . '<strong>' . 'DEBUG 2: ' . $date . '</strong> ';
 		}
 		if (strlen($calltime)) {
 			$content = $content .
