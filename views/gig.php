@@ -80,7 +80,11 @@ class carnieGigView {
 		$content = $content . ' <dd> ';
 
 
-		$content = $content . '<strong>' . date('D, d M Y', strtotime($date)) . '</strong> ';
+		if (strtotime($date)) {
+			$content = $content . '<strong>' . date('D, d M Y', strtotime($date)) . '</strong> ';
+		} else {
+			$content = $content . '<strong>' . 'DEBUG: ' . $date . '</strong> ';
+		}
 		if (strlen($calltime)) {
 			$content = $content .
 				"<br/>Call: " .
