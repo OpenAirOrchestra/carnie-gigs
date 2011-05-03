@@ -40,13 +40,14 @@ class carnieGigView {
 
 		// Not in the loop...
 		// do we have the data we need in $_POST?  Do we have date?
-		if (! get_the_id() && $_POST[$metadata_prefix . 'date']) {
+		if (! $date && $_POST[$metadata_prefix . 'date']) {
 			// pull data from $_POST instead
+			$date = $_POST[ $metadata_prefix . 'date' ];
+
 			$cancelled = $_POST[ $metadata_prefix . 'cancelled' ];
 			$tentative = $_POST[ $metadata_prefix . 'tentative' ];
 			$closedcall = $_POST[ $metadata_prefix . 'closedcall' ];
 			$privateevent = $_POST[ $metadata_prefix . 'privateevent' ];
-			$date = $_POST[ $metadata_prefix . 'date' ];
 			$calltime = $_POST[ $metadata_prefix . 'calltime' ];
 			$eventstart = $_POST[ $metadata_prefix . 'eventstart' ];
 			$performancestart = $_POST[ $metadata_prefix . 'performancestart' ];
@@ -54,6 +55,8 @@ class carnieGigView {
 			$costume = $_POST[ $metadata_prefix . 'costume' ];
 			$url = $_POST[ $metadata_prefix . 'url' ];
 			$coordinator = $_POST[ $metadata_prefix . 'coordinator' ];
+
+			$render_attendees = false;
 		}
 
 		$content = $content . ' <h2>Details</h2> ';
@@ -82,10 +85,6 @@ class carnieGigView {
 
 		if (strtotime($date)) {
 			$content = $content . '<strong>' . date('D, d M Y', strtotime($date)) . '</strong> ';
-		} else {
-			$date = $_POST[ $metadata_prefix . 'date' ];
-			$content = $content . '<strong>' . 'DEBUG 1: ' . date('D, d M Y', strtotime($date)) . '</strong> ';
-			$content = $content . '<strong>' . 'DEBUG 2: ' . $date . '</strong> ';
 		}
 		if (strlen($calltime)) {
 			$content = $content .
