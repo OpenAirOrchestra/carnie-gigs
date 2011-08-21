@@ -179,8 +179,14 @@ function carnieGigsCsvAttendance($gigs) {
 			// Title
 			$title = str_replace(",", " ", $gig['title']);
 			echo carnieSanitizeCsvField($title) . ", ";
+
+			$attendees = $gig['verifiedattendees'];
+
+			if (! $attendees || ! strlen($attendees)) {
+				$attendees = $gig['attendees'];
+			}
 			
-			$others = explode(",", $gig['attendees']);
+			$others = explode(",", $attendees]);
 			array_walk($others, 'carnieTrimValue');
 			$others = array_unique($others);
 			$others = array_values($others);
