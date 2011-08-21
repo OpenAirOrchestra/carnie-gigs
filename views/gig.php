@@ -163,6 +163,7 @@ class carnieGigView {
 		if ($render_attendees) {
 			// Attendees
 			$content = $this->attendees($content, $metadata_prefix, $postid);
+			$content = $this->verified_attendees($content, $metadata_prefix, $postid);
 		}
 		return $content;
 	}
@@ -237,6 +238,50 @@ class carnieGigView {
 
 		$content = $content . ' </dd> ';
 		$content = $content . ' </dl> ';
+		return $content;
+	}
+
+	/*
+	 * Return rendered verified attendees.
+	 */
+	function attendees($content, $metadata_prefix, $postid) { 
+		global $current_user;
+		get_currentuserinfo();
+		$display_name = $current_user->display_name; 
+		if (! $display_name) {
+			$display_name = $current_user->user_login;
+		}
+		$found = false;
+
+		$attendees = get_post_meta($postid, $metadata_prefix . 'verifiedattendees');
+
+		if ($attendees && strlen($attendees)) {
+
+			sort($attendees);
+			$content = $content . ' <dt>Verified Attendees:</dt> ';
+			$content = $content . ' <dd> ';
+			foreach ($attendees as $attendee) {
+				$content = $content . $sep;
+
+				if ($attendee == $current_user->display_name ||
+				    $attendee == $current_user->user_login) {
+					    $found = true;
+					    $content = $content . '<span style=\"font-weight:bolder\">';
+				} else {
+					    $content = $content . '<span>';
+				}
+
+				$attendee = htmlentities(stripslashes($attendee));
+
+				$content = $content . $attendee;
+				$content = $content . '</span>';
+				$sep = ', ';
+			}
+
+			$content = $content . ' </dd> ';
+			$content = $content . ' </dl> ';
+
+		}
 		return $content;
 	}
 
