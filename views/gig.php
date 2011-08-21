@@ -244,7 +244,7 @@ class carnieGigView {
 	/*
 	 * Return rendered verified attendees.
 	 */
-	function attendees($content, $metadata_prefix, $postid) { 
+	function verified_attendees($content, $metadata_prefix, $postid) { 
 		global $current_user;
 		get_currentuserinfo();
 		$display_name = $current_user->display_name; 
