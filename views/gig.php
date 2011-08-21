@@ -208,9 +208,12 @@ class carnieGigView {
 		if ($date) {
 			$seconds = time() - strtotime($date);
 			$days = $seconds / ( 60 * 60 * 24 );
+
+			// TODO: The server is in florida, so convert 
+			// to PST (7 hour offset)
 		}
 
-		if (($days <= 1.5) && (! $closedcall)) {
+		if (($days <= 1.4) && (! $closedcall)) {
 			// refresh nonce
 			$this->nonce = wp_create_nonce('carnie-gig-attendance');
 

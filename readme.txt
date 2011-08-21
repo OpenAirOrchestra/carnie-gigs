@@ -69,3 +69,5 @@ Manual database import from old db may be required.
 This version changes the custom post capability type from "page" to "gig". 
 You will need to add capabilities for roles for the plugin to work.
 
+= 0.6 =
+Added the "Verified Attendees" field
