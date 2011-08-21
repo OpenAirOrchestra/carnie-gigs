@@ -186,7 +186,7 @@ function carnieGigsCsvAttendance($gigs) {
 				$attendees = $gig['attendees'];
 			}
 			
-			$others = explode(",", $attendees]);
+			$others = explode(",", $attendees);
 			array_walk($others, 'carnieTrimValue');
 			$others = array_unique($others);
 			$others = array_values($others);
