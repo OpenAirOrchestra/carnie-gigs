@@ -210,7 +210,7 @@ class carnieGigView {
 			$days = $seconds / ( 60 * 60 * 24 );
 		}
 
-		if (($days <= 1) && (! $closedcall)) {
+		if (($days <= 1.5) && (! $closedcall)) {
 			// refresh nonce
 			$this->nonce = wp_create_nonce('carnie-gig-attendance');
 
