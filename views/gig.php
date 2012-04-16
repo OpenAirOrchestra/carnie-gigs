@@ -210,8 +210,8 @@ class carnieGigView {
 			$seconds = time() - strtotime($date);
 			$days = $seconds / ( 60 * 60 * 24 );
 
-			// TODO: The server is in florida, so convert 
-			// to PST (7 hour offset)
+			// TODO: The server is in Saskatchewen, so convert 
+			// to PST (2 hour offset)
 		}
 
 		if (($days <= 1.4) && (! $closedcall)) {
