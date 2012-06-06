@@ -356,9 +356,9 @@ class carnieGigView {
 		}       
 		print "</td>";
 		if (! is_admin()) {
-			print '<td class="icon">';
+			print '<td>';
 			print "<a title=\"Download iCal entry\" href=\"" . carnieUtil::get_url() . "ical.php?id=" . $gig['gigid'] . 
-				"\"> <img height=\"19px\" style=\"vertical-align:middle\" src=\"" .  carnieUtil::get_url() . "images/calendar.jpg\"></a>";
+				"\"> <img style=\"vertical-align:middle;max-width:19px\" src=\"" .  carnieUtil::get_url() . "images/calendar.jpg\"></a>";
 			print "</td>";
 		}
 		print "</tr>\n";
