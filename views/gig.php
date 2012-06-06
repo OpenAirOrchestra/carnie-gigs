@@ -289,14 +289,28 @@ class carnieGigView {
 	 * Render short view of gigs from database results
 	 * in an HTML table.
 	 */
-	function shortGigs($gigs) {
+	function shortGigs($gigs, $check_post_status) {
 
-		// refresh nonce
 		echo '<table class="gigs">';
 		$even = false;
 		foreach ($gigs as $gig) {
-			$this->shortGig($gig, $even);
-			$even = ! $even;
+			
+			$valid = true;
+
+			if ($check_post_status) {
+				$gigid = $gig['gigid'];
+				$post = get_post($gigid);
+				if ((! $post) ||  
+				    (! $post->post_status)  ||
+				    (strcasecmp($post->post_status, "publish") != 0)) {
+					$valid = false;
+				}
+			}
+
+			if ($valid) {
+				$this->shortGig($gig, $even);
+				$even = ! $even;
+			}
 		}
 		print "</table>";
 	}

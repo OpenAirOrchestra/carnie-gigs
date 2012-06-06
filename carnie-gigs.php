@@ -388,11 +388,13 @@ class carnieGigsCalendar {
 			$this->carnie_mirror_database = new carnieMirrorDatabase;
 		}
 		   
+		$check_post_status = false;
 		$gigs = array();
 		if ($time == 'past') {
 			$gigs = $this->carnie_mirror_database->past_gigs();
 		} else if ($time == 'future') {
 			$gigs = $this->carnie_mirror_database->future_gigs();
+			$check_post_status = true;
 		} else {
 			$gigs = $this->carnie_mirror_database->all_gigs();
 		}
@@ -401,7 +403,7 @@ class carnieGigsCalendar {
 			$this->carnie_gig_view = new carnieGigView;
 		}
 		
-		$this->carnie_gig_view->shortGigs($gigs);
+		$this->carnie_gig_view->shortGigs($gigs, $check_post_status);
 	}
 
 	/*
