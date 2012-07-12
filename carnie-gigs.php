@@ -558,7 +558,7 @@ add_shortcode('carniegigs', array($CARNIEGIGSCAL, 'carniegigs_shortcode_handler'
 
 // actions
 add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));
-add_action( 'admin_init', array($CARNIEGIGSCAL, 'enqueue_admin_scripts'));
+add_action('admin_init', array($CARNIEGIGSCAL, 'enqueue_admin_scripts'));
 add_action('save_post', array($CARNIEGIGSCAL, 'save_post_data'));
 add_action('deleted_post', array($CARNIEGIGSCAL, 'deleted_post'));
 add_action('trashed_post', array($CARNIEGIGSCAL, 'trashed_post'));

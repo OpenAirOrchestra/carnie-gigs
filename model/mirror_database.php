@@ -18,18 +18,15 @@ class carnieMirrorDatabase {
 	}
 
 	/*
-	 * Rebuild the mirror database table
-	 */
-	function rebuild($metadata_fields, $metadata_prefix) {
+ 	 * Ensure mirror database table exists, rebuild from posts
+	 * if it doesn't exist
+ 	 */
+	function ensure_exists($metadata_fields, $metadata_prefix) {
+
 		if ($this->mirror_specified()) {
 			global $wpdb;
 
-			// Drop existing 
-
-			$query = 'DROP TABLE IF EXISTS  ' . $this->table;
-			$wpdb->query($query); 
-			
-			// Create new table
+			// Create new table if needed
 			$query =  "CREATE TABLE " . $this->table . " (
 				id mediumint(9) NOT NULL AUTO_INCREMENT,
 				gigid mediumint(9),
@@ -52,11 +49,31 @@ class carnieMirrorDatabase {
 					$query = $query . " text,";
 				}
 				$query = $query . "
-					";
+				";
 			}
-			$query = $query . " UNIQUE KEY id (id)";
+			$query = $query . "UNIQUE KEY id (id)";
 			$query = $query . ");";
+
+			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+			dbDelta($query);
+		}
+	}
+
+	/*
+	 * Rebuild the mirror database table
+	 */
+	function rebuild($metadata_fields, $metadata_prefix) {
+		if ($this->mirror_specified()) {
+			global $wpdb;
+
+			// Drop existing 
+
+			$query = 'DROP TABLE IF EXISTS  ' . $this->table;
 			$wpdb->query($query); 
+
+			// Create new table
+			$this->ensure_exists($metadata_fields, $metadata_prefix);
 
 			// Populate new table
 			// get_posts() only returns number_posts at a time.
@@ -79,6 +96,8 @@ class carnieMirrorDatabase {
 		$wpdb->show_errors();
 
 		$this->get_options();
+
+		$this->ensure_exists($metadata_fields, $metadata_prefix);
 
 		$data = array( 'gigid' => $post->ID,
 			'title' => $post->post_title,
