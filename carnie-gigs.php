@@ -413,9 +413,11 @@ class carnieGigsCalendar {
 	 * custom post type.
 	 */
 	function s2_post_types( $s2_post_types ) {
-		$carnieTypes = array( 'gig' );
-
-		return array_merge($s2_post_types, $carnieTypes);
+        	$carnieTypes[] = 'gig';
+		if ( $s2_post_types ) {
+				$carnieTypes = array_merge($s2_post_types, $carnieTypes);
+		}
+        	return $carnieTypes;
 	}
 
 	/*
