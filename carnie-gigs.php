@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Carnie Gigs
-Plugin URI: http://members.thecarnivalband.com
+Plugin URI: http://www.thecarnivalband.com
 Description: A gig calendar plugin for The Carnival Band 
 Version: 0.4
 Author: Open Air Orchestra Webmonkey
