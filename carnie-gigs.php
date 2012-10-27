@@ -66,12 +66,26 @@ class carnieGigsCalendar {
 	 * Migrate any data from legacy table
 	 */
 	function activate () {
-		$old_version = get_option("carniegigs_db_version");
+		$version = get_option("carniegigs_db_version");
 
+		
 
-		if ($old_version) {
-			if ($old_version < CARNIE_GIGS_DB_VERSION) {
-				// $this->migrate_legacy_data();
+		if ($version) {
+			if ($version < CARNIE_GIGS_DB_VERSION) {
+				if ($version <= 2) {
+	 				// Migrate any legacy data in old 
+					// gig database table
+					$this->migrate_legacy_gigdb_data();
+					$version = 3;
+				}
+
+				if ($version <= 3) {
+	 				// Migrate verified attendees in 
+					// custom post fields
+	 				//  to new database table
+					$this->migrate_legacy_verified_attendees ();
+				}
+
 				update_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);
 			}
 		} else {
@@ -83,7 +97,7 @@ class carnieGigsCalendar {
 	/*
 	 * Migrates any legacy data in old gig database table
 	 */
-	function migrate_legacy_data () {
+	function migrate_legacy_gigdb_data () {
 
 		$database_host = DB_HOST;
 		$database_name = "wordpress_cbm";
@@ -119,6 +133,79 @@ class carnieGigsCalendar {
 			}
 			$this->carnie_gigs_meta_form_controller->save_metadata($postid, $this->metadata_fields, $this->metadata_prefix, $gig);
 		}
+	}
+
+	/*
+	 * Migrate verified attendees in custom post fields
+	 * to new database table
+	 */
+	function migrate_legacy_verified_attendees () {
+
+		global $wpdb;
+
+		// Create table for verified attendees
+                $table_name = $wpdb->prefix . "gig_attendance";
+                $sql = "CREATE TABLE $table_name (
+                        id mediumint(9) NOT NULL AUTO_INCREMENT,
+                        gigid mediumint(9),
+                        user_id bigint(20) ,
+                        firstname text ,
+                        lastname text ,
+                        notes text ,
+                        UNIQUE KEY id (id) );";
+
+                dbDelta($sql);
+
+		$metadata_prefix = 'cbg_';
+
+		// Loop through gig posts
+		$args = array('post_type' => 'gig');
+		$gig_posts = get_posts($args);
+
+		foreach($gig_posts as $post) {
+			$postid = $post->ID;
+                	$attendees = get_post_meta($postid, $metadata_prefix . 'verifiedattendees');
+			foreach($attendees as $attendee) {
+				$attendee = trim($attendee);
+				if (strlen($attendee)) {
+				
+					$firstname = $attendee;
+					$lastname = "";
+					$notes = "";
+					$userid = 0;
+
+					// I has an attendee for a gig
+					// is it a user login?
+					$user = get_user_by('login', $attendee);
+
+					if ($user) {
+						if ($user->first_name && strlen($user->first_name)) {
+							$firstname = $user->first_name;
+						} 
+						
+						$lastname = $user->last_name;
+						$userid = $user->ID;
+
+						// DFDF TODO: extract bio blurb as notes
+					} else {
+						$components = explode(" ", $attendee);
+						$firstname = $components[0];
+						if (count($components) > 1) {
+							$lastname = $components[count($components) - 1];
+						}
+					}
+
+					// DFDF TODO: add entry to table
+					// DFDF TODO: remove metadata field
+					var_dump($firstname);
+					var_dump($lastname);
+					var_dump($userid);
+				}
+			}
+		}
+
+
+		wp_die( __('Migrate Legacy Verified Attendees.') );
 	}
 
 	/*
