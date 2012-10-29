@@ -63,7 +63,8 @@ class carnieGigsCalendar {
 	   
 	/*
 	 * Activate the plugin.  
-	 * Migrate any data from legacy table
+  	 * Create any database tables.
+	 * Migrate any data from previous versions.
 	 */
 	function activate () {
 		$version = get_option("carniegigs_db_version");
@@ -191,7 +192,6 @@ class carnieGigsCalendar {
 				
 					$firstname = $attendee;
 					$lastname = "";
-					$notes = "";
 					$userid = 0;
 
 					// I has an attendee for a gig
@@ -201,27 +201,64 @@ class carnieGigsCalendar {
 					if ($user) {
 						if ($user->first_name && strlen($user->first_name)) {
 							$firstname = $user->first_name;
-						} 
+						} else {
+							// no first name? use login
+							$firstname = $user->user_login;
+						}
 						
 						$lastname = $user->last_name;
 						$userid = $user->ID;
 
-						// DFDF TODO: extract bio blurb as notes
+						// add entry to table (has userid)
+						$wpdb->insert(
+							$table_name,
+							array(
+								'gigid' => $postid,
+								'user_id' => $userid,
+								'firstname' => $firstname,
+								'lastname' => $lastname
+							),
+							array(
+								'%d',
+								'%d',
+								'%s',
+								'%s'
+							)
+						);
+
 					} else {
 						$components = explode(" ", $attendee);
 						$firstname = $components[0];
 						if (count($components) > 1) {
 							$lastname = $components[count($components) - 1];
 						}
+
+						// add entry to table (no user id)
+						$wpdb->insert(
+							$table_name,
+							array(
+								'gigid' => $postid,
+								'firstname' => $firstname,
+								'lastname' => $lastname
+							),
+							array(
+								'%d',
+								'%s',
+								'%s'
+							)
+						);
 					}
 
-					// DFDF TODO: add entry to table
-					// DFDF TODO: remove metadata field
+
 					var_dump($firstname);
 					var_dump($lastname);
 					var_dump($userid);
+
 				}
 			}
+
+
+			// DFDF TODO remove post meta
 		}
 
 
