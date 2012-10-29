@@ -71,6 +71,7 @@ class carnieGigsCalendar {
 		
 
 		if ($version) {
+			// Do upgrades
 			if ($version < CARNIE_GIGS_DB_VERSION) {
 				if ($version <= 2) {
 	 				// Migrate any legacy data in old 
@@ -89,6 +90,25 @@ class carnieGigsCalendar {
 				update_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);
 			}
 		} else {
+			// First install/activate
+
+			// Do initial database creation
+			global $wpdb;
+
+			// Create table for verified attendees
+			$table_name = $wpdb->prefix . "gig_attendance";
+			$sql = "CREATE TABLE $table_name (
+				id mediumint(9) NOT NULL AUTO_INCREMENT,
+				gigid mediumint(9),
+				user_id bigint(20) ,
+				firstname text ,
+				lastname text ,
+				notes text ,
+				UNIQUE KEY id (id) );";
+
+			dbDelta($sql);
+
+			// Add database version option
 			add_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);
 		}
 
