@@ -186,6 +186,7 @@ class carnieGigsCalendar {
 		foreach($gig_posts as $post) {
 			$postid = $post->ID;
                 	$attendees = get_post_meta($postid, $metadata_prefix . 'verifiedattendees');
+
 			foreach($attendees as $attendee) {
 				$attendee = trim($attendee);
 				if (strlen($attendee)) {
@@ -248,21 +249,11 @@ class carnieGigsCalendar {
 							)
 						);
 					}
-
-
-					var_dump($firstname);
-					var_dump($lastname);
-					var_dump($userid);
-
 				}
 			}
-
-
-			// DFDF TODO remove post meta
+			// Remove post meta
+                	delete_post_meta($postid, $metadata_prefix . 'verifiedattendees');
 		}
-
-
-		wp_die( __('Migrate Legacy Verified Attendees.') );
 	}
 
 	/*
