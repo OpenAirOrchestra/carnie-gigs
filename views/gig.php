@@ -237,7 +237,6 @@ class carnieGigView {
 		}
 
 		$content = $content . ' </dd> ';
-		$content = $content . ' </dl> ';
 		return $content;
 	}
 
@@ -246,6 +245,7 @@ class carnieGigView {
 	 */
 	function verified_attendees($content, $metadata_prefix, $postid) { 
 		global $current_user;
+		global $wpdb;
 		get_currentuserinfo();
 		$display_name = $current_user->display_name; 
 		if (! $display_name) {
@@ -253,33 +253,36 @@ class carnieGigView {
 		}
 		$found = false;
 
-		$attendees = get_post_meta($postid, $metadata_prefix . 'verifiedattendees');
+		$table_name = $wpdb->prefix . "gig_attendance";
+		$sql = $wpdb->prepare("SELECT * FROM `$table_name` WHERE gigid = %d ORDER BY `lastname`", $postid);
+		$attendees = $wpdb->get_results( $sql, ARRAY_A );
 
-		if ($attendees && strlen($attendees)) {
+		if (count($attendees) > 0) {
 
-			sort($attendees);
 			$content = $content . ' <dt>Verified Attendees:</dt> ';
 			$content = $content . ' <dd> ';
+			$sep = '';
 			foreach ($attendees as $attendee) {
 				$content = $content . $sep;
 
-				if ($attendee == $current_user->display_name ||
-				    $attendee == $current_user->user_login) {
-					    $found = true;
-					    $content = $content . '<span style=\"font-weight:bolder\">';
+				if ($attendee['user_id'] == $user_ID) {
+			    		$found = true;
+                                        $content = $content . '<span style=\"font-weight:bolder\">';
 				} else {
-					    $content = $content . '<span>';
+	   				$content = $content . '<span>';
 				}
 
-				$attendee = htmlentities(stripslashes($attendee));
+				// DFDF TODO: render as table here!?!  Or just list as is?
+				// do just first letter of last name?  What about notes?
+				$content = $content . htmlentities(stripslashes($attendee['firstname']));
+				$content = $content . ' ';
+				$content = $content . htmlentities(stripslashes($attendee['lastname']));
 
-				$content = $content . $attendee;
 				$content = $content . '</span>';
-				$sep = ', ';
+                                $sep = ', ';
 			}
 
 			$content = $content . ' </dd> ';
-			$content = $content . ' </dl> ';
 
 		}
 		return $content;
