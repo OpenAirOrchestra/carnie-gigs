@@ -36,6 +36,7 @@ require_once $include_folder . '/controllers/meta_box_admin.php';
 require_once $include_folder . '/controllers/attendance.php';
 require_once $include_folder . '/model/fields.php';
 require_once $include_folder . '/model/mirror_database.php';
+require_once $include_folder . '/model/verified_attendees.php';
 
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
@@ -375,6 +376,9 @@ class carnieGigsCalendar {
 				$this->carnie_mirror_database = new carnieMirrorDatabase;
 			}
 			$this->carnie_mirror_database->delete_post($post_id); 
+
+			$verified_attendees_database = new verifiedAttendeesDatabase;
+			$verified_attendees_database->delete_post($post_id);
 		}
 	}
 

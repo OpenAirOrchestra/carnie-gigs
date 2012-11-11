@@ -245,7 +245,6 @@ class carnieGigView {
 	 */
 	function verified_attendees($content, $metadata_prefix, $postid) { 
 		global $current_user;
-		global $wpdb;
 		get_currentuserinfo();
 		$display_name = $current_user->display_name; 
 		if (! $display_name) {
@@ -253,9 +252,8 @@ class carnieGigView {
 		}
 		$found = false;
 
-		$table_name = $wpdb->prefix . "gig_attendance";
-		$sql = $wpdb->prepare("SELECT * FROM `$table_name` WHERE gigid = %d ORDER BY `lastname`", $postid);
-		$attendees = $wpdb->get_results( $sql, ARRAY_A );
+		$verified_attendees_database = new verifiedAttendeesDatabase;
+		$attendees = $verified_attendees_database->verified_attendees($postid);
 
 		if (count($attendees) > 0) {
 
@@ -272,11 +270,15 @@ class carnieGigView {
 	   				$content = $content . '<span>';
 				}
 
-				// DFDF TODO: render as table here!?!  Or just list as is?
-				// do just first letter of last name?  What about notes?
 				$content = $content . htmlentities(stripslashes($attendee['firstname']));
 				$content = $content . ' ';
-				$content = $content . htmlentities(stripslashes($attendee['lastname']));
+
+				// trunc lastname to first initial for users who don't have sufficient privs.
+				if (current_user_can('read_private_posts')) {
+					$content = $content . htmlentities(stripslashes($attendee['lastname']));
+                        	} else {
+					$content = $content . substr(htmlentities(stripslashes($attendee['lastname'])), 0, 1);
+                        	}
 
 				$content = $content . '</span>';
                                 $sep = ', ';
