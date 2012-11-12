@@ -86,7 +86,7 @@ class carnieGigsCalendar {
 	 				// Migrate verified attendees in 
 					// custom post fields
 	 				//  to new database table
-					$this->migrate_legacy_verified_attendees ();
+					$this->migrate_legacy_verified_attendees();
 				}
 
 				update_option("carniegigs_db_version", CARNIE_GIGS_DB_VERSION);

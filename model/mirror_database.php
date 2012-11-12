@@ -2,7 +2,8 @@
 
 class carnieMirrorDatabase {
 
-	private $table;
+	private $table,
+		$verified_attendees_database;
 
 	/*
 	 * Constructor
@@ -133,6 +134,26 @@ class carnieMirrorDatabase {
 				$data[$key] = $meta;
 				array_push($format, '%s');
 			}
+		}
+
+		// Special handling for verified attendees.
+		// Get verified attendees from verified attendees table
+		// instead of post metadata.
+		if (! $this->verified_attendees_database) {
+			$this->verified_attendees_database = new verifiedAttendeesDatabase;
+		}
+		$verified_attendees = $this->verified_attendees_database->verified_attendees($post->ID);
+		if (count($verified_attendees)) {
+			// Loop through verified attendees to build a comma separated list
+			$attendees = array();
+			foreach($verified_attendees as $attendee) {
+				$fullname = $attendee['firstname'] . ' ' . $attendee['lastname'];
+				$fullname = str_replace(",", " ", $fullname);
+				array_push($attendees, $fullname);
+			}
+			$verified_attendees_str = implode(",", $attendees);
+			$data['verifiedattendees'] = $verified_attendees_str;
+			array_push($format, '%s');
 		}
 
 		// do we insert or update?
