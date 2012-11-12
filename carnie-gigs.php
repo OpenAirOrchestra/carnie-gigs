@@ -106,6 +106,7 @@ class carnieGigsCalendar {
 				firstname text ,
 				lastname text ,
 				notes text ,
+				deleted smallint(6),
 				UNIQUE KEY id (id) );";
 
 			dbDelta($sql);
@@ -174,6 +175,7 @@ class carnieGigsCalendar {
                         firstname text ,
                         lastname text ,
                         notes text ,
+			deleted smallint(6),
                         UNIQUE KEY id (id) );";
 
                 dbDelta($sql);
@@ -392,6 +394,10 @@ class carnieGigsCalendar {
 				$this->carnie_mirror_database = new carnieMirrorDatabase;
 			}
 			$this->carnie_mirror_database->delete_post($post_id); 
+
+			// mark verified attendee entries as deleted (in trash) 
+			$verified_attendees_database = new verifiedAttendeesDatabase;
+			$verified_attendees_database->trash_post($post_id);
 		}
 	}
 
@@ -401,6 +407,11 @@ class carnieGigsCalendar {
 	function untrashed_post($post_id) {
 		$post = get_post($post_id);
 		if (get_post_type($post) == 'gig' && get_post_status($post_id) == 'publish') {
+
+			// ressurrect trashed verified attendees 
+			$verified_attendees_database = new verifiedAttendeesDatabase;
+			$verified_attendees_database->untrash_post($post_id);
+
 			if (! $this->carnie_mirror_database) {
 				$this->carnie_mirror_database = new carnieMirrorDatabase;
 			}
@@ -408,6 +419,7 @@ class carnieGigsCalendar {
 			$this->carnie_mirror_database->save_post($post, 
 				$this->metadata_fields,
 				$this->metadata_prefix);
+
 		}
 	}
 
