@@ -255,7 +255,7 @@ class carnieGigView {
 		$verified_attendees_database = new verifiedAttendeesDatabase;
 		$attendees = $verified_attendees_database->verified_attendees($postid);
 
-		if (count($attendees) > 0) {
+		if ((count($attendees) > 0) || (current_user_can('edit_post', $postid))) {
 
 			$content = $content . ' <dt>Verified Attendees:</dt> ';
 			$content = $content . ' <dd> ';
@@ -282,6 +282,14 @@ class carnieGigView {
 
 				$content = $content . '</span>';
                                 $sep = ', ';
+			}
+
+			if (current_user_can('edit_post', $postid)) {
+				// button/form to verify attendees
+				$attendance_nonce = wp_create_nonce('attendance_nonce');
+                        	$attendance_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/verified_attendance.php?attendance_nonce=$attendance_nonce";
+
+				$content = $content . '<a class="button" href="' .  $attendance_url . '">Take Attendance</a>';
 			}
 
 			$content = $content . ' </dd> ';
