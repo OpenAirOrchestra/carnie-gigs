@@ -115,7 +115,7 @@ class gigAttendees {
 		$this->process_post();
 
 		if (! $gig_id) {
-			wp_die('No gig ID');
+			wp_die('Missing Gig ID');	
 		}
 
 		if ($gig_id) {
@@ -130,6 +130,9 @@ class gigAttendees {
 			<a href="<?php echo $url;?>"><?php echo htmlentities(stripslashes($post['post_title'])); ?></a>
 		</h1>
 <?php
+		} else {
+			wp_die('missing gig id');
+		}
 
 		$attendee_rows = array();
 
@@ -282,7 +285,7 @@ class gigAttendees {
 }
 
 // instantiate class
-$WORKSHOPATTENDEES = new workshopAttendees;
+$WORKSHOPATTENDEES = new gigAttendees;
 
 header("Content-Type: text/html");
 
