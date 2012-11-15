@@ -123,7 +123,7 @@ class gigAttendees {
 			// Get post
 			$post = get_post($gig_id, ARRAY_A);
 
-			$url = get_admin_url() . "post.php?&post=" . $gig_id . "&action=edit";
+			$url = get_permalink( $gig_id )
 ?>
 		<h1>
 			Attendance for 
