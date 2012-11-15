@@ -152,7 +152,7 @@ class gigAttendees {
 
 		$attendance_nonce = wp_create_nonce('attendance_nonce');
 ?>
-	<form method="post" action="<?php echo plugins_url( 'attendance.php', __FILE__ );?>">
+	<form method="post" action="<?php echo plugins_url( 'verified_attendance.php', __FILE__ );?>">
 		<input type="hidden" name="attendance_nonce" value="<?php echo $attendance_nonce; ?>" />
 <?php
 		if ($gig_id) {
