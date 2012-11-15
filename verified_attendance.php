@@ -232,7 +232,7 @@ class gigAttendees {
 ?>
 	</table>
 
-	<h2><a name="#newfolks">New Folks</a></h2>
+	<h2><a name="#otherfolks">Other Folks</a></h2>
 	<table>
 <?php
 	$class = "present";
@@ -310,11 +310,14 @@ $gig_id = $_REQUEST['gig'];
 		}
 ?>
 <?php
+	$gig_id = $_POST['gig'];
+
 	// TODO: check instead if user can edit post associated with gig_id
 	if (current_user_can('edit_post', $gig_id)) {
 		$WORKSHOPATTENDEES->render_contents($gig_id);
 	} else {
-		echo "<p>Security Error: insufficient privileges</p>";
+		echo "<h1>Security Error: insufficient privileges</h1>";
+		echo "Current user cannot edit " . $gig_id;
 	}
 ?>
 	</body>

@@ -1,0 +1,64 @@
+
+tr.present {
+	background-color: #90EE90;
+} 
+
+tr.absent {
+	background-color: #EE9090;
+} 
+
+div.details {
+	height:1EM;
+	font-size: 12px;
+	overflow:hidden;
+	text-indent:18px;
+}
+
+/* iphone-ish */
+body {
+	text-align: center;
+	font: normal 15px Helvetica;
+}
+
+h1 {
+	margin: 0px;
+	font-size: 22px;
+	border-bottom: 1px solid black;
+	padding: 8px;
+	text-align: center;
+}
+
+h2 {
+	text-align: left;
+	font-size: 19px;
+	margin: 12px;
+}
+
+table {
+	padding: 10px;
+	width:100%
+}
+
+tr {
+	border: 1px solid #ababab;
+	text-align: left;
+	color: black;
+}
+
+td {
+	padding: 5px;
+}
+
+dl {
+	margin: 10px;
+	padding: 0px;
+	text-align:left;
+}
+
+textarea {
+	width:100%;
+}
+
+dd > input {
+	width:100%;
+}

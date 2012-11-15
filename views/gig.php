@@ -292,7 +292,7 @@ class carnieGigView {
 				$content = $content . '<form action="' . $attendance_url . '" method = "post">';
 				$content = $content . '<p><input name="submit" type="submit" value="Verify Attendance"/></p>';
 				$content = $content . '<input name="attendance_nonce" type="hidden" value="' . $attendance_nonce. '"/>';
-				$content = $content . '<input name="gig_id" type="hidden" value="' . $postid. '"/>';
+				$content = $content . '<input name="gig" type="hidden" value="' . $postid. '"/>';
 				$content = $content . '</form>';
 
 			}
