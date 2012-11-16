@@ -108,9 +108,30 @@ class carnieGigsMetaFormView {
 			}
 		}
 
+		$this->render_verified_attendees($post);
+
 	    	echo '</table>';
 
 
+	}
+
+	/*
+	 * Render form for carnie gigs meta box
+	 */
+	function render_verified_attendees($post) { 
+		if ($post->ID) {
+			echo '<tr>',
+				'<th style="width:20%"><label for="verifiedattendees">Verified Attendees</label></th>', 
+				'<td>';
+
+			// TODO
+			// Get attendees from database, render as a table
+
+			echo '<br/><a class="button" href="" target="_blank">Update Verifed Attendees</a>';
+			echo '<br/>', 'Participants who actually attended the gig.';
+			echo '     <td>';
+			print "</tr>\n";
+		}
 	}
 }
 ?>
