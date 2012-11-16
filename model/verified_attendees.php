@@ -69,6 +69,37 @@ class verifiedAttendeesDatabase {
 
 		return $attendees;
 	}
+
+	/* 
+	 * Save verified attendees to mirror database
+	 */
+	function mirror_post ($post_id) {
+		global $wpdb;
+
+		$verified_attendees = $this->verified_attendees($post_id);
+		$mirror_table = get_option('carniegigs_mirror_table');
+		if ($mirror_table && strlen($mirror_table)) {
+			if (count($verified_attendees)) {
+				// Loop through verified attendees to build a comma separated list
+				$attendees = array();
+				foreach($verified_attendees as $attendee) {
+					$fullname = $attendee['firstname'] . ' ' . $attendee['lastname'];
+					$fullname = str_replace(",", " ", $fullname);
+					array_push($attendees, $fullname);
+				}
+				$verified_attendees_str = implode(",", $attendees);
+
+				// update the field!
+				$wpdb->update(
+					$mirror_table,
+					array( 'verifiedattendees' => $verified_attendees_str ),
+					array( 'gigid' => $post_id ),
+					array( '%s' ),
+					array( '%d' )
+				);
+			}
+		}
+	}
 }
 
 ?>

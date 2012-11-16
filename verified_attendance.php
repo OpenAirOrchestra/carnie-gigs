@@ -5,6 +5,8 @@
  */
 require_once 'ajaxSetup.php';
 
+require_once 'model/verified_attendees.php';
+
 /*
  * class to process or render an iphone friendly verified attendance form
  */
@@ -69,6 +71,9 @@ class gigAttendees {
 
 				}
 
+				// Deal with mirror database!
+				$verified_attendees_database = new verifiedAttendeesDatabase;
+				$verified_attendees_database->mirror_post($gig_id);
 			}
 		}
 	}
