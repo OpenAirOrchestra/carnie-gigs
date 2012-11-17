@@ -123,12 +123,31 @@ class carnieGigsMetaFormView {
 			echo '<tr>',
 				'<th style="width:20%"><label for="verifiedattendees">Verified Attendees</label></th>', 
 				'<td>';
+			echo '<p>', 'Participants who actually attended the gig:</p>';
 
-			// TODO
-			// Get attendees from database, render as a table
+			// Get attendees from database
+			$verified_attendees_database = new verifiedAttendeesDatabase;
+                	$attendees = $verified_attendees_database->verified_attendees($post->ID);
 
-			echo '<br/><a class="button" href="" target="_blank">Update Verifed Attendees</a>';
-			echo '<br/>', 'Participants who actually attended the gig.';
+			// Render attendees as a list
+			echo '<ul>';
+			foreach ($attendees as $attendee) {
+				echo "\n<li>";
+				echo "\n" . htmlentities(stripslashes($attendee['firstname']));
+				if (current_user_can('read_private_posts')) {
+                                        echo ' ' .  htmlentities(stripslashes($attendee['lastname']));
+                                } else {
+                                        echo ' ' .  substr(htmlentities(stripslashes($attendee['lastname'])), 0, 1);
+                                }
+				if ($attendee['notes'] && strlen($attendee['notes'])) {
+					echo "\n<br/>";
+					echo "\n" . htmlentities(stripslashes($attendee['notes']));
+				}
+				echo "\n</li>";
+			}
+			echo '</ul>';
+
+			echo '<a class="button" href="" target="_blank">Update Verifed Attendees</a>';
 			echo '     <td>';
 			print "</tr>\n";
 		}
