@@ -147,7 +147,11 @@ class carnieGigsMetaFormView {
 			}
 			echo '</ul>';
 
-			echo '<a class="button" href="" target="_blank">Update Verifed Attendees</a>';
+			$attendance_nonce = wp_create_nonce('attendance_nonce');
+			$attendance_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/verified_attendance.php?attendance_nonce=" . $attendance_nonce . '&gig=' . $post->ID;
+			
+
+			echo '<a class="button" href="' . $attendance_url . '" target="_blank">Update Verifed Attendees</a>';
 			echo '     <td>';
 			print "</tr>\n";
 		}

@@ -315,7 +315,7 @@ $gig_id = $_REQUEST['gig'];
 		}
 ?>
 <?php
-	$gig_id = $_POST['gig'];
+	$gig_id = $_REQUEST['gig'];
 
 	// TODO: check instead if user can edit post associated with gig_id
 	if (current_user_can('edit_post', $gig_id)) {
