@@ -133,12 +133,20 @@ class carnieGigsMetaFormView {
 			echo '<ul>';
 			foreach ($attendees as $attendee) {
 				echo "\n<li>";
+				if ($attendee['user_id'] == $user_ID) {
+                                        echo '<span style="font-weight:bolder">';
+				} else if ($attendee['user_id']) {
+	   				echo '<span>';
+				} else {
+                                        echo '<span style="font-style:oblique">';
+				}
 				echo "\n" . htmlentities(stripslashes($attendee['firstname']));
 				if (current_user_can('read_private_posts')) {
                                         echo ' ' .  htmlentities(stripslashes($attendee['lastname']));
                                 } else {
                                         echo ' ' .  substr(htmlentities(stripslashes($attendee['lastname'])), 0, 1);
                                 }
+				echo '</span>';
 				if ($attendee['notes'] && strlen($attendee['notes'])) {
 					echo "\n<br/>";
 					echo "\n" . htmlentities(stripslashes($attendee['notes']));

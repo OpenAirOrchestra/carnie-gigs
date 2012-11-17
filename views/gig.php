@@ -265,9 +265,11 @@ class carnieGigView {
 
 				if ($attendee['user_id'] == $user_ID) {
 			    		$found = true;
-                                        $content = $content . '<span style=\"font-weight:bolder\">';
-				} else {
+                                        $content = $content . '<span style="font-weight:bolder">';
+				} else if ($attendee['user_id']) {
 	   				$content = $content . '<span>';
+				} else {
+                                        $content = $content . '<span style="font-style:oblique">';
 				}
 
 				$content = $content . htmlentities(stripslashes($attendee['firstname']));
