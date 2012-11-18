@@ -357,6 +357,8 @@ class carnieGigsCalendar {
 			echo "<h2>Export Carnie Gigs Attendance</h2>";
 			echo "<p>When you click the button below WordPress will create a CSV file for you to save to your computer.</p>";
 			echo "<p>Once you have saved the download file, you can load  into a spreadsheet program like Excel.</p>";
+			echo "<p>Please note that this export is limited to data from the last 547 days (the last year and a half).</p>";
+
 			$exportCsvFormView->exportAttendanceForm();
 		}
 		echo '</div>';
