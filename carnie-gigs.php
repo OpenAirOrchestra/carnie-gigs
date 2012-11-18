@@ -512,6 +512,11 @@ class carnieGigsCalendar {
 
 			$exportCsvFormView->exportAttendanceForm();
 		}
+
+		echo "<h2>Export Verified Carnie Gigs Attendance</h2>";
+		echo "<p>When you click the button below WordPress will create a CSV file for you to save to your computer.</p>";
+		echo "<p>Once you have saved the download file, you can load  into a spreadsheet program like Excel.</p>";
+		$exportCsvFormView->exportVerifiedAttendanceForm();
 		echo '</div>';
 	}
 	/*
