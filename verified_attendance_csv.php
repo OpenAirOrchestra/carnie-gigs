@@ -22,11 +22,38 @@ if ( wp_verify_nonce($_POST['verified-attendance-csv-verify-key'], 'verified-att
 	$select = "SELECT * FROM " . $table_name;
 
 	if (! current_user_can('read_private_posts')) {
-	$select = "SELECT * FROM " . $table_name . " WHERE userid = " . $current_user->ID;
+		$select = "SELECT * FROM " . $table_name . " WHERE `userid` = " . $current_user->ID;
 	}
 
 	$results = $wpdb->get_results( $select, ARRAY_A );
-	carnieGigsCsv($results);
+
+       foreach ($results[0] as $fieldname=>$field) {
+		echo $separator;
+		echo "\"" . stripslashes($fieldname) . "\"";
+		$separator = ",";
+        }
+        echo "\n";
+
+
+        foreach ($results as $row) {
+                $separator = "";
+                foreach ($row as $fieldname=>$field) {
+			echo $separator;
+
+			// handle NULL
+			if ($field != NULL) {
+				// escape " character in field
+				$field = str_replace("\"", "\"\"", $field);
+				// strip newlines in field
+				$field = str_replace(array('\n', '\r'), " ", $field);
+
+			}
+			echo "\"" . stripslashes($field) . "\"";
+			$separator = ",";
+                }
+                echo "\n";
+        }
+
 } else {
 	echo '"security failure", "nonce"';
 }
