@@ -3,7 +3,7 @@ Contributors: darrylf
 Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
 Requires at least: 3.0
-Tested up to: 3.0
+Tested up to: 3.4
 
 Gig Calendar for The Carnival Band
 
@@ -71,3 +71,7 @@ You will need to add capabilities for roles for the plugin to work.
 
 = 0.6 =
 Added the "Verified Attendees" field
+
+= 0.7 =
+Put "Verified Attendees" into its own table.
+Changed from comma separate list to checkbox style for verified attendance.
