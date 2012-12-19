@@ -75,3 +75,7 @@ Added the "Verified Attendees" field
 = 0.7 =
 Put "Verified Attendees" into its own table.
 Changed from comma separate list to checkbox style for verified attendance.
+
+= 0.8 =
+Register subscribe2 meta box for notification override for gigs.
+

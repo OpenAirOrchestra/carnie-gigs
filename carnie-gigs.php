@@ -3,7 +3,7 @@
 Plugin Name: Carnie Gigs
 Plugin URI: http://www.thecarnivalband.com
 Description: A gig calendar plugin for The Carnival Band 
-Version: 0.7
+Version: 0.8
 Author: Open Air Orchestra Webmonkey
 Author URI: mailto://oaowebmonkey@gmail.com
 License: GPL2
@@ -333,6 +333,22 @@ class carnieGigsCalendar {
 			array('metadata_prefix' => $this->metadata_prefix,
 			      'metadata_fields' => $this->metadata_fields)
 		);
+
+		$this->register_subscribe2_meta_box();
+	}
+
+	/* 
+	 * Register subscribe2 meta box for notification override
+	 */
+	function register_subscribe2_meta_box() {
+		global $mysubscribe2;
+		if ($mysubscribe2) {
+			add_meta_box('subscribe2', 
+				'Subscribe2 Notification Override', 
+				array(&$mysubscribe2, 's2_meta_box'), 
+				'gig', 'advanced');
+
+		}
 	}
 
 	/*
@@ -727,6 +743,7 @@ add_action('admin_menu', array($CARNIEGIGSCAL, 'create_admin_menu'));
 add_action('update_option_carniegigs_mirror_table', array($CARNIEGIGSCAL, 'mirror_database_changed'));
 add_action('transition_post_status', array($CARNIEGIGSCAL, 'transition_post_status'), 10, 3);
 add_action("manage_posts_custom_column", array($CARNIEGIGSCAL, 'manage_gig_custom_columns') );
+
 
 // Filters
 add_filter( 'pre_get_posts', array($CARNIEGIGSCAL, 'pre_get_posts') );
