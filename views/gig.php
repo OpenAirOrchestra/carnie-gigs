@@ -259,9 +259,11 @@ class carnieGigView {
 
 			$content = $content . ' <dt>Verified Attendees:</dt> ';
 			$content = $content . ' <dd> ';
-			$sep = '';
+
+			$content = $content . '<ul>';
 			foreach ($attendees as $attendee) {
-				$content = $content . $sep;
+				$content = $content . '
+<li>';
 
 				if ($attendee['user_id'] == $user_ID) {
 			    		$found = true;
@@ -283,8 +285,24 @@ class carnieGigView {
                         	}
 
 				$content = $content . '</span>';
-                                $sep = ', ';
+
+				$notes = $attendee['notes'];
+				
+				if ($attendee['user_id'] && (!$notes || !strlen($notes))) {
+					$user_info = get_userdata($attendee['user_id']);
+					if ($user_info) {
+						$notes = $user_info->user_description;
+					}
+				}
+
+				if ($notes && strlen($notes)) {
+					$content = $content . '<div style="font-size:smaller;height:1.5em;overflow:hidden">' . htmlentities(stripslashes($notes)) . '</div>';
+				}
+				$content = $content . '
+</li>';
 			}
+
+			$content = $content . '</ul>';
 
 			if (current_user_can('edit_post', $postid)) {
 				// button/form to verify attendees
