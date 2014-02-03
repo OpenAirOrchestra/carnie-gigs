@@ -1,5 +1,5 @@
 === Carnie Gigs ===
-Contributors: darrylf
+Contributors: darrylf, richard k
 Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
 Requires at least: 3.0
