@@ -5,7 +5,7 @@ Tags: gigs, calendar
 Requires at least: 3.0
 Tested up to: 3.4
 
-Gig Calendar for The Carnival Band.
+Gig Calendar for The Carnival Band
 
 == Description ==
 
