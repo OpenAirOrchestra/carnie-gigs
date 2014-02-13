@@ -9,7 +9,7 @@ Gig Calendar for The Carnival Band
 
 == Description ==
 
-A gig calendar specifically tailored for The Canival Band.
+A gig calendar specifically tailored for The Carnival Band.
 
 == Installation ==
 
