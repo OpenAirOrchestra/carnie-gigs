@@ -9,7 +9,7 @@ Gig Calendar for The Carnival Band.
 
 == Description ==
 
-A gig calendar specifically tailored for The Canival Band.
+A gig calendar specifically tailored for The Carnival Band.
 
 == Installation ==
 
@@ -78,4 +78,7 @@ Changed from comma separate list to checkbox style for verified attendance.
 
 = 0.8 =
 Register subscribe2 meta box for notification override for gigs.
+
+= 0.9 =
+Remove obsolete attendance export
 
