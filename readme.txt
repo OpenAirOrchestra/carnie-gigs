@@ -1,5 +1,5 @@
 === Carnie Gigs ===
-Contributors: Darryl F, RichardK
+Contributors: Darryl F, Richard K
 Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
 Requires at least: 3.0
@@ -82,3 +82,6 @@ Register subscribe2 meta box for notification override for gigs.
 = 0.9 =
 Remove obsolete attendance export
 
+= 1.0 =
+3 Tab attendance form
+Users sorted by first name in attendance form
