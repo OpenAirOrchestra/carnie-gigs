@@ -363,8 +363,8 @@ class gigAttendees {
 	</div>
 	<div class="tab-content newfolks">
 	<dl>
-				<dd><input type="text" name="firstname_<?php echo $this->count; ?>" title="First Name (Required)"/></dd>
-				<dd><input type="text" name="lastname_<?php echo $this->count; ?>" title="Last Name"/></dd>
+				<dd>First Name<br/><input type="text" name="firstname_<?php echo $this->count; ?>" title="First Name (Required)"/></dd>
+				<dd>Last Name<br/><input type="text" name="lastname_<?php echo $this->count; ?>" title="Last Name"/></dd>
 				<dd>Notes<br><textarea name="notes_<?php echo $this->count; ?>"></textarea></dd>
 				<input type="hidden" name="attending_<?php echo $this->count; ?>" value="attending"/>
 	</dl>
