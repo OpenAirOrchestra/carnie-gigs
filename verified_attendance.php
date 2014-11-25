@@ -319,7 +319,6 @@ class gigAttendees {
 ?>
 	<form method="post" action="<?php echo plugins_url( 'verified_attendance.php', __FILE__ );?>">
 		<input type="hidden" name="attendance_nonce" value="<?php echo $attendance_nonce; ?>" />
-		<input id="Update" type="submit" name="Update" value="Update">
 <?php
 		if ($gig_id) {
 ?>
@@ -329,6 +328,7 @@ class gigAttendees {
 
 ?>
 <br>
+		<input id="Update" type="submit" class="button" name="Update" value="Update">
 <br>
 <div class="tabs">
 	<ul>
@@ -447,6 +447,9 @@ $(document).ready(function(){
         }
     }); 	
 });</script>
+
+<br/>
+<input id="Update" type="submit" class="button" name="Update" value="Update">
 </form>
 <?php
 	}
@@ -485,7 +488,6 @@ $gig_id = $_REQUEST['gig'];
 <html>
 	<head>
 		<script type="text/javascript" src="js/attendance.js"></script>
-		<script type="text/javascript" src="js/formUI.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/attendance.css" >
 		<link rel="stylesheet" type="text/css" href="css/tab.css" />
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>

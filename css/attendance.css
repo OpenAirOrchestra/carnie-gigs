@@ -66,3 +66,11 @@ textarea {
 dd > input {
 	width:100%;
 }
+
+.unfocused{
+    color:#aaa;
+}
+
+.button {
+	font-size: 20px;
+}
