@@ -85,3 +85,7 @@ Remove obsolete attendance export
 = 1.0 =
 3 Tab attendance form
 Users sorted by first name in attendance form
+
+= 1.1 =
+Limit fields sent in verified attendance form to avoid php max_input_vars limit
+

@@ -13,11 +13,13 @@ require_once 'model/verified_attendees.php';
 class gigAttendees {
 
 	private $count = 0;  //tracks attendee count
-	private $sticky_types = array();
 	/*
  	 * Processes posted data
+ 	 * Returns diagnostics
 	 */
 	function process_post() {
+
+		$diagnostics = "";
 
 		$attendance_nonce = $_REQUEST['attendance_nonce'];
 		
@@ -33,7 +35,19 @@ class gigAttendees {
 
 				$table_name = $wpdb->prefix . "gig_attendance";
 
-				for ($i = 1; $i < count($_POST); ++ $i) {
+				$count = $_POST['count'];
+
+				if ($count <= 0) {
+					$count = count($_POST);
+				}
+				// Evil hacker limit
+				if ($count > 10000) {
+					$count = 10000;
+				}
+
+				for ($i = 1; $i < $count; ++ $i) {
+
+					$diagnostics = $diagnostics . $i . "\n";
 				
 					$id = $_POST[ 'id_' . $i ];
 				
@@ -45,6 +59,7 @@ class gigAttendees {
 					//echo $user_id . " ". $firstname . " " . $lastname . " ";
 					if ($firstname != "First Name (Required)") //don't insert New Folk data if first name not entered
 					{
+						$diagnostics = $diagnostics . $firstname . "\n";
 						$data = array();
 						$format = array();
 
@@ -68,21 +83,24 @@ class gigAttendees {
 							$wpdb->insert( $table_name,
 								$data,
 								$format);
+							$diagnostics = $diagnostics . " INSERT \n";
+
 						} else if ($attending && $id) {
 							$wpdb->update( $table_name,
 								$data,
 								array ( 'ID' => $id),
 								$format);
+							$diagnostics = $diagnostics . " UPDATE \n";
 						} else if (!$attending && $id) {
 							$sql = $wpdb->prepare("DELETE FROM `$table_name` WHERE id = %d", $id);
 							$wpdb->query( $sql );
+							$diagnostics = $diagnostics . " DELETE \n";
+						} else {
+							$diagnostics = $diagnostics . " UNCHANGED \n";
 						}
 
-					}
-					// Remember tab type (we'll make it sticky)
-					if ($user_id) {
-						$sticky_type = $_POST[ 'sticky_type' . $i ];
-						$this->sticky_types[$user_id] = $sticky_type;
+					} else {
+						$diagnostics = $diagnostics . " Missing First Name \n SKIP\n";
 					}
 					
 					// Deal with mirror database!
@@ -92,6 +110,7 @@ class gigAttendees {
 			}
 
 		}
+		return diagnostics;
 	}
 
 	/* 
@@ -121,6 +140,8 @@ class gigAttendees {
 					FROM `$gig_attendance_name` a
 					JOIN `$gig_name` w ON w.id = a.gigid 
 					AND w.post_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+					AND w.post_date < DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+
 				) ";
 		}
 
@@ -179,7 +200,7 @@ class gigAttendees {
 		global $wpdb;
 
 
-		$this->process_post();
+		$post_diagnostics = $this->process_post();
 
 		if (! $gig_id) {
 			wp_die('Missing Gig ID');	
@@ -205,7 +226,7 @@ class gigAttendees {
 
 		$attendee_rows = $this->attendee_rows( $gig_id );
 
-		$this->render_form($gig_id, $attendee_rows);
+		$this->render_form($gig_id, $attendee_rows, $post_diagnostics);
 	}
 
 	
@@ -220,83 +241,65 @@ class gigAttendees {
 <?php
 		$users = array();
 		
-		// Use database to filter if we are rendering for the
-		// first time, use sticky types from form data if
-		// we are processing a post.
-		$filter_sticky = false;
-		if (count($this->sticky_types)) {
-			$filter_sticky = true;
-			$users = $this->users();
-		} else {
-			$users = $this->users($type);
-		}
-
-
-
-
+		// Use database to filter if we are rendering 
+		$users = $this->users($type);
 
 		foreach ($users as $user) {
-		
-			if (!$filter_sticky || 
-			    !$user['ID'] ||
- 			    ($type == $this->sticky_types[$user['ID']])) {
-				$this->count = $this->count + 1;
-				$name = $user['display_name'];
-				$user_info = get_userdata($user['ID']);
-				$attendance_info = $attendees[$user['ID']];
-				$checked = '';
-				$class = "absent";
-				
-				array_push($rendered_ids, $user['ID']);
-				
-				if ($attendance_info) {
-					$checked = 'checked = "checked"';
-					$class = "present";
-				}
-				if ($user_info->first_name || $user_info->last_name) {
-					$name = $user_info->first_name . ' ' . $user_info->last_name;
-				}
-
-	?>
-				<tr onclick="selectRow(this)" class="<?php echo $class; ?>"><td>
-					<input onclick="checkClicked(this, event)" type="checkbox" name="attending_<?php echo $this->count; ?>" value="attending" <?php echo $checked; ?> ><?php echo $name; ?></input>
-	<?php
-				if ($user_info->user_description) {
-	?>
-				<div class="details">
-					<?php echo $user_info->user_description; ?>
-				</div>
-	<?php
-				}
-	?>
-				</td>
-				<input type="hidden" name="user_id_<?php echo $this->count; ?>" value="<?php echo $user['ID']; ?>"/>
-	<?php
-				if ($user_info->first_name) {
-	?>
-					<input type="hidden" name="firstname_<?php echo $this->count; ?>" value="<?php echo $user_info->first_name; ?>"/>
-	<?php
-				}
-				if ($user_info->last_name && strlen($user_info->last_name)) {
-	?>
-					<input type="hidden" name="lastname_<?php echo $this->count; ?>" value="<?php echo $user_info->last_name; ?>"/>
-	<?php
-				} else {
-	?>
-					<input type="hidden" name="lastname_<?php echo $this->count; ?>" value="<?php echo $user['display_name']; ?>"/>
-	<?php
-				}
-				if ($attendance_info) {
-	?>
-					<input type="hidden" name="id_<?php echo $this->count; ?>" value="<?php echo $attendance_info["id"]; ?>"/>
-	<?php
-				}
-	?>
-					<input type="hidden" name="email_<?php echo $this->count; ?>" value="<?php echo $user['user_email']; ?>"/>
-					<input type="hidden" name="sticky_type<?php echo $this->count; ?>" value="<?php echo $type; ?>"/>
-				</tr>
-	<?php
+			$this->count = $this->count + 1;
+			$name = $user['display_name'];
+			$user_info = get_userdata($user['ID']);
+			$attendance_info = $attendees[$user['ID']];
+			$checked = '';
+			$class = "absent";
+			
+			array_push($rendered_ids, $user['ID']);
+			
+			if ($attendance_info) {
+				$checked = 'checked = "checked"';
+				$class = "present";
 			}
+			if ($user_info->first_name || $user_info->last_name) {
+				$name = $user_info->first_name . ' ' . $user_info->last_name;
+			}
+
+?>
+			<tr onclick="selectRow(this)" class="<?php echo $class; ?>"><td>
+				<input onclick="checkClicked(this, event)" type="checkbox" name="attending_<?php echo $this->count; ?>" value="attending" <?php echo $checked; ?> ><?php echo $name; ?></input>
+<?php
+			if ($user_info->user_description) {
+?>
+			<div class="details">
+				<?php echo $user_info->user_description; ?>
+			</div>
+<?php
+			}
+?>
+			</td>
+			<input type="hidden" disabled = "disabled" name="user_id_<?php echo $this->count; ?>" value="<?php echo $user['ID']; ?>"/>
+<?php
+			if ($user_info->first_name) {
+?>
+				<input type="hidden" disabled = "disabled" name="firstname_<?php echo $this->count; ?>" value="<?php echo $user_info->first_name; ?>"/>
+<?php
+			}
+			if ($user_info->last_name && strlen($user_info->last_name)) {
+?>
+				<input type="hidden" disabled = "disabled" name="lastname_<?php echo $this->count; ?>" value="<?php echo $user_info->last_name; ?>"/>
+<?php
+			} else {
+?>
+				<input type="hidden" disabled = "disabled" name="lastname_<?php echo $this->count; ?>" value="<?php echo $user['display_name']; ?>"/>
+<?php
+			}
+			if ($attendance_info) {
+?>
+				<input type="hidden" disabled = "disabled" name="id_<?php echo $this->count; ?>" value="<?php echo $attendance_info["id"]; ?>"/>
+<?php
+			}
+?>
+				<input type="hidden" disabled = "disabled" name="email_<?php echo $this->count; ?>" value="<?php echo $user['user_email']; ?>"/>
+			</tr>
+<?php
 		}
 ?>
 		</table>
@@ -307,7 +310,7 @@ class gigAttendees {
 	/*
 	 * renders form
 	 */
-	function render_form( $gig_id, $attendee_rows ) {
+	function render_form( $gig_id, $attendee_rows, $post_diagnostics ) {
 
 		$attendees = $this->attendees( $gig_id, $attendee_rows );
 
@@ -342,7 +345,8 @@ class gigAttendees {
 	<input type="hidden" id="current_tab" name="current_tab" value="<?php echo $current_tab;?>" />
 	<li><a href="#recent"><h3>Recent</h3></a></li>
 	<li><a href="#remaining"><h3>Remaining</h3></a></li>
-	<li><a href="#otherfolks"><h3>Other Folks</h3></a></li>
+	<li><a href="#newfolks"><h3>New Folks</h3></a></li>
+	<!-- <li><a href="#diagnostics"><h4>Diagnostics</h4></a></li> -->
 	</ul>
 	<div>
 	<div id="recent" class="tab-content">
@@ -357,7 +361,7 @@ class gigAttendees {
 	$this->count = $this->count + 1;
 ?>	
 	</div>
-	<div id="otherfolks" class="tab-content">
+	<div id="newfolks" class="tab-content">
 	<dl>
 				<dd><input type="text" name="firstname_<?php echo $this->count; ?>" title="First Name (Required)"/></dd>
 				<dd><input type="text" name="lastname_<?php echo $this->count; ?>" title="Last Name"/></dd>
@@ -384,11 +388,11 @@ class gigAttendees {
 			}
 ?>
 				</td>
-				<input type="hidden" name="user_id_<?php echo $this->count; ?>" value="<?php echo $attendee['user_id']; ?>"/>
-				<input type="hidden" name="firstname_<?php echo $this->count; ?>" value="<?php echo $attendee['firstname']; ?>"/>
-				<input type="hidden" name="lastname_<?php echo $this->count; ?>" value="<?php echo $attendee['lastname']; ?>"/>
-				<input type="hidden" name="notes_<?php echo $this->count; ?>" value="<?php echo stripslashes($attendee['notes']); ?>"/>
-				<input type="hidden" name="id_<?php echo $this->count; ?>" value="<?php echo stripslashes($attendee['id']); ?>"/>
+				<input type="hidden" disabled = "disabled" name="user_id_<?php echo $this->count; ?>" value="<?php echo $attendee['user_id']; ?>"/>
+				<input type="hidden" disabled = "disabled" name="firstname_<?php echo $this->count; ?>" value="<?php echo $attendee['firstname']; ?>"/>
+				<input type="hidden" disabled = "disabled" name="lastname_<?php echo $this->count; ?>" value="<?php echo $attendee['lastname']; ?>"/>
+				<input type="hidden" disabled = "disabled" name="notes_<?php echo $this->count; ?>" value="<?php echo stripslashes($attendee['notes']); ?>"/>
+				<input type="hidden" disabled = "disabled" name="id_<?php echo $this->count; ?>" value="<?php echo stripslashes($attendee['id']); ?>"/>
 			</tr>
 <?php
 		}
@@ -397,8 +401,15 @@ class gigAttendees {
 ?>
 	</table>
 	</div>
+	
+<!-- <div id="diagnostics" class="tab-content"> -->
+<?php
+	// $this->render_diagnostics( $post_diagnostics );
+?>	
+	<!-- </div> -->
 	</div>	
 </div>
+<input type="hidden" name="count" value="<?php echo $this->count; ?>"/>
 <script type="text/javascript">
 
 $(".tab-content").hide();
@@ -437,6 +448,27 @@ $(document).ready(function(){
     }); 	
 });</script>
 </form>
+<?php
+	}
+
+	/*
+  	 * Renders diagnostics
+	 */
+	function render_diagnostics( $post_diagnostics ) {
+?>	
+		<div class="diagnostics">
+		<h4>raw post</h4>
+		<pre>
+<?php
+		
+		var_dump($_POST);	
+?>	
+		</pre>
+		<h4>post processing diagnostics</h4>
+		<pre>
+			<?php echo $post_diagnostics; ?>
+		</pre>
+		</div>
 <?php
 	}
 
