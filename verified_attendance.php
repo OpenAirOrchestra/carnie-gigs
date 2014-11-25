@@ -330,8 +330,6 @@ class gigAttendees {
 <br>
 		<input id="Update" type="submit" class="button" name="Update" value="Update">
 <br>
-<div class="tabs">
-	<ul>
 <?php 
 	if (isset($_POST['current_tab']))	
 	{
@@ -339,29 +337,31 @@ class gigAttendees {
 	}
 	else
 	{
-		$current_tab = "#recent";
+		$current_tab = "recent";
 	}
 ?>
+<div class="tabs <?php echo $current_tab; ?>">
+	<ul>
 	<input type="hidden" id="current_tab" name="current_tab" value="<?php echo $current_tab;?>" />
-	<li><a href="#recent"><h3>Recent</h3></a></li>
-	<li><a href="#remaining"><h3>Remaining</h3></a></li>
-	<li><a href="#newfolks"><h3>New Folks</h3></a></li>
-	<!-- <li><a href="#diagnostics"><h4>Diagnostics</h4></a></li> -->
+	<li class="recent"><a href="#recent" onclick="selectTab(this, 'recent')"><h3>Recent</h3></a></li>
+	<li class="remaining"><a href="#remaining" onclick="selectTab(this, 'remaining')"><h3>Remaining</h3></a></li>
+	<li class="newfolks"><a href="#newfolks" onclick="selectTab(this, 'newfolks')"><h3>New Folks</h3></a></li>
+	<!-- <li class="diagnostics"><a href="#diagnostics"  onclick="selectTab(this, 'diagnostics')"><h4>Diagnostics</h4></a></li> -->
 	</ul>
 	<div>
-	<div id="recent" class="tab-content">
+	<div class="tab-content recent">
 <?php
 	$rendered_ids = array();
 	$rendered_ids = $this->render_attendees("recent", $attendees, $rendered_ids);
 ?>	
 	</div>
-	<div id="remaining" class="tab-content">
+	<div class="tab-content remaining">
 <?php
 	$rendered_ids = $this->render_attendees("remaining", $attendees, $rendered_ids);
 	$this->count = $this->count + 1;
 ?>	
 	</div>
-	<div id="newfolks" class="tab-content">
+	<div class="tab-content newfolks">
 	<dl>
 				<dd><input type="text" name="firstname_<?php echo $this->count; ?>" title="First Name (Required)"/></dd>
 				<dd><input type="text" name="lastname_<?php echo $this->count; ?>" title="Last Name"/></dd>
@@ -402,7 +402,7 @@ class gigAttendees {
 	</table>
 	</div>
 	
-<!-- <div id="diagnostics" class="tab-content"> -->
+<!-- <div class="tab-content diagnostics"> -->
 <?php
 	// $this->render_diagnostics( $post_diagnostics );
 ?>	
@@ -410,43 +410,6 @@ class gigAttendees {
 	</div>	
 </div>
 <input type="hidden" name="count" value="<?php echo $this->count; ?>"/>
-<script type="text/javascript">
-
-$(".tab-content").hide();
-$("<?php echo $current_tab; ?>").fadeIn();
-var selected_tab = $("a[href='<?php echo $current_tab; ?>']").parent();
-selected_tab.addClass("current");
-
-$(document).ready(function(){
-	//tab functionality
-	$(".tabs li").click(function() {
-		$(this).parent().parent().find(".tab-content").hide();
-		var selected_tab = $(this).find("a").attr("href");
-		$(selected_tab).fadeIn();
-		$(this).parent().find("li").removeClass('current');
-		$(this).addClass("current");
-		$("input#current_tab").val(selected_tab);
-		return false;
-    });
-
-	//grey input functionality
-    var inputs = $('input[type=text]');
-    inputs.each(function(){
-        $(this).val($(this).attr('title')).addClass('unfocused');
-    });
-    inputs.focus(function(){
-        var input = $(this);
-        if(input.val() == input.attr('title')){
-            $(this).removeClass('unfocused').val('');
-        }
-    });
-    inputs.blur(function(){
-        var input = $(this);
-        if(input.val() == ''){ // User has not placed text
-            input.val(input.attr('title')).addClass('unfocused');
-        }
-    }); 	
-});</script>
 
 <br/>
 <input id="Update" type="submit" class="button" name="Update" value="Update">
@@ -490,7 +453,6 @@ $gig_id = $_REQUEST['gig'];
 		<script type="text/javascript" src="js/attendance.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/attendance.css" >
 		<link rel="stylesheet" type="text/css" href="css/tab.css" />
-		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<meta name="viewport" content="width=device-width" />
 	</head>
 <?php

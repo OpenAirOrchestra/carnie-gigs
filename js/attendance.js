@@ -50,3 +50,19 @@ function checkClicked(checkbox, event)
 	inputs[i].disabled = false;
     }
 }
+
+function hasClass(element, cls) {
+    return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+}
+
+function selectTab(element, tabname) {
+	while (element && ! hasClass(element, 'tabs')) {
+		element = element.parentNode;
+	}
+
+	if (element && hasClass(element, 'tabs')) {
+		element.className = 'tabs ' + tabname;
+		document.getElementById('current_tab').value = tabname;
+	}
+
+}
