@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Carnie Gigs
-Plugin URI: http://www.thecarnivalband.com
+Plugin URI: https://github.com/OpenAirOrchestra/carnie-gigs
 Description: A gig calendar plugin for The Carnival Band 
-Version: 0.8
+Version: 1.1
 Author: Open Air Orchestra Webmonkey
 Author URI: mailto://oaowebmonkey@gmail.com
 License: GPL2
@@ -519,14 +519,6 @@ class carnieGigsCalendar {
 			$exportCsvFormView->exportForm($gig[0]);
 		} else {
 			echo "<p>Create a mirror database to use this feature. See settings for this plugin.</p>";
-		}
-		if ($this->carnie_mirror_database->mirror_specified()) {
-			echo "<h2>Export Carnie Gigs Attendance</h2>";
-			echo "<p>When you click the button below WordPress will create a CSV file for you to save to your computer.</p>";
-			echo "<p>Once you have saved the download file, you can load  into a spreadsheet program like Excel.</p>";
-			echo "<p>Please note that this export is limited to data from the last 547 days (the last year and a half).</p>";
-
-			$exportCsvFormView->exportAttendanceForm();
 		}
 
 		echo "<h2>Export Verified Carnie Gigs Attendance</h2>";

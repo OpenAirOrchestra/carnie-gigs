@@ -1,5 +1,5 @@
 === Carnie Gigs ===
-Contributors: Darryl F, RichardK
+Contributors: Darryl F, Richard K
 Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
 Requires at least: 3.9
@@ -9,7 +9,7 @@ Gig Calendar for The Carnival Band.
 
 == Description ==
 
-A gig calendar specifically tailored for The Canival Band.
+A gig calendar specifically tailored for The Carnival Band.
 
 == Installation ==
 
@@ -78,4 +78,14 @@ Changed from comma separate list to checkbox style for verified attendance.
 
 = 0.8 =
 Register subscribe2 meta box for notification override for gigs.
+
+= 0.9 =
+Remove obsolete attendance export
+
+= 1.0 =
+3 Tab attendance form
+Users sorted by first name in attendance form
+
+= 1.1 =
+Limit fields sent in verified attendance form to avoid php max_input_vars limit
 
