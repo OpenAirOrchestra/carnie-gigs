@@ -2,8 +2,8 @@
 Contributors: Darryl F, RichardK
 Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
-Requires at least: 3.0
-Tested up to: 3.4
+Requires at least: 3.9
+Tested up to: 4.0.1
 
 Gig Calendar for The Carnival Band.
 
