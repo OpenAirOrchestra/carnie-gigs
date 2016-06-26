@@ -120,7 +120,7 @@ class gigAttendees {
 	 * Returns users in database rows
 	 * sorted by first_name or display_name
 	 */
-	function users($type = NULL) {
+	function users($type = NULL, $gig_id = 0) {
 		global $wpdb;
 
 		$users_name = $wpdb->prefix . "users";
@@ -131,6 +131,8 @@ class gigAttendees {
 
 		if ($type == "recent") {
 			// Filtered users sql query.
+			// attendance for a gig posted in the last 6 months,
+			// excluding the current gig.
 			$sixMonthFilter = "
 				AND u.id IN 
 				(
@@ -138,8 +140,7 @@ class gigAttendees {
 					FROM `$gig_attendance_name` a
 					JOIN `$gig_name` w ON w.id = a.gigid 
 					AND w.post_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-					AND w.post_date < DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
-
+					AND w.id != $gig_id
 				) ";
 		}
 
@@ -232,7 +233,7 @@ class gigAttendees {
 	 * render attendee tab, recent or remaining
 	 */
 	 
-	function render_attendees($type, $attendees, $rendered_ids)
+	function render_attendees($type, $attendees, $rendered_ids, $gig_id)
 	{
 ?>
 		<table>
@@ -240,7 +241,7 @@ class gigAttendees {
 		$users = array();
 		
 		// Use database to filter if we are rendering 
-		$users = $this->users($type);
+		$users = $this->users($type, $gig_id);
 
 		foreach ($users as $user) {
 			if (! in_array($user['ID'], $rendered_ids)) {
@@ -260,6 +261,8 @@ class gigAttendees {
 				if ($user_info->first_name || $user_info->last_name) {
 					$name = $user_info->first_name . ' ' . $user_info->last_name;
 				}
+
+				$class = $class . " " . $type;
 
 	?>
 				<tr onclick="selectRow(this)" class="<?php echo $class; ?>"><td>
@@ -352,12 +355,12 @@ class gigAttendees {
 	<div class="tab-content recent">
 <?php
 	$rendered_ids = array();
-	$rendered_ids = $this->render_attendees("recent", $attendees, $rendered_ids);
+	$rendered_ids = $this->render_attendees("recent", $attendees, $rendered_ids, $gig_id);
 ?>	
 	</div>
 	<div class="tab-content remaining">
 <?php
-	$rendered_ids = $this->render_attendees("remaining", $attendees, $rendered_ids);
+	$rendered_ids = $this->render_attendees("remaining", $attendees, $rendered_ids, $gig_id);
 	$this->count = $this->count + 1;
 ?>	
 	</div>
