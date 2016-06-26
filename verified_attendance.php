@@ -127,17 +127,12 @@ class gigAttendees {
 		$usermeta_name = $wpdb->prefix . "usermeta";
 		$gig_attendance_name = $wpdb->prefix . "gig_attendance";
 		$gig_name = $wpdb->prefix . "posts";
-		$sqlFilter = ""; //$type == "recent"
 		$sixMonthFilter = ""; //default unfiltered, i.e. $type = NULL
 
-		if ($type == "remaining" || $type == "recent") {
+		if ($type == "recent") {
 			// Filtered users sql query.
-			if ($type == "remaining")
-			{
-				$sqlFilter = "NOT";
-			}
 			$sixMonthFilter = "
-				AND u.id " . $sqlFilter . " IN 
+				AND u.id IN 
 				(
 					SELECT DISTINCT a.user_ID
 					FROM `$gig_attendance_name` a
@@ -248,62 +243,64 @@ class gigAttendees {
 		$users = $this->users($type);
 
 		foreach ($users as $user) {
-			$this->count = $this->count + 1;
-			$name = $user['display_name'];
-			$user_info = get_userdata($user['ID']);
-			$attendance_info = $attendees[$user['ID']];
-			$checked = '';
-			$class = "absent";
-			
-			array_push($rendered_ids, $user['ID']);
-			
-			if ($attendance_info) {
-				$checked = 'checked = "checked"';
-				$class = "present";
-			}
-			if ($user_info->first_name || $user_info->last_name) {
-				$name = $user_info->first_name . ' ' . $user_info->last_name;
-			}
+			if (! in_array($user['ID'], $rendered_ids)) {
+				$this->count = $this->count + 1;
+				$name = $user['display_name'];
+				$user_info = get_userdata($user['ID']);
+				$attendance_info = $attendees[$user['ID']];
+				$checked = '';
+				$class = "absent";
+				
+				array_push($rendered_ids, $user['ID']);
+				
+				if ($attendance_info) {
+					$checked = 'checked = "checked"';
+					$class = "present";
+				}
+				if ($user_info->first_name || $user_info->last_name) {
+					$name = $user_info->first_name . ' ' . $user_info->last_name;
+				}
 
-?>
-			<tr onclick="selectRow(this)" class="<?php echo $class; ?>"><td>
-				<input onclick="checkClicked(this, event)" type="checkbox" name="attending_<?php echo $this->count; ?>" value="attending" <?php echo $checked; ?> ><?php echo $name; ?></input>
-<?php
-			if ($user_info->user_description) {
-?>
-			<div class="details">
-				<?php echo $user_info->user_description; ?>
-			</div>
-<?php
+	?>
+				<tr onclick="selectRow(this)" class="<?php echo $class; ?>"><td>
+					<input onclick="checkClicked(this, event)" type="checkbox" name="attending_<?php echo $this->count; ?>" value="attending" <?php echo $checked; ?> ><?php echo $name; ?></input>
+	<?php
+				if ($user_info->user_description) {
+	?>
+				<div class="details">
+					<?php echo $user_info->user_description; ?>
+				</div>
+	<?php
+				}
+	?>
+				</td>
+				<input type="hidden" disabled = "disabled" name="user_id_<?php echo $this->count; ?>" value="<?php echo $user['ID']; ?>"/>
+	<?php
+				if ($user_info->first_name) {
+	?>
+					<input type="hidden" disabled = "disabled" name="firstname_<?php echo $this->count; ?>" value="<?php echo $user_info->first_name; ?>"/>
+	<?php
+				}
+				if ($user_info->last_name && strlen($user_info->last_name)) {
+	?>
+					<input type="hidden" disabled = "disabled" name="lastname_<?php echo $this->count; ?>" value="<?php echo $user_info->last_name; ?>"/>
+	<?php
+				} else {
+	?>
+					<input type="hidden" disabled = "disabled" name="lastname_<?php echo $this->count; ?>" value="<?php echo $user['display_name']; ?>"/>
+	<?php
+				}
+				if ($attendance_info) {
+	?>
+					<input type="hidden" disabled = "disabled" name="id_<?php echo $this->count; ?>" value="<?php echo $attendance_info["id"]; ?>"/>
+	<?php
+				}
+	?>
+					<input type="hidden" disabled = "disabled" name="email_<?php echo $this->count; ?>" value="<?php echo $user['user_email']; ?>"/>
+				</tr>
+	<?php
 			}
-?>
-			</td>
-			<input type="hidden" disabled = "disabled" name="user_id_<?php echo $this->count; ?>" value="<?php echo $user['ID']; ?>"/>
-<?php
-			if ($user_info->first_name) {
-?>
-				<input type="hidden" disabled = "disabled" name="firstname_<?php echo $this->count; ?>" value="<?php echo $user_info->first_name; ?>"/>
-<?php
 			}
-			if ($user_info->last_name && strlen($user_info->last_name)) {
-?>
-				<input type="hidden" disabled = "disabled" name="lastname_<?php echo $this->count; ?>" value="<?php echo $user_info->last_name; ?>"/>
-<?php
-			} else {
-?>
-				<input type="hidden" disabled = "disabled" name="lastname_<?php echo $this->count; ?>" value="<?php echo $user['display_name']; ?>"/>
-<?php
-			}
-			if ($attendance_info) {
-?>
-				<input type="hidden" disabled = "disabled" name="id_<?php echo $this->count; ?>" value="<?php echo $attendance_info["id"]; ?>"/>
-<?php
-			}
-?>
-				<input type="hidden" disabled = "disabled" name="email_<?php echo $this->count; ?>" value="<?php echo $user['user_email']; ?>"/>
-			</tr>
-<?php
-		}
 ?>
 		</table>
 <?php
