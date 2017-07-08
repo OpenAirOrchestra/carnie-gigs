@@ -384,7 +384,14 @@ class carnieGigView {
 			date('M', $time) . '&nbsp;' .
 			date('Y', $time) . 
 			"</td>";
+
+		print '<td class="calltime">';
+		$calltime = date('g:ia', strtotime($gig['calltime']));
+		echo $calltime;
+		echo "</td>";
+
 		print '<td class="status">';
+
 		if ($gig['cancelled']) {
 			echo "(cancelled)";
 		}
