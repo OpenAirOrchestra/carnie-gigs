@@ -386,7 +386,9 @@ class carnieGigView {
 			"</td>";
 
 		print '<td class="calltime">';
-		$calltime = date('g:i a', strtotime($gig['calltime']));
+		$time = strtotime($gig['calltime']);
+		$calltime = date('g:i', $time) . '&nbsp;' .
+			date('a', $time);
 		echo $calltime;
 		echo "</td>";
 
