@@ -89,17 +89,17 @@ class carnieGigView {
 		if (strlen($calltime)) {
 			$content = $content .
 				"<br/>Call: " .
-				date('g:ia', strtotime($calltime));
+				date('g:i a', strtotime($calltime));
 		}
 		if (strlen($eventstart)) {
 			$content = $content .
 				"<br/>Event Start: " .
-				date('g:ia', strtotime($eventstart));
+				date('g:i a', strtotime($eventstart));
 		}
 		if (strlen($performancestart)) {
 			$content = $content .
 				"<br/>Performance Start: " .
-				date('g:ia', strtotime($performancestart));
+				date('g:i a', strtotime($performancestart));
 		}
 		$content = $content . "<br/><a title=\"Download iCal entry\" href=\"" . 
 			carnieUtil::get_url() . 
@@ -386,7 +386,7 @@ class carnieGigView {
 			"</td>";
 
 		print '<td class="calltime">';
-		$calltime = date('g:ia', strtotime($gig['calltime']));
+		$calltime = date('g:i a', strtotime($gig['calltime']));
 		echo $calltime;
 		echo "</td>";
 
