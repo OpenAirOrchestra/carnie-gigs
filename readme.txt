@@ -3,7 +3,7 @@ Contributors: Darryl F, Richard K
 Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
 Requires at least: 3.9
-Tested up to: 4.4.1
+Tested up to: 5.3.1
 
 Gig Calendar for The Carnival Band.
 
@@ -92,3 +92,5 @@ Limit fields sent in verified attendance form to avoid php max_input_vars limit
 = 1.1.1 =
 Null user id bug fix
 
+= 1.1.2 =
+Fix for custom menus bug
