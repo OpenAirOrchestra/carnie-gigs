@@ -1,13 +1,14 @@
 <?php
-/*
-Plugin Name: Carnie Gigs
-Plugin URI: https://github.com/OpenAirOrchestra/carnie-gigs
-Description: A gig calendar plugin for The Carnival Band 
-Version: 1.1.2
-Author: Open Air Orchestra Webmonkey
-Author URI: mailto://oaowebmonkey@gmail.com
-License: GPL2
-*/
+/**
+ * Plugin Name: Carnie Gigs
+ * Plugin URI: https://github.com/OpenAirOrchestra/carnie-gigs
+ * Description: A gig calendar plugin for The Carnival Band 
+ * Version: 1.1.3
+ * Author: Open Air Orchestra Webmonkey
+ * Author URI: mailto://oaowebmonkey@gmail.com
+ * License: GPL2
+ * GitHub Plugin URI: https://github.com/OpenAirOrchestra/carnie-gigs
+ **/
 
 /*  Copyright 2010  Open Air Orchestra  (email : oaowebmonkey@gmail.com)
 
