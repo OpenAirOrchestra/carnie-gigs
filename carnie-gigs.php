@@ -38,6 +38,9 @@ require_once $include_folder . '/controllers/attendance.php';
 require_once $include_folder . '/model/fields.php';
 require_once $include_folder . '/model/mirror_database.php';
 require_once $include_folder . '/model/verified_attendees.php';
+require_once( $include_folder . '/controllers/gig_rest_controller.php');
+require_once( $include_folder . '/controllers/attendance_rest_controller.php');
+require_once( $include_folder . '/controllers/users_rest_controller.php');
 
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
@@ -744,5 +747,15 @@ add_filter( 'the_content', array($CARNIEGIGSCAL, 'the_content') );
 add_filter("manage_edit-gig_columns", array($CARNIEGIGSCAL, 'manage_gig_columns') );
 add_filter( 's2_post_types', array($CARNIEGIGSCAL, 's2_post_types') );
 add_filter( 'map_meta_cap', array($CARNIEGIGSCAL, 'map_meta_cap'), 10, 4 );
+
+// REST routes
+$GIG_REST_CONTROLLER = new carnieGigsGigRestController;
+add_action('rest_api_init', array($GIG_REST_CONTROLLER, 'register_routes'));
+
+$ATTENDANCE_REST_CONTROLLER = new carnieGigsAttendanceRestController;
+add_action('rest_api_init', array($ATTENDANCE_REST_CONTROLLER, 'register_routes'));
+
+$USER_REST_CONTROLLER = new carnieGigsUsersRestController;
+add_action('rest_api_init', array($USER_REST_CONTROLLER, 'register_routes'));
 
 ?>
