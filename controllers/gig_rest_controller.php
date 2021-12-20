@@ -72,7 +72,7 @@ class carnieGigsGigRestController extends WP_REST_Controller
     $page = $params['page'];
     $per_page = $params['per_page'];
 
-    
+
     return new WP_Error('not-implemented', __($wpdb->last_error, 'text-domain'), array('status' => 500));
   }
 
@@ -88,7 +88,18 @@ class carnieGigsGigRestController extends WP_REST_Controller
     $params = $request->get_params();
     $event_id = $params['id'];
 
-    return new WP_Error('cant-get-item', __('not implemented', 'text-domain'), array('status' => 500));
+    $post = get_post($event_id, ARRAY_A);
+    if ($post) {
+      // if ($post['type'] == 'gig') {
+
+      // }
+      $data = prepare_item_for_response($post);
+
+      return new WP_REST_Response($data, 200);
+    }
+
+
+    return new WP_Error('cant-get-item', __('could not get post', 'text-domain'), array('status' => 500));
   }
 
   /**
@@ -135,7 +146,7 @@ class carnieGigsGigRestController extends WP_REST_Controller
    */
   public function get_items_permissions_check($request)
   {
-    return current_user_can( 'read_private_posts' );
+    return current_user_can('read_private_posts');
   }
 
   /**
@@ -157,7 +168,7 @@ class carnieGigsGigRestController extends WP_REST_Controller
    */
   public function create_item_permissions_check($request)
   {
-    return current_user_can( 'edit_others_posts' );
+    return current_user_can('edit_others_posts');
   }
 
   /**
