@@ -32,6 +32,9 @@ class UserService {
         const response = await fetch(url);
 
         if (!response.ok) {
+            console.log("Failed url fetch: " + response.status + " " + response.statusText);
+            const text = await response.text();
+            console.log("Response text: " + text);
             throw new Error("Failed to list users Response: " + response.status + " " + response.statusText);
         }
 
