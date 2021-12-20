@@ -142,9 +142,7 @@ class carnieGigsGigRestController extends WP_REST_Controller
    */
   public function get_items_permissions_check($request)
   {
-    // DFDF
-    return true;
-    // return current_user_can('read');
+    return current_user_can('read');
   }
 
   /**

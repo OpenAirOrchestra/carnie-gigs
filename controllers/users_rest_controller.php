@@ -169,7 +169,7 @@ class carnieGigsUsersRestController extends WP_REST_Controller
      */
     public function get_items_permissions_check($request)
     {
-        return current_user_can('read_private_posts');
+        return current_user_can('read');
     }
 
     /**
@@ -191,7 +191,7 @@ class carnieGigsUsersRestController extends WP_REST_Controller
      */
     public function create_item_permissions_check($request)
     {
-        return current_user_can('edit_others_posts');
+        return false;
     }
 
     /**
