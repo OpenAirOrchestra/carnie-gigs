@@ -171,16 +171,6 @@ class carnieGigsAttendanceRestController extends WP_REST_Controller
       array_push($gig_format, "%s");
     }
 
-    if (isset($item['phone'])) {
-      $gig_data['phone'] = $item['phone'];
-      array_push($gig_format, "%s");
-    }
-
-    if (isset($item['email'])) {
-      $gig_data['email'] = $item['email'];
-      array_push($gig_format, "%s");
-    }
-
     if (isset($item['notes'])) {
       $gig_data['notes'] = $item['notes'];
       array_push($gig_format, "%s");
