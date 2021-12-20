@@ -184,6 +184,7 @@ class carnieGigView {
 		sort($attendees);
 		$content = $content . ' <dt>Attendees:</dt> ';
 		$content = $content . ' <dd> ';
+		$sep = ' ';
 		foreach ($attendees as $attendee) {
 			$content = $content . $sep;
 
@@ -244,8 +245,7 @@ class carnieGigView {
 	 * Return rendered verified attendees.
 	 */
 	function verified_attendees($content, $metadata_prefix, $postid) { 
-		global $current_user;
-		get_currentuserinfo();
+	    $current_user = wp_get_current_user();
 		$display_name = $current_user->display_name; 
 		if (! $display_name) {
 			$display_name = $current_user->user_login;
@@ -265,13 +265,13 @@ class carnieGigView {
 				$content = $content . '
 <li>';
 
-				if ($attendee['user_id'] == $user_ID) {
+				if ($attendee['user_id'] == $current_user->user_ID) {
 			    		$found = true;
-                                        $content = $content . '<span style="font-weight:bolder">';
+                        $content = $content . '<span style="font-weight:bolder">';
 				} else if ($attendee['user_id']) {
 	   				$content = $content . '<span>';
 				} else {
-                                        $content = $content . '<span style="font-style:oblique">';
+                    $content = $content . '<span style="font-style:oblique">';
 				}
 
 				$content = $content . htmlentities(stripslashes($attendee['firstname']));
