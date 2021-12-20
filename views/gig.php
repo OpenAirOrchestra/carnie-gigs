@@ -306,14 +306,20 @@ class carnieGigView {
 
 			if (current_user_can('edit_post', $postid)) {
 				// button/form to verify attendees
-				$attendance_nonce = wp_create_nonce('attendance_nonce');
-                        	$attendance_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/verified_attendance.php";
+				$attendance_nonce = wp_create_nonce('');
+				$wp_rest_nonce = wp_create_nonce( 'wp_rest' );
+
+                $attendance_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/verified_attendance.php";
+				$attendance_react_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/attendance/?event_id=$postid&_wpnonce=$wp_rest_nonce";
+
 
 				$content = $content . '<form action="' . $attendance_url . '" method = "post">';
 				$content = $content . '<p><input name="the_submit" type="submit" value="Verify Attendance"/></p>';
 				$content = $content . '<input name="attendance_nonce" type="hidden" value="' . $attendance_nonce. '"/>';
 				$content = $content . '<input name="gig" type="hidden" value="' . $postid. '"/>';
 				$content = $content . '</form>';
+
+				$content = $content . '<a class="button" href="' . $attendance_react_url . '" >Update Verifed Attendees (Alpha)</a>';
 
 			}
 
