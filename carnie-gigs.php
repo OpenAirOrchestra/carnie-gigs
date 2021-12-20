@@ -451,7 +451,7 @@ class carnieGigsCalendar {
 		$post = get_post(get_the_id());
 
 		if ($post && get_post_type($post) == 'gig' ) {
-			if ($_POST['gigattendance'] && $_POST['gigid'] == $post->ID) {
+			if (array_key_exists('gigattendance', $_POST) && $_POST['gigattendance'] && array_key_exists('gigid', $_POST) && $_POST['gigid'] == $post->ID) {
 				// process gig attendance
 				if (! $this->carnie_gig_attendance_controller) {
 					$this->carnie_gig_attendance_controller = new carnieGigAttendanceController;
