@@ -89,15 +89,11 @@ class carnieGigsGigRestController extends WP_REST_Controller
     $event_id = $params['id'];
 
     $post = get_post($event_id, ARRAY_A);
-    if ($post) {
-      // if ($post['type'] == 'gig') {
-
-      // }
-      $data = prepare_item_for_response($post);
+    if ($post && $post['post_type'] == 'gig') {
+      $data = $this->prepare_item_for_response($post, $request);
 
       return new WP_REST_Response($data, 200);
     }
-
 
     return new WP_Error('cant-get-item', __('could not get post', 'text-domain'), array('status' => 500));
   }
@@ -146,7 +142,9 @@ class carnieGigsGigRestController extends WP_REST_Controller
    */
   public function get_items_permissions_check($request)
   {
-    return current_user_can('read_private_posts');
+    // DFDF
+    return true;
+    // return current_user_can('read');
   }
 
   /**
@@ -168,7 +166,8 @@ class carnieGigsGigRestController extends WP_REST_Controller
    */
   public function create_item_permissions_check($request)
   {
-    return current_user_can('edit_others_posts');
+    return false;
+    //return current_user_can('edit_posts');
   }
 
   /**
@@ -213,8 +212,17 @@ class carnieGigsGigRestController extends WP_REST_Controller
    */
   public function prepare_item_for_response($item, $request)
   {
-    return $item;
-  }
+    $newItem = $item;
+    $newItem['id'] = $item['ID'];
+    unset($newItem['ID']);
+
+    $newItem['title'] = $item['post_title'];
+    unset($newItem['post_title']);
+
+    $newItem['date'] = $item['post_date'];
+    unset($newItem['post_date']);
+
+    return $newItem;  }
 
   /**
    * Prepares a response for insertion into a collection.
