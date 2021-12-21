@@ -212,7 +212,7 @@ class carnieGigsAttendanceRestController extends WP_REST_Controller
     }
 
     // We haven't implemented regular udate, don't need it yet.
-    
+
     // $item = $this->prepare_item_for_database($request);
     return new WP_Error('cant-update', __('not implemented', 'text-domain'), array('status' => 500));
   }
@@ -248,9 +248,7 @@ class carnieGigsAttendanceRestController extends WP_REST_Controller
    */
   public function get_items_permissions_check($request)
   {
-    // DFDF fix this
-    return true;
-    // return current_user_can( 'read_private_posts' );
+    return current_user_can('read');
   }
 
   /**
@@ -271,10 +269,8 @@ class carnieGigsAttendanceRestController extends WP_REST_Controller
    * @return WP_Error|bool
    */
   public function create_item_permissions_check($request)
-  {  
-    // DFDF fix this
-    return true;
-    // return current_user_can( 'edit_others_posts' );
+  {
+    return current_user_can('edit_posts');
   }
 
   /**
