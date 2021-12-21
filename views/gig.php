@@ -172,8 +172,7 @@ class carnieGigView {
 	 * Return body of gig attendance widget.
 	 */
 	function attendees($content, $metadata_prefix, $postid) { 
-		global $current_user;
-		get_currentuserinfo();
+	    $current_user = wp_get_current_user();
 		$display_name = $current_user->display_name; 
 		if (! $display_name) {
 			$display_name = $current_user->user_login;
