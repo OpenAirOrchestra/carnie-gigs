@@ -188,21 +188,22 @@ async function loadAll(eventId, setIsLoading, setEventRecord, setUsers, setRecen
 		setEventRecord(eventRecord);
 
 		let page = 1;
+		let per_page = 500;
 		let allUsers = [];
 		let moreUsers = true;
 
 		do {
-			const users = await userService.retrieve(page, 100);
+			const users = await userService.retrieve(page, per_page);
 
 			allUsers = [...allUsers, ...users];
-			moreUsers = users.length > 0;
+			moreUsers = users.length >= per_page;
 			
 			++page;
 		} while (moreUsers);
 
 		setUsers(allUsers);
 
-		const recents = await attendanceService.retrieve(1, 100);
+		const recents = await attendanceService.retrieve(1, 75);
 		setRecents(recents);
 
 		let recentUserKeys = new Set();
@@ -213,12 +214,13 @@ async function loadAll(eventId, setIsLoading, setEventRecord, setUsers, setRecen
 		setRecentUserKeys(recentUserKeys);
 
 		page = 1;
+		per_page = 100;
 		let allAttendees = [];
 		let moreAttendees = true;
 		do {
-			const currentAttendees = await attendanceService.retrieve(page, 100, eventId);
+			const currentAttendees = await attendanceService.retrieve(page, per_page, eventId);
 			allAttendees = [...allAttendees, ...currentAttendees];
-			moreAttendees = currentAttendees.length > 0;
+			moreAttendees = currentAttendees.length >= per_page;
 			++page;
 		} while (moreAttendees);
 		setCurrentAttendees(allAttendees);
@@ -253,13 +255,14 @@ async function addAttendanceRecord(eventId, attendee, modificationPromise, pendi
 
 		// List current attendees again and set them
 		let page = 1;
+		let per_page = 100;
 		let allAttendees = [];
 		let moreAttendees = true;
 		do {
-			const currentAttendees = await attendanceService.retrieve(page, 100, eventId);
+			const currentAttendees = await attendanceService.retrieve(page, per_page, eventId);
 			allAttendees = [...allAttendees, ...currentAttendees];
 			setCurrentAttendees(allAttendees);
-			moreAttendees = currentAttendees.length > 0;
+			moreAttendees = currentAttendees.length >= per_page;
 			++page;
 		} while (moreAttendees);
 
@@ -299,13 +302,14 @@ async function deleteAttendanceRecord(eventId, attendee, modificationPromise, pe
 
 		// List current attendees again and set them
 		let page = 1;
+		let per_page = 100;
 		let allAttendees = [];
 		let moreAttendees = true;
 		do {
-			const currentAttendees = await attendanceService.retrieve(page, 100, eventId);
+			const currentAttendees = await attendanceService.retrieve(page, per_page, eventId);
 			allAttendees = [...allAttendees, ...currentAttendees];
 			setCurrentAttendees(allAttendees);
-			moreAttendees = currentAttendees.length > 0;
+			moreAttendees = currentAttendees.length >= per_page;
 			++page;
 		} while (moreAttendees);
 
