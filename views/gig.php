@@ -172,8 +172,7 @@ class carnieGigView {
 	 * Return body of gig attendance widget.
 	 */
 	function attendees($content, $metadata_prefix, $postid) { 
-		global $current_user;
-		get_currentuserinfo();
+	    $current_user = wp_get_current_user();
 		$display_name = $current_user->display_name; 
 		if (! $display_name) {
 			$display_name = $current_user->user_login;
@@ -184,6 +183,7 @@ class carnieGigView {
 		sort($attendees);
 		$content = $content . ' <dt>Attendees:</dt> ';
 		$content = $content . ' <dd> ';
+		$sep = ' ';
 		foreach ($attendees as $attendee) {
 			$content = $content . $sep;
 
@@ -244,8 +244,7 @@ class carnieGigView {
 	 * Return rendered verified attendees.
 	 */
 	function verified_attendees($content, $metadata_prefix, $postid) { 
-		global $current_user;
-		get_currentuserinfo();
+	    $current_user = wp_get_current_user();
 		$display_name = $current_user->display_name; 
 		if (! $display_name) {
 			$display_name = $current_user->user_login;
@@ -265,13 +264,13 @@ class carnieGigView {
 				$content = $content . '
 <li>';
 
-				if ($attendee['user_id'] == $user_ID) {
+				if ($attendee['user_id'] == $current_user->user_ID) {
 			    		$found = true;
-                                        $content = $content . '<span style="font-weight:bolder">';
+                        $content = $content . '<span style="font-weight:bolder">';
 				} else if ($attendee['user_id']) {
 	   				$content = $content . '<span>';
 				} else {
-                                        $content = $content . '<span style="font-style:oblique">';
+                    $content = $content . '<span style="font-style:oblique">';
 				}
 
 				$content = $content . htmlentities(stripslashes($attendee['firstname']));
@@ -306,8 +305,11 @@ class carnieGigView {
 
 			if (current_user_can('edit_post', $postid)) {
 				// button/form to verify attendees
-				$attendance_nonce = wp_create_nonce('attendance_nonce');
-                        	$attendance_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/verified_attendance.php";
+				$attendance_nonce = wp_create_nonce('');
+				$wp_rest_nonce = wp_create_nonce( 'wp_rest' );
+
+                $attendance_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/verified_attendance.php";
+				
 
 				$content = $content . '<form action="' . $attendance_url . '" method = "post">';
 				$content = $content . '<p><input name="the_submit" type="submit" value="Verify Attendance"/></p>';
@@ -315,6 +317,13 @@ class carnieGigView {
 				$content = $content . '<input name="gig" type="hidden" value="' . $postid. '"/>';
 				$content = $content . '</form>';
 
+				$attendance_react_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . '/attendance/';
+
+				$content = $content . '<form action="' . $attendance_react_url . '" method = "get">';
+				$content = $content . '<p><input name="the_submit" type="submit" value="Verify Attendance (Alpha)"/></p>';
+				$content = $content . '<input name="_wpnonce" type="hidden" value="' . $wp_rest_nonce. '"/>';
+				$content = $content . '<input name="event_id" type="hidden" value="' . $postid. '"/>';
+				$content = $content . '</form>';
 			}
 
 			$content = $content . ' </dd> ';

@@ -4,7 +4,7 @@ Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
 Requires at least: 3.9
 Tested up to: 5.3.1
-Stable tag: 1.1.3
+Stable tag: 1.2
 
 Gig Calendar for The Carnival Band.
 
@@ -98,4 +98,7 @@ Fix for custom menus bug
 
 = 1.1.3 =
 Set up for auto updating from GitHub
+
+= 1.2 =
+New react component for attendance
 

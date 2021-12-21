@@ -3,7 +3,7 @@
  * Plugin Name: Carnie Gigs
  * Plugin URI: https://github.com/OpenAirOrchestra/carnie-gigs
  * Description: A gig calendar plugin for The Carnival Band 
- * Version: 1.1.3
+ * Version: 1.2
  * Author: Open Air Orchestra Webmonkey
  * Author URI: mailto://oaowebmonkey@gmail.com
  * License: GPL2
@@ -38,6 +38,9 @@ require_once $include_folder . '/controllers/attendance.php';
 require_once $include_folder . '/model/fields.php';
 require_once $include_folder . '/model/mirror_database.php';
 require_once $include_folder . '/model/verified_attendees.php';
+require_once( $include_folder . '/controllers/gig_rest_controller.php');
+require_once( $include_folder . '/controllers/attendance_rest_controller.php');
+require_once( $include_folder . '/controllers/users_rest_controller.php');
 
 /*
  * Main class for carnie gigs calenter.  Handles activation, hooks, etc.
@@ -448,7 +451,7 @@ class carnieGigsCalendar {
 		$post = get_post(get_the_id());
 
 		if ($post && get_post_type($post) == 'gig' ) {
-			if ($_POST['gigattendance'] && $_POST['gigid'] == $post->ID) {
+			if (array_key_exists('gigattendance', $_POST) && $_POST['gigattendance'] && array_key_exists('gigid', $_POST) && $_POST['gigid'] == $post->ID) {
 				// process gig attendance
 				if (! $this->carnie_gig_attendance_controller) {
 					$this->carnie_gig_attendance_controller = new carnieGigAttendanceController;
@@ -744,5 +747,15 @@ add_filter( 'the_content', array($CARNIEGIGSCAL, 'the_content') );
 add_filter("manage_edit-gig_columns", array($CARNIEGIGSCAL, 'manage_gig_columns') );
 add_filter( 's2_post_types', array($CARNIEGIGSCAL, 's2_post_types') );
 add_filter( 'map_meta_cap', array($CARNIEGIGSCAL, 'map_meta_cap'), 10, 4 );
+
+// REST routes
+$GIG_REST_CONTROLLER = new carnieGigsGigRestController;
+add_action('rest_api_init', array($GIG_REST_CONTROLLER, 'register_routes'));
+
+$ATTENDANCE_REST_CONTROLLER = new carnieGigsAttendanceRestController;
+add_action('rest_api_init', array($ATTENDANCE_REST_CONTROLLER, 'register_routes'));
+
+$USER_REST_CONTROLLER = new carnieGigsUsersRestController;
+add_action('rest_api_init', array($USER_REST_CONTROLLER, 'register_routes'));
 
 ?>

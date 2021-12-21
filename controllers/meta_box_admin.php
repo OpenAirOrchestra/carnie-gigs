@@ -16,7 +16,9 @@ class carnieGigsMetaFormController {
 			$new = $data[$key];
 			if (! $new) {
 				$key = str_replace($metadata_prefix, '', $key);
-				$new = $data[$key];
+				if (array_key_exists($key, $data)) {
+					$new = $data[$key];
+				}
 			}
 			
 			// special handling of date time fields.
@@ -51,7 +53,7 @@ class carnieGigsMetaFormController {
 	function save_data($post_id, $metabox_fields, $metadata_prefix) { 
 
 		// verify nonce
-		if (!wp_verify_nonce($_POST['carnie_gig_meta_box_nonce'], carnieMetaBox)) {
+		if (!wp_verify_nonce($_POST['carnie_gig_meta_box_nonce'], 'carnieMetaBox')) {
 			return $post_id;
 		}
 

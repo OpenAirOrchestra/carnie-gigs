@@ -28,6 +28,8 @@ class carnieGigsMetaFormView {
 			if ($single) {
 				$meta = htmlentities(stripslashes($meta));
 			}
+
+			$std = array_key_exists('std', $field) ? $field['std'] : '';
 			echo '<tr>',
 				'<th style="width:20%"><label for="', $field['id'], '">', $field['name'], '</label></th>', 
 				'<td>';
@@ -49,7 +51,7 @@ class carnieGigsMetaFormView {
 					echo '<input type="checkbox" name="', $field['id'], '" id="', $field['id'], '"', $meta ? ' checked="checked"' : '', ' /> <br/>', ' ', $field['desc'];
 					break;
 				case 'textarea':
-					echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">', $meta ? $meta : $field['std'], '</textarea>', ' ', $field['desc'];
+					echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">', $meta ? $meta : $std, '</textarea>', ' ', $field['desc'];
 					break;
 /*
 				case 'date':
@@ -60,13 +62,13 @@ class carnieGigsMetaFormView {
 					break;
 */
 				case 'date':
-					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? date('d M Y', strtotime($meta)) : $field['std'], '" size="30" style="width:97%" />', ' ', $field['desc'];
+					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? date('d M Y', strtotime($meta)) : $std, '" size="30" style="width:97%" />', ' ', $field['desc'];
 					break;
 				case 'time':
-					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? date('g:ia', strtotime($meta)) : $field['std'], '" size="30" style="width:97%" />', ' ', $field['desc'];
+					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? date('g:ia', strtotime($meta)) : $std, '" size="30" style="width:97%" />', ' ', $field['desc'];
 					break;
 				case 'url':
-					echo '<input type="url" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" style="width:97%" />', ' ', $field['desc'];
+					echo '<input type="url" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $std, '" style="width:97%" />', ' ', $field['desc'];
 					break;
 				case 'list':
 					echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">';
@@ -83,7 +85,7 @@ class carnieGigsMetaFormView {
 					break;
 				case 'text':
 				default:
-					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" size="30" style="width:97%" />', ' ', $field['desc'];
+					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta && array_key_exists('std', $field) ? $meta  : $std, '" size="30" style="width:97%" />', ' ', $field['desc'];
 					break;
 
 			}
@@ -92,7 +94,7 @@ class carnieGigsMetaFormView {
 			echo '     <td>';
 			print "</tr>\n";
 
-			if ($field['suggest'] && strlen($field['suggest'])) {
+			if (array_key_exists('suggest', $field) && $field['suggest'] && strlen($field['suggest'])) {
 				// See: http://www.vulgarisoip.com/2007/06/29/jquerysuggest-an-alternative-jquery-based-autocomplete-library/#comment-7228
 	?>
 	<script type="text/javascript">
@@ -119,6 +121,8 @@ class carnieGigsMetaFormView {
 	 * Render form for carnie gigs meta box
 	 */
 	function render_verified_attendees($post) { 
+		$current_user = wp_get_current_user();
+
 		if ($post->ID) {
 			echo '<tr>',
 				'<th style="width:20%"><label for="verifiedattendees">Verified Attendees</label></th>', 
@@ -133,7 +137,7 @@ class carnieGigsMetaFormView {
 			echo '<ul>';
 			foreach ($attendees as $attendee) {
 				echo "\n<li>";
-				if ($attendee['user_id'] == $user_ID) {
+				if ($attendee['user_id'] == $current_user->user_ID) {
                                         echo '<span style="font-weight:bolder">';
 				} else if ($attendee['user_id']) {
 	   				echo '<span>';
@@ -156,10 +160,14 @@ class carnieGigsMetaFormView {
 			echo '</ul>';
 
 			$attendance_nonce = wp_create_nonce('attendance_nonce');
+			$wp_rest_nonce = wp_create_nonce( 'wp_rest' );
+
 			$attendance_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/verified_attendance.php?attendance_nonce=" . $attendance_nonce . '&gig=' . $post->ID;
-			
+			$attendance_react_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/attendance/?event_id=$post->ID&_wpnonce=$wp_rest_nonce";
+
 
 			echo '<a class="button" href="' . $attendance_url . '" target="_blank">Update Verifed Attendees</a>';
+			echo '<a class="button" href="' . $attendance_react_url . '" >Update Verifed Attendees (Alpha)</a>';
 			echo '     <td>';
 			print "</tr>\n";
 		}
