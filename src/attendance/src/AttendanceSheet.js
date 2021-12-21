@@ -330,12 +330,22 @@ function configureServices() {
 			Configuration.userService = new MockUserService();
 			Configuration.attendanceService = new MockAttendanceService();
 		}
+
+		if (!Configuration.pluginName) {
+			Configuration.pluginName = 'workshop_attendance';
+		}
 	} else {
 		// production code
 		if (!Configuration.userService) {
 			Configuration.eventService = new EventService();
 			Configuration.userService = new UserService();
 			Configuration.attendanceService = new AttendanceService();
+		}
+
+		if (!Configuration.pluginName) {
+			const pathname = window.location.pathname;
+			const pathComponents = pathname.split('/');
+			Configuration.pluginName = pathComponents[pathComponents.length - 3];
 		}
 	}
 }

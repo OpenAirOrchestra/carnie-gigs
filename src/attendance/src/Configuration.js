@@ -3,6 +3,7 @@
     attendanceService : null,
     eventService : null,
     userService: null,
+    pluginName: null,
    
 }
 

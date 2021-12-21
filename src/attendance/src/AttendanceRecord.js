@@ -1,4 +1,5 @@
 import React from 'react';
+import Configuration from './Configuration';
 
 export default AttendanceRecord
 
@@ -30,10 +31,13 @@ function AttendanceRecord(props) {
   const attendanceIcon = present ? '\u2714' : '\u274c';
   const attendanceClassName = present ? 'present' : 'absent';
   const pendingClassName = pending ? 'pending' : '';
+
+  const showEmailAndPhone = Configuration.pluginName === 'workshop_attendance';
+
   const attendeeDetails = <div>
     {notes}
-    {email}
-    {phone}
+    {showEmailAndPhone ? email : ''}
+    {showEmailAndPhone ? phone : ''}
   </div>;
 
   const pendingSpinner = pending ? (<span className="pending-spinner" />) : '';

@@ -1,3 +1,5 @@
+import Configuration from './Configuration';
+
 /// Restful web service for getting attendance records.
 /// See:  https://dzone.com/articles/consuming-rest-api-with-reactjs
 class AttendanceService {
@@ -6,11 +8,7 @@ class AttendanceService {
 
     /// Get rest api location
     serviceLocation() {
-        const pathname = window.location.pathname;
-        const pathComponents = pathname.split('/');
-        const pluginName = pathComponents[pathComponents.length - 3];
-
-        return "../../../../?rest_route=/" + pluginName + "/v1/attendees";
+        return "../../../../?rest_route=/" + Configuration.pluginName + "/v1/attendees";
     }
 
     restNonce() {

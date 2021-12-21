@@ -248,7 +248,7 @@ class carnieGigsAttendanceRestController extends WP_REST_Controller
    */
   public function get_items_permissions_check($request)
   {
-    // DFDF
+    // DFDF fix this
     return true;
     // return current_user_can( 'read_private_posts' );
   }
@@ -272,7 +272,7 @@ class carnieGigsAttendanceRestController extends WP_REST_Controller
    */
   public function create_item_permissions_check($request)
   {  
-    // DFDF
+    // DFDF fix this
     return true;
     // return current_user_can( 'edit_others_posts' );
   }

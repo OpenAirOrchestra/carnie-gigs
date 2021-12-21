@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Configuration from './Configuration';
 
 export default NewAttendeeForm
 
@@ -29,6 +30,18 @@ function NewAttendeeForm(props) {
   const [phone, setPhone] = useState('');
   const [notes, setNotes] = useState('');
 
+  const showEmailAndPhone = Configuration.pluginName === 'workshop_attendance';
+  const emailAndPhoneElement = showEmailAndPhone ? (
+    <div>
+      <label htmlFor="email">Email:</label>
+      <input type="text" name="email" id="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+      <br />
+      <label htmlFor="phone">Phone:</label>
+      <input type="text" name="phone" id="phone" value={phone} onChange={(event) => setPhone(event.target.value)} />
+      <br />
+    </div>
+  ) : <div/>
+
   if (hideAttendeeForm) {
     return null;
   }
@@ -42,13 +55,9 @@ function NewAttendeeForm(props) {
         <br />
         <label htmlFor="lastname">Last Name (required): </label>
         <input type="text" name="lastname" id="lastname" className='required' value={lastname} onChange={(event) => setLastname(event.target.value)} />
-        <br />
-        <label htmlFor="email">Email:</label>
-        <input type="text" name="email" id="email" value={email} onChange={(event) => setEmail(event.target.value)} />
-        <br />
-        <label htmlFor="phone">Phone:</label>
-        <input type="text" name="phone" id="phone" value={phone} onChange={(event) => setPhone(event.target.value)} />
-        <br />
+        
+        { emailAndPhoneElement }
+
         <label htmlFor="notes">Notes:</label>
         <br />
         <textarea name="notes" id="notes" value={notes} onChange={(event) => setNotes(event.target.value)} />

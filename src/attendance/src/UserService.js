@@ -1,3 +1,5 @@
+import Configuration from './Configuration';
+
 /// webservice for getting users from wordpress.
 /// See: https://dzone.com/articles/consuming-rest-api-with-reactjs
 /// See: https://developer.wordpress.org/rest-api/reference/users/
@@ -6,11 +8,7 @@ class UserService {
 
     /// Get rest api location
     serviceLocation() {
-        const pathname = window.location.pathname;
-        const pathComponents = pathname.split('/');
-        const pluginName = pathComponents[pathComponents.length - 3];
-
-        return "../../../../?rest_route=/" + pluginName + "/v1/users";
+        return "../../../../?rest_route=/" + Configuration.pluginName + "/v1/users";
     }
 
     restNonce() {
