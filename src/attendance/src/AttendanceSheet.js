@@ -466,11 +466,17 @@ function AttendanceSheet(props) {
 
 	const showNewAttendeeForm = !isLoading && (filterNew || filterPresent || !filterRecent);
 
-	// url for workshop
-	const workshopURL = eventId ? "../../../../wp-admin/admin.php?page=workshop&workshop=" + eventId : null;
+	// url for workshop or gig
+	let eventURL = eventId ? "../../../../wp-admin/admin.php?page=workshop&workshop=" + eventId : null;
+	
+	if (Configuration.pluginName === 'carnie-gigs') {
+		// http://localhost:8888/wordpress/wp-admin/post.php?post=16083&action=edit
+	     eventURL = eventId ? "../../../../?page_id=" + eventId : null;
+	}
+
 	return (
 		<div className="AttendanceSheet">
-			<Header name={eventRecord ? eventRecord.title : ''} url={workshopURL} />
+			<Header name={eventRecord ? eventRecord.title : ''} url={eventURL} />
 			<SearchBar
 				searchTerm={searchTerm} setSearchTerm={setSearchTerm}
 				filterRecent={filterRecent} setFilterRecent={setFilterRecent}
