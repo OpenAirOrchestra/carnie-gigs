@@ -176,34 +176,66 @@ function filterAttendees(eventId, attendees, recentUserKeys, filterRecent, filte
 	return result;
 }
 
+/// Fetch users from remote
+async function fetchUsers() {
+	const userService = Configuration.userService;
+
+	let page = 1;
+	const per_page = 500;
+	let allUsers = [];
+	let moreUsers = true;
+
+	do {
+		const users = await userService.retrieve(page, per_page);
+
+		allUsers = [...allUsers, ...users];
+		moreUsers = users.length >= per_page;
+		
+		++page;
+	} while (moreUsers);
+
+	return Promise.resolve(allUsers);
+}
+
+/// Fetch recents
+async function fetchCurrentAttendees(eventId) {
+	const attendanceService = Configuration.attendanceService;
+
+
+	let page = 1;
+	const per_page = 100;
+	let allAttendees = [];
+	let moreAttendees = true;
+	do {
+		const currentAttendees = await attendanceService.retrieve(page, per_page, eventId);
+		allAttendees = [...allAttendees, ...currentAttendees];
+		moreAttendees = currentAttendees.length >= per_page;
+		++page;
+	} while (moreAttendees);
+
+	return Promise.resolve(allAttendees);
+}
+
+
 /// Load all data from backend.
 async function loadAll(eventId, setIsLoading, setEventRecord, setUsers, setRecents, setRecentUserKeys, setCurrentAttendees) {
 	try {
 
 		const eventService = Configuration.eventService;
-		const userService = Configuration.userService;
 		const attendanceService = Configuration.attendanceService;
 
-		const eventRecord = await eventService.get(eventId);
+		const eventRecordPromise = eventService.get(eventId);
+		const usersPromise = fetchUsers();
+		const recentsPromise = attendanceService.retrieve(1, 75);
+		const attendeesPromise = fetchCurrentAttendees(eventId);
+
+		const eventRecord = await eventRecordPromise;
 		setEventRecord(eventRecord);
+		
+		const users = await usersPromise;
+		setUsers(users);
 
-		let page = 1;
-		let per_page = 500;
-		let allUsers = [];
-		let moreUsers = true;
-
-		do {
-			const users = await userService.retrieve(page, per_page);
-
-			allUsers = [...allUsers, ...users];
-			moreUsers = users.length >= per_page;
-			
-			++page;
-		} while (moreUsers);
-
-		setUsers(allUsers);
-
-		const recents = await attendanceService.retrieve(1, 75);
+		const recents = await recentsPromise;
 		setRecents(recents);
 
 		let recentUserKeys = new Set();
@@ -213,17 +245,8 @@ async function loadAll(eventId, setIsLoading, setEventRecord, setUsers, setRecen
 		}
 		setRecentUserKeys(recentUserKeys);
 
-		page = 1;
-		per_page = 100;
-		let allAttendees = [];
-		let moreAttendees = true;
-		do {
-			const currentAttendees = await attendanceService.retrieve(page, per_page, eventId);
-			allAttendees = [...allAttendees, ...currentAttendees];
-			moreAttendees = currentAttendees.length >= per_page;
-			++page;
-		} while (moreAttendees);
-		setCurrentAttendees(allAttendees);
+		const attendees = await attendeesPromise;
+		setCurrentAttendees(attendees);
 
 		setIsLoading(false);
 	} catch (error) {

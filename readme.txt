@@ -104,3 +104,6 @@ New react component for attendance
 
 = 1.2.1 =
 Speed up react component load
+
+= 1.2.1 =
+Load initial data in parallel
