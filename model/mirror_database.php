@@ -101,10 +101,22 @@ class carnieMirrorDatabase {
 
 		$this->ensure_exists($metadata_fields, $metadata_prefix);
 
+		$categories = get_the_category($post->ID);
+		$categoryData = '';
+		if (isset($categories) && count($categories) > 0) {
+			$sep = '';
+			foreach ($categories as $category) {
+				$categoryData = $categoryData . $sep;
+				$categoryData = $categoryData . $category->name;
+				$sep = ', ';
+			}
+		}
+
 		$data = array( 'gigid' => $post->ID,
 			'title' => $post->post_title,
-			'description' => $post->post_content);
-		$format = array( '%d', '%s', '%s');
+			'description' => $post->post_content,
+			'categories' => $categoryData);
+		$format = array( '%d', '%s', '%s', '%s');
 
 		foreach ($metadata_fields as $field) {
 			$meta = "";
