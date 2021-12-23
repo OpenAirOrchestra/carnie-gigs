@@ -33,6 +33,7 @@ class carnieMirrorDatabase {
 				gigid mediumint(9),
 				title text,
 				description text,
+				categories text,
 				";
 
 			foreach ($metadata_fields as $field) {
