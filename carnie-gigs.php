@@ -312,6 +312,14 @@ class carnieGigsCalendar {
 	}
 
 	/*
+	 * Register categories to the carnie gigs custom post type.
+	 * 
+	 */
+	function register_categories() {
+		register_taxonomy_for_object_type('category','gig');
+	}
+
+	/*
 	 * Filter for home page to add gigs
 	 */
 	function pre_get_posts( $query ) {
@@ -730,6 +738,7 @@ add_shortcode('carniegigs', array($CARNIEGIGSCAL, 'carniegigs_shortcode_handler'
 
 // actions
 add_action('init',  array($CARNIEGIGSCAL, 'create_post_type'));
+add_action('init',  array($CARNIEGIGSCAL, 'register_categories'));
 add_action('admin_init', array($CARNIEGIGSCAL, 'enqueue_admin_scripts'));
 add_action('save_post', array($CARNIEGIGSCAL, 'save_post_data'));
 add_action('deleted_post', array($CARNIEGIGSCAL, 'deleted_post'));
@@ -757,5 +766,3 @@ add_action('rest_api_init', array($ATTENDANCE_REST_CONTROLLER, 'register_routes'
 
 $USER_REST_CONTROLLER = new carnieGigsUsersRestController;
 add_action('rest_api_init', array($USER_REST_CONTROLLER, 'register_routes'));
-
-?>
