@@ -37,7 +37,7 @@ class carnieGigView {
 		$costume = get_post_meta($postid, $metadata_prefix . 'costume', true);
 		$url = get_post_meta($postid, $metadata_prefix . 'url', true);
 		$coordinator = get_post_meta($postid, $metadata_prefix . 'coordinator', true);
-		$categories = get_the_category($postid);
+		$categories = get_the_terms($postid, 'events');
 
 		// Not in the loop...
 		// do we have the data we need in $_POST?  Do we have date?

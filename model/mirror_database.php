@@ -101,7 +101,7 @@ class carnieMirrorDatabase {
 
 		$this->ensure_exists($metadata_fields, $metadata_prefix);
 
-		$categories = get_the_category($post->ID);
+		$categories = get_the_terms($post, 'events');
 		$categoryData = '';
 		if (isset($categories) && count($categories) > 0) {
 			$sep = '';
