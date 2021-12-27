@@ -17,15 +17,37 @@ header("Content-Disposition: attachment; filename=$Filename");
 // Verify nonce.
 if (wp_verify_nonce($_POST['verified-attendance-csv-verify-key'], 'verified-attendance')) {
 
+	$to = $_POST['to'];
+	$from = $_POST['from'];
 
-	$table_name = $wpdb->prefix . "gig_attendance";
-	$select = "SELECT * FROM " . $table_name;
-
-	if (!current_user_can('read_private_posts')) {
-		$select = "SELECT * FROM " . $table_name . " WHERE `userid` = " . $current_user->ID;
+	// transform dates.
+	$time = strtotime($from);
+	if ($time > 0) {
+		$from = date('Y-m-d', $time);
+	} else {
+		$from = "0000-00-00";
+	}
+	$time = strtotime($to);
+	if ($time > 0) {
+		$to = date('Y-m-d', $time);
+	} else {
+		$to = date('Y-m-d');
 	}
 
-	$results = $wpdb->get_results($select, ARRAY_A);
+	$gig_table = get_option('carniegigs_mirror_table');
+	$attendance_table = $wpdb->prefix . "gig_attendance";
+
+	$sql = $wpdb->prepare("
+	SELECT $gig_table.date, $attendance_table . *, $gig_table.categories
+	FROM  `$gig_table` ,  `$attendance_table` 
+	WHERE $gig_table.gigid = $attendance_table.gigid
+	AND
+	$gig_table.date >= %s AND $gig_table.date <= %s 
+		ORDER BY $gig_table.date
+	", $from, $to);
+
+	$results = $wpdb->get_results($sql, ARRAY_A);
+	
 	$separator = "";
 
 	foreach ($results[0] as $fieldname => $field) {
@@ -34,7 +56,6 @@ if (wp_verify_nonce($_POST['verified-attendance-csv-verify-key'], 'verified-atte
 		$separator = ",";
 	}
 	echo "\n";
-
 
 	foreach ($results as $row) {
 		$separator = "";
