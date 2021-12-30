@@ -22,7 +22,7 @@ function carnieGigsCsv($gigs)
 				// escape " character in field
 				$field = str_replace("\"", "\"\"", $field);
 				// strip newlines in field
-				$field = str_replace(array('\n', '\r'), " ", $field);
+				$field = str_replace(array("\n", "\r"), " ", $field);
 			}
 			echo "\"" . stripslashes($field) . "\"";
 			$separator = ",";

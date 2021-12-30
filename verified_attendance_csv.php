@@ -67,7 +67,7 @@ if (wp_verify_nonce($_POST['verified-attendance-csv-verify-key'], 'verified-atte
 				// escape " character in field
 				$field = str_replace("\"", "\"\"", $field);
 				// strip newlines in field
-				$field = str_replace(array('\n', '\r'), " ", $field);
+				$field = str_replace(array("\n", "\r"), " ", $field);
 			}
 			echo "\"" . stripslashes($field) . "\"";
 			$separator = ",";
