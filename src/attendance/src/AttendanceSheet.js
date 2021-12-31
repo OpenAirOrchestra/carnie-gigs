@@ -23,6 +23,24 @@ function handleError(error) {
 	}
 }
 
+/// Rough time of day (morning, afternoon, evening, night) from date
+function roughTimeOfDay(date) {
+	const hours = date.getHours();
+	if (hours < 12) {
+		return "Morning";
+	}
+
+	if (hours < 17) {
+		return "Afternoon";
+	}
+
+	if (hours < 20) {
+		return "Evening";
+	}
+
+	return "Night";
+}
+
 /// Compute attendees from users and attendance records
 function possibleAttendees(eventId, users, recents, currentAttendees, pending) {
 	let attendanceMap = {}
@@ -418,7 +436,7 @@ async function loadEventId(setEventId) {
 			const dateString = localDate.toISOString().substring(0, 10);
 
 			const locale = navigator.languages[0];
-			const titleString = localDate.toLocaleDateString(locale, { weekday: 'long' }) + " Workshop " + localDate.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+			const titleString = localDate.toLocaleDateString(locale, { weekday: 'long' }) + " " + roughTimeOfDay(date) + " Workshop " + localDate.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
 			const event = {
 				date: dateString,
 				title: titleString
