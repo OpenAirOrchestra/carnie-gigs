@@ -4,7 +4,7 @@ Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
 Requires at least: 3.9
 Tested up to: 5.3.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 
 Gig Calendar for The Carnival Band.
 
@@ -107,3 +107,6 @@ Speed up react component load
 
 = 1.2.2 =
 Load initial data in parallel
+
+= 1.2.3 =
+Added event categories.

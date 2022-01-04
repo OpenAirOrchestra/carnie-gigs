@@ -25,10 +25,14 @@ body {
     padding: 10px;
 }
 
-.SearchBar input[type="text"] {
+.SearchBar input[type="search"] {
     margin-left: 0;
     margin-right: 0;
-    width: 100%
+    width: 100%;
+
+    -moz-appearance: none;/* older firefox */
+    -webkit-appearance: none; /* safari, chrome, edge and ie mobile */
+    appearance: none; /* rest */
 }
 
 .SearchBar input {

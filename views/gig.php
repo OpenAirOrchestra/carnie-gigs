@@ -37,6 +37,7 @@ class carnieGigView {
 		$costume = get_post_meta($postid, $metadata_prefix . 'costume', true);
 		$url = get_post_meta($postid, $metadata_prefix . 'url', true);
 		$coordinator = get_post_meta($postid, $metadata_prefix . 'coordinator', true);
+		$categories = get_the_terms($postid, 'events');
 
 		// Not in the loop...
 		// do we have the data we need in $_POST?  Do we have date?
@@ -77,6 +78,20 @@ class carnieGigView {
 		}
 
 		$content = $content . ' <dl> ';
+
+		// Categories
+		if (isset($categories) && count($categories) > 0) {
+			$content = $content . '<dt>Categories:</dt>';
+			$content = $content . ' <dd> ';
+			$sep = '';
+			foreach ($categories as $category) {
+				$content = $content . $sep;
+				$content = $content . $category->name;
+				$sep = ', ';
+			}
+
+			$content = $content . '</dd> ';
+		}
 
 		// Time details
 		$content = $content . '<dt>When:</dt> ';
