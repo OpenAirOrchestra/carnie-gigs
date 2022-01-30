@@ -338,7 +338,7 @@ async function deleteAttendanceRecord(eventId, attendee, modificationPromise, pe
 		await modificationPromise
 
 		// List recent attendees again and set them
-		const recents = await attendanceService.retrieve(1, 50);
+		const recents = await attendanceService.retrieve(1, 150);
 		setRecents(recents);
 
 		// List current attendees again and set them

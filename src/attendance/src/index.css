@@ -1,6 +1,6 @@
 /* Make font big for our aging eyes */
 body {
-    font-size: 14pt;
+	font: normal 14pt Helvetica;
   }
   input {
     font-size: inherit;
