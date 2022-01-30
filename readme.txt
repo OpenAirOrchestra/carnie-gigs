@@ -113,3 +113,6 @@ Added event categories.
 
 = 1.2.4 =
 Use special date and time input fields.
+
+= 1.2.5 =
+React attendance component UI tweaks

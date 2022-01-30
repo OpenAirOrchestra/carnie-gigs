@@ -24,7 +24,9 @@ function AttendanceRecord(props) {
   const pending = pendingMap[key];
   const present = attendee.event_id && (attendee.event_id === event_id);
 
-  const notes = attendee.notes ? <div> {attendee.notes} </div> : '';
+  const maxNoteLen = 100;
+  const shortNotes = !attendee.notes || attendee.notes.length < maxNoteLen ? attendee.notes : `${attendee.notes.substring(0, maxNoteLen)}\u2026`;
+  const notes = shortNotes ? <div> {shortNotes} </div> : '';
   const phone = attendee.phone ? <span> {attendee.phone} </span> : '';
   const email = attendee.email ? <span> {attendee.email} </span> : '';
 
