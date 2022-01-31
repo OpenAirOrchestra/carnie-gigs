@@ -215,36 +215,58 @@ async function fetchUsers() {
 	return Promise.resolve(allUsers);
 }
 
-/// Fetch recents
+/// Fetch current attendees
 async function fetchCurrentAttendees(eventId) {
 	const attendanceService = Configuration.attendanceService;
-
 
 	let page = 1;
 	const per_page = 100;
 	let allAttendees = [];
 	let moreAttendees = true;
 	do {
-		const currentAttendees = await attendanceService.retrieve(page, per_page, eventId);
-		allAttendees = [...allAttendees, ...currentAttendees];
-		moreAttendees = currentAttendees.length >= per_page;
+		const attendees = await attendanceService.retrieve(page, per_page, eventId);
+		allAttendees = [...allAttendees, ...attendees];
+		moreAttendees = attendees.length >= per_page;
 		++page;
 	} while (moreAttendees);
 
 	return Promise.resolve(allAttendees);
 }
 
+/// Fetch recent attendees
+async function fetchRecentAttendees() {
+
+	// Get max recents from URL param string.  Defaults to 100
+	// This so we can tune this better.
+	const paramString = window.location.search;
+	const urlParams = new URLSearchParams(paramString);
+	let urlMaxRecents = urlParams.get('max_recents');
+	const maxRecents = urlMaxRecents ? urlMaxRecents : 100; 
+
+	const attendanceService = Configuration.attendanceService;
+
+	let page = 1;
+	const per_page = Math.min(maxRecents, 100);
+	let allAttendees = [];
+	let moreAttendees = true;
+	do {
+		const attendees = await attendanceService.retrieve(page, per_page);
+		allAttendees = [...allAttendees, ...attendees];
+		moreAttendees = attendees.length >= per_page;
+		++page;
+	} while (moreAttendees && allAttendees.length < maxRecents);
+
+	return Promise.resolve(allAttendees);
+}
 
 /// Load all data from backend.
 async function loadAll(eventId, setIsLoading, setEventRecord, setUsers, setRecents, setRecentUserKeys, setCurrentAttendees) {
 	try {
 
 		const eventService = Configuration.eventService;
-		const attendanceService = Configuration.attendanceService;
-
 		const eventRecordPromise = eventService.get(eventId);
 		const usersPromise = fetchUsers();
-		const recentsPromise = attendanceService.retrieve(1, 75);
+		const recentsPromise = fetchRecentAttendees();
 		const attendeesPromise = fetchCurrentAttendees(eventId);
 
 		const eventRecord = await eventRecordPromise;
@@ -338,21 +360,15 @@ async function deleteAttendanceRecord(eventId, attendee, modificationPromise, pe
 		await modificationPromise
 
 		// List recent attendees again and set them
-		const recents = await attendanceService.retrieve(1, 150);
-		setRecents(recents);
+		const recentsPromise = fetchRecentAttendees();
 
 		// List current attendees again and set them
-		let page = 1;
-		let per_page = 100;
-		let allAttendees = [];
-		let moreAttendees = true;
-		do {
-			const currentAttendees = await attendanceService.retrieve(page, per_page, eventId);
-			allAttendees = [...allAttendees, ...currentAttendees];
-			setCurrentAttendees(allAttendees);
-			moreAttendees = currentAttendees.length >= per_page;
-			++page;
-		} while (moreAttendees);
+		const currentAttendeesPromise = fetchCurrentAttendees(eventId);
+
+		const recents = await recentsPromise;
+		setRecents(recents);
+		const currentAttendees = await currentAttendeesPromise;
+		setCurrentAttendees(currentAttendees);
 
 		// Remove record from pending.
 		// This could get messed up if we didn't serilize the modification requests.

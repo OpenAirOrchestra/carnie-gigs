@@ -4,7 +4,7 @@
  * Plugin Name: Carnie Gigs
  * Plugin URI: https://github.com/OpenAirOrchestra/carnie-gigs
  * Description: A gig calendar plugin for The Carnival Band 
- * Version: 1.2.5
+ * Version: 1.2.6
  * Author: Open Air Orchestra Webmonkey
  * Author URI: mailto://oaowebmonkey@gmail.com
  * License: GPL2
@@ -553,6 +553,7 @@ class carnieGigsCalendar
 	function register_settings()
 	{
 		register_setting('carnie-gigs-settings-group', 'carniegigs_mirror_table');
+		register_setting('carnie-gigs-settings-group', 'carniegigs_recents_history_length');
 	}
 
 	function options_page()
