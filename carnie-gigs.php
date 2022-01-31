@@ -553,6 +553,7 @@ class carnieGigsCalendar
 	function register_settings()
 	{
 		register_setting('carnie-gigs-settings-group', 'carniegigs_mirror_table');
+		register_setting('carnie-gigs-settings-group', 'carniegigs_recents_history_length');
 	}
 
 	function options_page()

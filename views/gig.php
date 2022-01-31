@@ -338,6 +338,12 @@ class carnieGigView {
 				$content = $content . '<p><input name="the_submit" type="submit" value="Verify Attendance (Alpha)"/></p>';
 				$content = $content . '<input name="_wpnonce" type="hidden" value="' . $wp_rest_nonce. '"/>';
 				$content = $content . '<input name="event_id" type="hidden" value="' . $postid. '"/>';
+
+				$max_recents = get_option('carniegigs_recents_history_length');
+				if (isset($max_recents) && is_numeric($max_recents)) {
+					$content = $content . '<input name="max_recents" type="hidden" value="' . $max_recents. '"/>';
+				}
+
 				$content = $content . '</form>';
 			}
 
