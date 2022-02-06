@@ -323,19 +323,10 @@ class carnieGigView {
 				$attendance_nonce = wp_create_nonce('');
 				$wp_rest_nonce = wp_create_nonce( 'wp_rest' );
 
-                $attendance_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/verified_attendance.php";
-				
-
-				$content = $content . '<form action="' . $attendance_url . '" method = "post">';
-				$content = $content . '<p><input name="the_submit" type="submit" value="Verify Attendance"/></p>';
-				$content = $content . '<input name="attendance_nonce" type="hidden" value="' . $attendance_nonce. '"/>';
-				$content = $content . '<input name="gig" type="hidden" value="' . $postid. '"/>';
-				$content = $content . '</form>';
-
 				$attendance_react_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . '/attendance/';
 
 				$content = $content . '<form action="' . $attendance_react_url . '" method = "get">';
-				$content = $content . '<p><input name="the_submit" type="submit" value="Verify Attendance (Alpha)"/></p>';
+				$content = $content . '<p><input name="the_submit" type="submit" value="Verify Attendance"/></p>';
 				$content = $content . '<input name="_wpnonce" type="hidden" value="' . $wp_rest_nonce. '"/>';
 				$content = $content . '<input name="event_id" type="hidden" value="' . $postid. '"/>';
 

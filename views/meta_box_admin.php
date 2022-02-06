@@ -154,14 +154,12 @@ class carnieGigsMetaFormView {
 			$attendance_nonce = wp_create_nonce('attendance_nonce');
 			$wp_rest_nonce = wp_create_nonce( 'wp_rest' );
 
-			$attendance_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/verified_attendance.php?attendance_nonce=" . $attendance_nonce . '&gig=' . $post->ID;
 			$attendance_react_url = get_bloginfo('wpurl') . '/wp-content/plugins/' . basename(dirname(dirname(__FILE__))) . "/attendance/?event_id=$post->ID&_wpnonce=$wp_rest_nonce";
 			$max_recents = get_option('carniegigs_recents_history_length');
 			if (isset($max_recents) && is_numeric($max_recents)) {
 				$attendance_react_url = $attendance_react_url . "&max_recents=$max_recents";
 			}
-			echo '<a class="button" href="' . $attendance_url . '" target="_blank">Update Verifed Attendees</a>';
-			echo '<a class="button" href="' . $attendance_react_url . '" >Update Verifed Attendees (Alpha)</a>';
+			echo '<a class="button" href="' . $attendance_react_url . '" >Update Verifed Attendees</a>';
 			echo '     <td>';
 			print "</tr>\n";
 		}
