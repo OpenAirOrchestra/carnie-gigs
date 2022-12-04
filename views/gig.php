@@ -37,6 +37,7 @@ class carnieGigView {
 		$costume = get_post_meta($postid, $metadata_prefix . 'costume', true);
 		$url = get_post_meta($postid, $metadata_prefix . 'url', true);
 		$coordinator = get_post_meta($postid, $metadata_prefix . 'coordinator', true);
+		$contact = get_post_meta($postid, $metadata_prefix . 'contact', true);
 		$categories = get_the_terms($postid, 'events');
 
 		// Not in the loop...
@@ -56,6 +57,7 @@ class carnieGigView {
 			$costume = $_POST[ $metadata_prefix . 'costume' ];
 			$url = $_POST[ $metadata_prefix . 'url' ];
 			$coordinator = $_POST[ $metadata_prefix . 'coordinator' ];
+			$contact = $_POST[ $metadata_prefix . 'contact' ];
 
 			$render_attendees = false;
 		}
@@ -166,7 +168,6 @@ class carnieGigView {
 		}
 		
 		// Contact
-		$contact = get_post_meta($postid, $metadata_prefix . 'contact', true);
 		if (strlen($contact)) {
 			$contact = htmlentities(stripslashes($contact));
 			$content = $content . ' <dt>Contact:</dt> ';

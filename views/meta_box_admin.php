@@ -77,7 +77,7 @@ class carnieGigsMetaFormView {
 					break;
 				case 'text':
 				default:
-					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta && array_key_exists('std', $field) ? $meta  : $std, '" size="30" style="width:97%" />', ' ', $field['desc'];
+					echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta  : $std, '" size="30" style="width:97%" />', ' ', $field['desc'];
 					break;
 
 			}
