@@ -42,7 +42,7 @@ class carnieGigView {
 
 		// Not in the loop...
 		// do we have the data we need in $_POST?  Do we have date?
-		if (! $date && $_POST[$metadata_prefix . 'date']) {
+		if (! $date && isset($_POST[$metadata_prefix . 'date']) && $_POST[$metadata_prefix . 'date']) {
 			// pull data from $_POST instead
 			$date = $_POST[ $metadata_prefix . 'date' ];
 
