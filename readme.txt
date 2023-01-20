@@ -2,9 +2,9 @@
 Contributors: Darryl F, Richard K
 Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
-Requires at least: 3.9
-Tested up to: 5.3.1
-Stable tag: 1.2.8
+Requires at least: 5.3
+Tested up to: 6.1
+Stable tag: 1.2.9
 
 Gig Calendar for The Carnival Band.
 
@@ -125,4 +125,7 @@ Removed legacy attendance component
 
 = 1.2.8 = 
 Fix bug with costume call and coordinator (issue #17)
+
+= 1.2.9 = 
+Minor bug fix release
 

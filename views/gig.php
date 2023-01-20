@@ -82,7 +82,7 @@ class carnieGigView {
 		$content = $content . ' <dl> ';
 
 		// Categories
-		if (isset($categories) && count($categories) > 0) {
+		if (isset($categories) && is_countable($categories) && count($categories) > 0) {
 			$content = $content . '<dt>Categories:</dt>';
 			$content = $content . ' <dd> ';
 			$sep = '';
