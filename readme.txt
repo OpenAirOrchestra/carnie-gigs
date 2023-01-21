@@ -4,7 +4,7 @@ Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
 Requires at least: 5.3
 Tested up to: 6.1
-Stable tag: 1.2.9
+Stable tag: 1.2.10
 
 Gig Calendar for The Carnival Band.
 
