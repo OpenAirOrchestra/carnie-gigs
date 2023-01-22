@@ -348,10 +348,11 @@ class carnieGigView {
 	/*
 	 * Render short view of gigs from database results
 	 * in an HTML table.
+	 * Returns the rendered table
 	 */
-	function shortGigs($gigs, $check_post_status) {
+	function shortcodeGigs($gigs, $check_post_status) {
 
-		echo '<table class="gigs">';
+		$result = '<table class="gigs">';
 		$even = false;
 		foreach ($gigs as $gig) {
 			
@@ -368,18 +369,22 @@ class carnieGigView {
 			}
 
 			if ($valid) {
-				$this->shortGig($gig, $even);
+				$result .= $this->shortcodeGig($gig, $even);
 				$even = ! $even;
 			}
 		}
-		print "</table>";
+		$result .= "</table>";
+		return $result;
 	}
 
 	/*
 	 * Render a single short gig table row
 	 * in an HTML table row
+	 * Returns the rendered row
 	 */
-	function shortGig($gig, $even = false) {
+	function shortcodeGig($gig, $even = false) {
+		$result = "";
+
 		$idstr = "gig-" . $gig['id'];
 		$classstr = "gig y" . date('Y', strtotime($gig['date']));
 		if ($even) {
@@ -391,46 +396,48 @@ class carnieGigView {
 			$permalink = get_permalink($gig['gigid']);
 		}
 
-		print '<tr id="'. $idstr . '" class="' . $classstr . '">';
+		$result .= '<tr id="'. $idstr . '" class="' . $classstr . '">';
 
-		echo '<td class="column-title">';
+		$result .= '<td class="column-title">';
 		if ($permalink) {
-			echo '<strong><a class="row-title" href="' . $permalink . '">' . stripslashes($gig['title']) . "</a></strong>";
+			$result .= '<strong><a class="row-title" href="' . $permalink . '">' . stripslashes($gig['title']) . "</a></strong>";
 		} else {
-			echo '<strong><span class="row-title">' . stripslashes($gig['title']) . "</span></strong>";
+			$result .= '<strong><span class="row-title">' . stripslashes($gig['title']) . "</span></strong>";
 		}
-		echo "</td>";
+		$result .= "</td>";
 		$time = strtotime($gig['date']);
-		echo '<td class="date">' . 
+		$result .= '<td class="date">' . 
 			date('d', $time) . '&nbsp;' .
 			date('M', $time) . '&nbsp;' .
 			date('Y', $time) . 
 			"</td>";
 
-		print '<td class="calltime">';
+		$result .= '<td class="calltime">';
 		$time = strtotime($gig['calltime']);
 		$calltime = date('g:i', $time) . '&nbsp;' .
 			date('a', $time);
-		echo $calltime;
-		echo "</td>";
+		$result .= $calltime;
+		$result .= "</td>";
 
-		print '<td class="status">';
+		$result .= '<td class="status">';
 
 		if ($gig['cancelled']) {
-			echo "(cancelled)";
+			$result .= "(cancelled)";
 		}
 		if ($gig['tentative']) {
-			echo "(tentative)";
+			$result .= "(tentative)";
 		
 		}       
-		print "</td>";
+		$result .= "</td>";
 		if (! is_admin()) {
-			print '<td>';
-			print "<a title=\"Download iCal entry\" href=\"" . carnieUtil::get_url() . "ical.php?id=" . $gig['gigid'] . 
+			$result .= '<td>';
+			$result .= "<a title=\"Download iCal entry\" href=\"" . carnieUtil::get_url() . "ical.php?id=" . $gig['gigid'] . 
 				"\"> <img style=\"vertical-align:middle;max-width:19px\" src=\"" .  carnieUtil::get_url() . "images/calendar.jpg\"></a>";
-			print "</td>";
+				$result .= "</td>";
 		}
-		print "</tr>\n";
+		$result .= "</tr>\n";
+
+		return $result;
 	}
 
 }
