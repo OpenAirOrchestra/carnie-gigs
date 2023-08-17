@@ -23,7 +23,7 @@ class carnieFields {
 				'type' => 'textarea',
 			),
 			array('name' => 'Green Room',
-				'desc' => 'Green room info and associated notes about the gig.',
+				'desc' => 'Band member eyes only information about the gig (Greenroom, etc).',
 				'id' => $this->metadata_prefix . 'greenroom',
 				'type' => 'textarea',
 			),
