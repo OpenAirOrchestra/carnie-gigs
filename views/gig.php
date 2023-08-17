@@ -35,6 +35,7 @@ class carnieGigView {
 		$performancestart = get_post_meta($postid, $metadata_prefix . 'performancestart', true);
 		$location = get_post_meta($postid, $metadata_prefix . 'location', true);
 		$costume = get_post_meta($postid, $metadata_prefix . 'costume', true);
+		$greenroom = get_post_meta($postid, $metadata_prefix . 'greenroom', true);
 		$url = get_post_meta($postid, $metadata_prefix . 'url', true);
 		$coordinator = get_post_meta($postid, $metadata_prefix . 'coordinator', true);
 		$contact = get_post_meta($postid, $metadata_prefix . 'contact', true);
@@ -55,6 +56,7 @@ class carnieGigView {
 			$performancestart = $_POST[ $metadata_prefix . 'performancestart' ];
 			$location = $_POST[ $metadata_prefix . 'location' ];
 			$costume = $_POST[ $metadata_prefix . 'costume' ];
+			$greenroom = $_POST[ $metadata_prefix . 'greenroom' ];
 			$url = $_POST[ $metadata_prefix . 'url' ];
 			$coordinator = $_POST[ $metadata_prefix . 'coordinator' ];
 			$contact = $_POST[ $metadata_prefix . 'contact' ];
@@ -134,6 +136,15 @@ class carnieGigView {
 			$content = $content . ' </dd> ';
 		}
 
+		// Green Room
+		if (strlen($greenroom)) {
+			$greenroom = htmlentities(stripslashes($greenroom));
+			$content = $content . ' <dt>Green Room:</dt> ';
+			$content = $content . ' <dd> ';
+			$content = $content . $greenroom ;
+			$content = $content . ' </dd> ';
+		}
+		
 		// URL
 		if (strlen($url)) {
 			$content = $content . ' <dt>Link:</dt> ';
@@ -157,7 +168,7 @@ class carnieGigView {
 			$content = $content . $costume ;
 			$content = $content . ' </dd> ';
 		}
-		
+
 		// Co-ordinator
 		if (strlen($coordinator)) {
 			$coordinator = htmlentities(stripslashes($coordinator));
