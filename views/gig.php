@@ -424,10 +424,14 @@ class carnieGigView {
 			"</td>";
 
 		$result .= '<td class="calltime">';
-		$time = strtotime($gig['calltime']);
-		$calltime = date('g:i', $time) . '&nbsp;' .
-			date('a', $time);
-		$result .= $calltime;
+		
+		$calltime = $gig['calltime'];
+		if (strlen($calltime) && $calltime != '00:00:00') {
+			$time = strtotime($calltime);
+			$calltime = date('g:i', $time) . '&nbsp;' .
+				date('a', $time);
+			$result .= $calltime;
+		}
 		$result .= "</td>";
 
 		$result .= '<td class="status">';
