@@ -21,23 +21,7 @@ class carnieGigsMetaFormView {
 
 		echo '<table class="form-table">';
 		
-		$previous_category = null;
 		foreach ($metabox['args']['metadata_fields'] as $field) {
-
-			if (isset($field['category'])) {
-				$category = $field['category'];
-				if ($category != $previous_category) {
-					echo '</table>';
-
-					echo '<h3>' . $category . '</h3><hr/>';
-
-					echo '<table class="form-table">';
-				}
-
-				$previous_category = $category;
-			} else {
-				$previous_category = null;
-			}
 
 			// get current post metadata
 			$single = $field['type'] != 'list';
@@ -118,10 +102,6 @@ class carnieGigsMetaFormView {
 	<?php
 			}
 		}
-		echo '</table>';
-		echo '<h3>Attendees</h3>';
-		echo '<hr/>';
-		echo '<table class="form-table">';
 
 		$this->render_verified_attendees($post);
 
