@@ -16,11 +16,11 @@ class carnieFields {
 			array('name' => 'Gig Details',
 			'id' => $this->metadata_prefix . 'gig_details'
 			),
-			array('name' => 'Gig Accessibility',
-			'id' => $this->metadata_prefix . 'gig_accessibility'
-			),
 			array('name' => 'Verified Attendees',
 			'id' => $this->metadata_prefix . 'gig_verified_attendees'
+			),
+			array('name' => 'Gig Accessibility',
+			'id' => $this->metadata_prefix . 'gig_accessibility'
 			)
 		);
 		$this->metadata_fields = array(

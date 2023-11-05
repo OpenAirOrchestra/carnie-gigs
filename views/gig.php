@@ -17,7 +17,7 @@ class carnieGigView {
 		$carnie_fields = new carnieFields;
 		$separator = '';
 		foreach ($carnie_fields->metadata_fields as $field) {
-			if (isset( $field['category']) && $field['category'] == 'Accessability') {
+			if (isset( $field['category']) && $field['category'] == 'gig_accessibility') {
 				$value = get_post_meta($postid, $field['id'], true);
 
 				if (isset($value) && strlen($value) > 0) {
@@ -225,7 +225,7 @@ class carnieGigView {
 		$content = $content . ' <dt>Accessability:</dt> ';
 		$content = $content . ' <dd> ';
 
-		$content = $content . $this->accessiblity_summary($content, $metadata_prefix, $published_post_ID);
+		$content = $this->accessiblity_summary($content, $metadata_prefix, $published_post_ID);
 
 		$content = $content . ' </dd> ';
 
