@@ -7,6 +7,34 @@ class carnieGigView {
 
 	private $nonce;
 
+
+	/*
+	 * Render accessibility summary
+	 */
+	function accessiblity_summary($content, $metadata_prefix, $published_post_ID) {
+		$postid = get_the_id();
+
+		$carnie_fields = new carnieFields;
+		$separator = '';
+		foreach ($carnie_fields->metadata_fields as $field) {
+			if (isset( $field['category']) && $field['category'] == 'Accessability') {
+				$value = get_post_meta($postid, $field['id'], true);
+
+				if (isset($value) && strlen($value) > 0) {
+					if ($field['type'] == 'checkbox') {
+						$content = $content . $separator . $field['name'];
+					} else {
+						$content = $content . $separator . $field['name'] . ': ' . $value;
+					}
+					$separator = ', ';
+				}
+			}
+		}
+
+
+		return $content;
+	}
+
 	/*
 	 * content filter for gigs.
 	 */
@@ -192,6 +220,15 @@ class carnieGigView {
 			$content = $this->attendees($content, $metadata_prefix, $postid);
 			$content = $this->verified_attendees($content, $metadata_prefix, $postid);
 		}
+
+		// Accessability
+		$content = $content . ' <dt>Accessability:</dt> ';
+		$content = $content . ' <dd> ';
+
+		$content = $content . $this->accessiblity_summary($content, $metadata_prefix, $published_post_ID);
+
+		$content = $content . ' </dd> ';
+
 		return $content;
 	}
 

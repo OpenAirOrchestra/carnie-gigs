@@ -134,7 +134,7 @@ class carnieFields {
 			array('name' => 'Parade',
 				'category' => 'Accessability',
 				'desc' => 'Is this a mobile gig (not stationary).',
-				'id' => $this->metadata_prefix . 'seating',
+				'id' => $this->metadata_prefix . 'parade',
 				'type' => 'checkbox',
 			),
 			array('name' => 'Outdoors',
@@ -164,7 +164,7 @@ class carnieFields {
 			array('name' => 'Gender Neutral Washroom',
 				'category' => 'Accessability',
 				'desc' => 'Is there a gender neutral washroom available.',
-				'id' => $this->metadata_prefix . 'washroom',
+				'id' => $this->metadata_prefix . 'genderneutralwashroom',
 				'type' => 'checkbox',
 			)
 		);
