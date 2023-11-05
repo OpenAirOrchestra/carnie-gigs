@@ -24,7 +24,7 @@ class carnieGigView {
 					if ($field['type'] == 'checkbox') {
 						$content = $content . $separator . $field['name'];
 					} else {
-						$content = $content . $separator . $field['name'] . ': ' . $value;
+						$content = $content . $separator . $field['name'] . ': ' . htmlentities(stripslashes($value));
 					}
 					$separator = ', ';
 				}
