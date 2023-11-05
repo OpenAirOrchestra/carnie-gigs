@@ -4,7 +4,7 @@ Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
 Requires at least: 5.3
 Tested up to: 6.1
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 
 Gig Calendar for The Carnival Band.
 
@@ -140,3 +140,6 @@ Add greenroom info
 
 = 1.3.1 =
 Don't deisplay 00:00:00 times in shortcode gig table display.
+
+= 1.3.2 =
+Add Accessibility section

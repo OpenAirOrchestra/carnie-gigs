@@ -118,6 +118,18 @@ class carnieFields {
 				'desc' => 'Usually 15 percent of Net.',
 				'id' => $this->metadata_prefix . 'productioncomission',
 				'type' => 'text',
+			),
+			array('name' => 'Stairs',
+				'category' => 'Accessability',
+				'desc' => 'Are stairs required to access the venue.',
+				'id' => $this->metadata_prefix . 'stairs',
+				'type' => 'checkbox',
+			),
+			array('name' => 'Washroom',
+				'category' => 'Accessability',
+				'desc' => 'Is there a washroom available at the venue.',
+				'id' => $this->metadata_prefix . 'washroom',
+				'type' => 'checkbox',
 			)
 		);
 	}
