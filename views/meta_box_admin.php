@@ -10,18 +10,22 @@ class carnieGigsMetaFormView {
 	 */
 	function render($post, $metabox) { 
 
-		$metabox['args']['metadata_prefix'];
-
-		// From http://www.deluxeblogtips.com/2010/04/how-to-create-meta-box-wordpress-post.html
-		// TODO: http://matth.eu/wordpress-date-field-plugin
-		//
-	       
-		// Use nonce for verification
-		echo '<input type="hidden" name="carnie_gig_meta_box_nonce" value="', wp_create_nonce('carnieMetaBox'), '" />';
+		$metadata_prefix = $metabox['args']['metadata_prefix'];
 
 		echo '<table class="form-table">';
 		
+		$metadata_category = $metabox['args']['metadata_field_category'];
+
+		$empty = true;
+
 		foreach ($metabox['args']['metadata_fields'] as $field) {
+
+			// Skip fields in a different category
+			if (($metadata_prefix . $field['category']) != $metadata_category['id']) {
+				continue;
+			}
+
+			$empty = false;
 
 			// get current post metadata
 			$single = $field['type'] != 'list';
@@ -103,7 +107,9 @@ class carnieGigsMetaFormView {
 			}
 		}
 
-		$this->render_verified_attendees($post);
+		if ($empty) {
+			$this->render_verified_attendees($post);
+		}
 
 	    echo '</table>';
 	}

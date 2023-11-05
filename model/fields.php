@@ -3,6 +3,7 @@
 class carnieFields {
 
 	public  $metadata_prefix,
+		$metadata_categories,
 		$metadata_fields;
 
 	/*

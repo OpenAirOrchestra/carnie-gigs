@@ -52,16 +52,6 @@ class carnieGigsMetaFormController {
 	 */
 	function save_data($post_id, $metabox_fields, $metadata_prefix) { 
 
-		// verify post
-		if (!isset($_POST['carnie_gig_meta_box_nonce'])) {
-			return $post_id;
-		}
-
-		// verify nonce
-		if (!wp_verify_nonce($_POST['carnie_gig_meta_box_nonce'], 'carnieMetaBox')) {
-			return $post_id;
-		}
-
 		// check autosave
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 			return $post_id;

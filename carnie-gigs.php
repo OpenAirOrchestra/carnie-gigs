@@ -56,6 +56,7 @@ class carnieGigsCalendar
 		$carnie_gig_view,
 		$metadata_prefix,
 		$metadata_fields,
+		$metadata_field_categories,
 		$published_post_ID;
 
 	/*
@@ -67,6 +68,7 @@ class carnieGigsCalendar
 
 		$this->metadata_prefix = $carnie_fields->metadata_prefix;
 		$this->metadata_fields = $carnie_fields->metadata_fields;
+		$this->metadata_field_categories = $carnie_fields->metadata_categories;
 	}
 
 	/*
@@ -372,18 +374,22 @@ class carnieGigsCalendar
 		}
 
 		// remove_meta_box() and add_meta_box() calls.
-		add_meta_box(
-			"carnie-gig-meta",
-			"Gig Details",
-			array($this->carnie_gigs_meta_form_view, 'render'),
-			"gig",
-			"normal",
-			"high",
-			array(
-				'metadata_prefix' => $this->metadata_prefix,
-				'metadata_fields' => $this->metadata_fields
-			)
-		);
+		foreach ($this->metadata_field_categories as $metadata_field_category) {
+			add_meta_box(
+				$metadata_field_category['id'],
+				$metadata_field_category['name'],
+				array($this->carnie_gigs_meta_form_view, 'render'),
+				"gig",
+				"normal",
+				"high",
+				array(
+					'metadata_prefix' => $this->metadata_prefix,
+					'metadata_fields' => $this->metadata_fields,
+					'metadata_field_category' => $metadata_field_category
+				)
+			);
+		}
+		
 
 		$this->register_subscribe2_meta_box();
 	}
