@@ -103,7 +103,7 @@ class carnieMirrorDatabase {
 
 		$categories = get_the_terms($post, 'events');
 		$categoryData = '';
-		if (isset($categories) && count($categories) > 0) {
+		if (isset($categories) && is_countable($categories) && count($categories) > 0) {
 			$sep = '';
 			foreach ($categories as $category) {
 				$categoryData = $categoryData . $sep;
