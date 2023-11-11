@@ -232,7 +232,7 @@ class carnieFields {
 			),
 			array('name' => 'Paved flat pathways',
 				'category' => 'gig_accessibility',
-				'desc' => 'Do outdoor pathways have accessibility friendly surfaces? If not, describe describe in gig greenroom details, ex. gravel, sand, wood chips, slopes, uneven terrain.',
+				'desc' => 'Do outdoor pathways have accessibility friendly surfaces? If not, describe in gig greenroom details, ex. gravel, sand, wood chips, slopes, uneven terrain.',
 				'id' => $this->metadata_prefix . 'accessiblepath',
 				'type' => 'checkbox',
 			),
