@@ -13,6 +13,9 @@ class carnieGigsMetaFormController {
 			$old = get_post_meta($post_id, $field['id'], true);
 
 			$key = $field['id'];
+			if (!isset($data[$key])) {
+				continue;
+			}
 			$new = $data[$key];
 			if (! $new) {
 				$key = str_replace($metadata_prefix, '', $key);
