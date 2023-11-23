@@ -13,6 +13,9 @@ class carnieGigsMetaFormController {
 			$old = get_post_meta($post_id, $field['id'], true);
 
 			$key = $field['id'];
+			if (!isset($data[$key])) {
+				continue;
+			}
 			$new = $data[$key];
 			if (! $new) {
 				$key = str_replace($metadata_prefix, '', $key);
@@ -51,16 +54,6 @@ class carnieGigsMetaFormController {
 	 * save form data for carnie gigs meta box
 	 */
 	function save_data($post_id, $metabox_fields, $metadata_prefix) { 
-
-		// verify post
-		if (!isset($_POST['carnie_gig_meta_box_nonce'])) {
-			return $post_id;
-		}
-
-		// verify nonce
-		if (!wp_verify_nonce($_POST['carnie_gig_meta_box_nonce'], 'carnieMetaBox')) {
-			return $post_id;
-		}
 
 		// check autosave
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
