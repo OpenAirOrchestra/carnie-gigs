@@ -143,3 +143,6 @@ Don't deisplay 00:00:00 times in shortcode gig table display.
 
 = 1.3.2 =
 Add Accessibility section
+
+= 1.3.3 = 
+Fix checkbox bug introduced in 1.3.2 
