@@ -29,7 +29,7 @@ class carnieGigAttendanceController {
 			foreach ($attendees as $value) {
 				$value = trim($value);
 				if ($value != $current_user->display_name
-				       && value != $current_user->user_login	&& strlen($value)) {
+				       && $value != $current_user->user_login	&& strlen($value)) {
 					add_post_meta($postid, $metadata_prefix . 'attendees', $value);
 				}
 			}
