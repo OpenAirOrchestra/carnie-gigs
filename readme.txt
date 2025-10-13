@@ -146,3 +146,6 @@ Add Accessibility section
 
 = 1.3.3 = 
 Fix checkbox bug introduced in 1.3.2 
+
+= 1.3.4 = 
+Updated for PHP 8

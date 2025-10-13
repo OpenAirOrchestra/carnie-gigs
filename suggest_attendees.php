@@ -15,11 +15,10 @@ function carnieUserCmp($a, $b)  {
 	return strcmp($a->user_login, $b->user_login);
 }
 
-$blogusers = get_users_of_blog();
-usort($blogusers, "carnieUserCmp");
+$users = get_users();
+usort($users, "carnieUserCmp");
 
-foreach ($blogusers as $bloguser) {
-	$user = get_userdata($bloguser->user_id); // get actual data
+foreach ($users as $user) {
 	$name = $user->display_name;
 	if ($name && strpos(strtolower($name), $q) !== false) {
 		echo "$name\n";
