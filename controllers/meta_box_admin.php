@@ -18,7 +18,8 @@ class carnieGigsMetaFormController {
 				continue;
 			}
 
-			$new = $data[$key];
+			$new = isset($data[$key]) ? $data[$key] : null;
+
 			if (! $new) {
 				$key = str_replace($metadata_prefix, '', $key);
 				if (array_key_exists($key, $data)) {
