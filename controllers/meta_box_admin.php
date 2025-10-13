@@ -67,7 +67,7 @@ class carnieGigsMetaFormController {
 		// TODO
 		/*
 		if ('gig' == $_POST['post_type']) {
-			if (!current_user_can('edit_gig', $post_id)) {
+			if (!current_user_can('edit_post', $post_id)) {
 				return $post_id;
 			}
 		} else {
