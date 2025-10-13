@@ -15,7 +15,7 @@ class carnieGigAttendanceController {
 		if ( wp_verify_nonce($_POST['carnie-gigs-csv-verify-key'], 'carnie-gig-attendance')  && 
 		($_POST['gigid'] == $gigid)) {
 			global $current_user;
-			get_currentuserinfo();
+			wp_get_current_user();
 			$display_name = $current_user->display_name;
 			if (! $display_name) {
 				$display_name = $current_user->user_login;
