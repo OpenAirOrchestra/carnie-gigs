@@ -90,21 +90,6 @@ class carnieGigsMetaFormView {
 
 			echo '     <td>';
 			print "</tr>\n";
-
-			if (array_key_exists('suggest', $field) && $field['suggest'] && strlen($field['suggest'])) {
-				// See: http://www.vulgarisoip.com/2007/06/29/jquerysuggest-an-alternative-jquery-based-autocomplete-library/#comment-7228
-	?>
-	<script type="text/javascript">
-				/* <![CDATA[ */
-		jQuery(function() {
-			jQuery("#<?php echo $field['id']; ?>").suggest("<?php echo carnieUtil::get_url() . $field['suggest'] . ".php"; ?>", {
-				multiple: true,
-				multiple: true });
-		});
-				/* ]]> */
-	</script>
-	<?php
-			}
 		}
 
 		if ($empty) {

@@ -119,7 +119,6 @@ class carnieFields {
 				'desc' => 'Who has committed to attending the gig. Please make this a comma separated list.',
 				'id' => $this->metadata_prefix . 'attendees',
 				'type' => 'list',
-				'suggest' => 'suggest_attendees',
 			),
 			array('name' => 'Fee',
 				'category' => 'gig_details',

@@ -149,3 +149,6 @@ Fix checkbox bug introduced in 1.3.2
 
 = 1.3.4 = 
 Updated for PHP 8
+
+= 1.3.4 = 
+Fix editor whitespace bug introduced in 1.3.4
