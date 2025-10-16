@@ -3,8 +3,8 @@ Contributors: Darryl F, Richard K
 Donate link: http://www.thecarnivalband.com/
 Tags: gigs, calendar
 Requires at least: 5.3
-Tested up to: 6.1
-Stable tag: 1.3.2
+Tested up to: 6.8.3
+Stable tag: 1.3.6
 
 Gig Calendar for The Carnival Band.
 
@@ -152,3 +152,6 @@ Updated for PHP 8
 
 = 1.3.4 = 
 Fix editor whitespace bug introduced in 1.3.4
+
+= 1.3.6 =
+Use gutenberg editor for gig post type
