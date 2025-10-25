@@ -294,7 +294,7 @@ class carnieGigsCalendar
 				'description' => 'A gig is a scheduled Carnival Band Performance',
 				'public' => true,
 				'show_ui' => true,
-				'show_in_rest' => true,
+				/* 'show_in_rest' => true, */ // Deactivated, works locally, not on deployed site
 				'capability_type' => 'gig',
 				'capabilities' => array(
 					'publish_posts' => 'publish_gigs',
