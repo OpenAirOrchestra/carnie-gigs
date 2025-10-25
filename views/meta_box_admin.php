@@ -107,7 +107,7 @@ class carnieGigsMetaFormView {
 
 		if ($post->ID) {
 			echo '<tr>',
-				'<th style="width:20%"><label for="verifiedattendees">Verified Attendees</label></th>', 
+				'<th style="width:20%">Verified Attendees</th>', 
 				'<td>';
 			echo '<p>', 'Participants who actually attended the gig:</p>';
 
