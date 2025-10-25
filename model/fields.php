@@ -202,7 +202,7 @@ class carnieFields {
 			array('name' => 'Outdoors',
 				'category' => 'gig_accessibility',
 				'desc' => 'Is the gig, at least in part, outdoors?',
-				'id' => $this->metadata_prefix . 'washroom',
+				'id' => $this->metadata_prefix . 'outdoors',
 				'type' => 'checkbox',
 			),
 			array('name' => 'Outdoor Shelter',

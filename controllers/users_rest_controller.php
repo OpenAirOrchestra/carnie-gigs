@@ -56,6 +56,7 @@ class carnieGigsUsersRestController extends WP_REST_Controller
         register_rest_route($namespace, '/' . $base . '/schema', array(
             'methods'  => WP_REST_Server::READABLE,
             'callback' => array($this, 'get_public_item_schema'),
+            'permission_callback' => array($this, 'schema_permissions_check'),
         ));
     }
 
@@ -214,6 +215,17 @@ class carnieGigsUsersRestController extends WP_REST_Controller
     public function delete_item_permissions_check($request)
     {
         return $this->create_item_permissions_check($request);
+    }
+
+    /**
+     * Check if a given request has access to access the REST schema
+     *
+       * @param WP_REST_Request $request Full data about the request.
+     * @return WP_Error|bool
+     */
+    public function schema_permissions_check($request)
+    {
+      return current_user_can('read');
     }
 
     /**
