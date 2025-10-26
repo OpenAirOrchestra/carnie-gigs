@@ -20,19 +20,6 @@ A gig calendar specifically tailored for The Carnival Band.
 4. Add the shortcode [carniegigs time="past"] to a page to list past gigs.
 5. Add the shortcode [carniegigs time="future"] to a page to list future gigs.
 6. Download and install the "members" plugin so you can modify capabilites for roles. See http://wordpress.org/extend/plugins/members/
-7. Add the following capabilites to the administrator role:
-
-	* delete_others_gigs
-	* delete_private_gigs
-	* delete_published_gigs
-	* edit_gigs
-	* edit_others_gigs
-	* edit_private_gigs
-	* edit_published_gigs
-	* publish_gigs
-	* read_private_gigs
-
-8. Assign the above capabilites to other roles as desired.
 
 == Frequently Asked Questions ==
 

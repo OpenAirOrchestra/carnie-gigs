@@ -199,7 +199,7 @@ class carnieGigsGigRestController extends WP_REST_Controller
    */
   public function schema_permissions_check($request)
   {
-    return current_user_can('read');
+    return true;
   }
 
   /**
